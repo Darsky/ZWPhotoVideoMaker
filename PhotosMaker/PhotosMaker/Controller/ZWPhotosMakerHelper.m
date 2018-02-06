@@ -18,8 +18,6 @@
 {
 }
 @property (copy, nonatomic) NSString *videoPath;
-@property (copy, nonatomic) NSString *musicName;
-@property (copy, nonatomic) NSString *title;
 @property (strong, nonatomic) AVAssetWriter *videoWriter;
 @property (strong, nonatomic) AVAssetWriterInput *videoWriterInput;
 @property (strong, nonatomic) AVAssetWriterInputPixelBufferAdaptor *adaptor;
@@ -107,144 +105,7 @@
     return pxbuffer;
 }
 
-- (void)createAnimationWithImages:(NSInteger)imageCount
-{
-    AVMutableComposition *avMutableComposition = [AVMutableComposition composition];
-    AVMutableCompositionTrack *avMutableCompositionTrack = [avMutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo
-                                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
-    AVMutableCompositionTrack *auMutableCompositionTrack = [avMutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio
-                                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
-    AVMutableVideoComposition *avMutableVideoComposition = [AVMutableVideoComposition videoComposition];
-    avMutableVideoComposition.renderSize = _videoSize;
-    avMutableVideoComposition.renderScale = 1.0;
-    avMutableVideoComposition.frameDuration = CMTimeMake(1, 30);
-    AVAsset *avAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:self.videoPath]];
-    CMTime assetTime = [avAsset duration];
-    Float64 duration = CMTimeGetSeconds(assetTime);
-    AVAssetTrack *avAssetTrack = nil;
-    NSError *error = nil;
-    CMTime currentDuration = avMutableComposition.duration;
-    avAssetTrack = [[avAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-    if ([avMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, 24),
-                                                                    CMTimeMakeWithSeconds(duration, 24))
-                                           ofTrack:avAssetTrack
-                                            atTime:currentDuration
-                                             error:&error])
-    {
-//        avMutableCompositionTrack.preferredTransform = avAssetTrack.preferredTransform;
-        CALayer *parentLayer = [CALayer layer];
-        CALayer *videoLayer = [CALayer layer];
-        parentLayer.frame = CGRectMake(0, 0, _videoSize.width, _videoSize.height);
-        videoLayer.frame = CGRectMake(0, 0, _videoSize.width, _videoSize.height);
-        [parentLayer setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_videoMaker"]].CGColor];
-        [parentLayer addSublayer:videoLayer];
-        NSString *audioPath = [[NSBundle mainBundle] pathForResource:self.musicName
-                                                              ofType:nil];
-        AVAsset *auAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:audioPath]];
-        
-        CMTime auAssetTime = [auAsset duration];
-        Float64 audioDuration = CMTimeGetSeconds(auAssetTime);
-        
-        AVAssetTrack *auAssetTrack = nil;
-        auAssetTrack = [[auAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-        if ([auMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
-                                                                        CMTimeMakeWithSeconds(duration+3, videoFrame))
-                                               ofTrack:auAssetTrack
-                                                atTime:kCMTimeZero
-                                                 error:&error])
-        {
-//            auMutableCompositionTrack.preferredTransform = auAssetTrack.preferredTransform;
-        }
-        
-        for (int x = 0; x<imageCount; x++)
-        {
-            if (x== 0)
-            {
-                [self addBeginAnimationForLayer:videoLayer
-                               withPartentLayer:parentLayer];
-            }
-            else
-            {
-                [self createKeyFrameAnimationsForLayer:videoLayer
-                                       withParentLayer:parentLayer
-                                               AtIndex:x
-                                             andIsLast:(x==imageCount-1)?YES:NO];
-            }
-        }
-        [self addEndAnimationForLayer:parentLayer
-                              atIndex:imageCount];
 
-        avMutableVideoComposition.animationTool = [AVVideoCompositionCoreAnimationTool
-                                                   videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer
-                                                   inLayer:parentLayer];
-        
-        AVMutableVideoCompositionInstruction *avMutableVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-        
-        [avMutableVideoCompositionInstruction setTimeRange:CMTimeRangeMake(kCMTimeZero, [avMutableComposition duration])];
-        
-        AVMutableVideoCompositionLayerInstruction *avMutableVideoCompositionLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:avMutableCompositionTrack];
-        [avMutableVideoCompositionLayerInstruction setTransform:avMutableCompositionTrack.preferredTransform
-                                                         atTime:kCMTimeZero];
-        
-        avMutableVideoCompositionInstruction.layerInstructions = [NSArray arrayWithObject:avMutableVideoCompositionLayerInstruction];
-        avMutableVideoComposition.instructions = [NSArray arrayWithObject:avMutableVideoCompositionInstruction];
-        
-        
-        NSString *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSURL* saveLocationURL = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/result.mp4", documents]];
-        if ([fileManager fileExistsAtPath:saveLocationURL.relativePath])
-        {
-            [fileManager removeItemAtURL:saveLocationURL
-                                   error:nil];
-        }
-        
-        AVAssetExportSession *avAssetExportSession = [[AVAssetExportSession alloc] initWithAsset:avMutableComposition
-                                                                                      presetName:AVAssetExportPresetHighestQuality];
-        __block AVAssetExportSession *assetExportSession = avAssetExportSession;
-        [avAssetExportSession setVideoComposition:avMutableVideoComposition];
-        [avAssetExportSession setOutputURL:saveLocationURL];
-        [avAssetExportSession setOutputFileType:AVFileTypeMPEG4];
-        [avAssetExportSession setShouldOptimizeForNetworkUse:NO];
-        [avAssetExportSession exportAsynchronouslyWithCompletionHandler:^(void)
-         {
-             switch (avAssetExportSession.status)
-             {
-                 case AVAssetExportSessionStatusFailed:
-                 {
-                     NSLog(@"exporting failed %@",[avAssetExportSession error]);
-                     if (self.errorMsgBlock != nil)
-                     {
-                         self.errorMsgBlock([[avAssetExportSession error] localizedDescription]);
-                     }
-                 }
-                     break;
-                 case AVAssetExportSessionStatusCompleted:
-                 {
-                     NSLog(@"exporting completed");
-                     // 想做什么事情在这个
-                     assetExportSession = nil;
-                     if (self.finishBlock != nil)
-                     {
-                         self.finishBlock(saveLocationURL);
-                     }
-                 }
-                     break;
-                 case AVAssetExportSessionStatusCancelled:
-                 {
-                     NSLog(@"export cancelled");
-                     if (self.errorMsgBlock != nil)
-                     {
-                         self.errorMsgBlock(@"export cancelled");
-                     }
-                 }
-                     break;
-                 default:
-                     break;
-             }
-         }];
-    }
-}
 
 - (void)createKeyFrameAnimationsForLayer:(CALayer*)layer
                          withParentLayer:(CALayer*)parentLayer
@@ -360,99 +221,6 @@
                        forKey:nil];
 }
 
-- (void)addBeginAnimationForLayer:(CALayer*)targetLayer
-                 withPartentLayer:(CALayer*)parentLayer
-{
-    targetLayer.opacity = 0;
-    
-    CALayer *beginAnimationLayer = [CALayer layer];
-    
-    UIImage *animationImage =  [self createTextImageForContext:self.title?:@"课堂时光鸡"];
-    [beginAnimationLayer setContents:(id)[animationImage CGImage]];
-    beginAnimationLayer.frame = CGRectMake(_videoSize.width/2-animationImage.size.width/2.0, -_videoSize.height, animationImage.size.width, animationImage.size.height);
-    beginAnimationLayer.opacity = 1;
-    [beginAnimationLayer setMasksToBounds:YES];
-    
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.y"];
-    animation.duration = 0.5f;
-    animation.removedOnCompletion = NO;
-    animation.fillMode = kCAFillModeForwards;
-    animation.values = @[@(-_videoSize.height),
-                         @(-_videoSize.height/2.0),
-                         @(0),
-                         @(_videoSize.height/2.0),
-                         @(_videoSize.height)];
-    animation.beginTime = AVCoreAnimationBeginTimeAtZero;
-    [beginAnimationLayer addAnimation:animation
-                               forKey:nil];
-    
-    CAKeyframeAnimation *anim = [CAKeyframeAnimation animation];
-    anim.keyPath = @"transform.rotation";
-    anim.values = @[@(0),@(-5/180.0 * M_PI),@(5/180.0 * M_PI),@(-5/180.0 * M_PI),@(5/180.0 * M_PI),@(0)];
-    anim.removedOnCompletion = NO;
-    anim.duration = 1.0;
-    anim.fillMode = kCAFillModeForwards;
-    anim.beginTime = 1.5f;
-    [beginAnimationLayer addAnimation:anim forKey:nil];
-    
-    CAKeyframeAnimation * animationEnd;
-    animationEnd = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
-    animationEnd.duration = 0.5f;
-    //animation.delegate = self;
-    animationEnd.removedOnCompletion = NO;
-    animationEnd.fillMode = kCAFillModeForwards;
-    animationEnd.values = @[[NSNumber numberWithFloat:1.0],
-                            [NSNumber numberWithFloat:0.0]];
-    animationEnd.beginTime = 2.5;
-    [beginAnimationLayer addAnimation:animationEnd
-                forKey:nil];
-    
-    [parentLayer addSublayer:beginAnimationLayer];
-}
-
-- (void)addEndAnimationForLayer:(CALayer*)targetLayer
-                        atIndex:(NSInteger)index
-{
-    [self addEndAnimationForLayer:targetLayer
-                      atBeginTime:index*frameSize];
-}
-
-- (void)addEndAnimationForLayer:(CALayer*)targetLayer
-                    atBeginTime:(float)beginTime
-{
-    CALayer *endAnimationLayer = [CALayer layer];
-    
-    UIImage *animationImage = [UIImage imageNamed:@"end_logo"];
-    [endAnimationLayer setContents:(id)[animationImage CGImage]];
-    endAnimationLayer.frame = CGRectMake(_videoSize.width/2-animationImage.size.width/2.0, _videoSize.height/2- animationImage.size.height/2.0, animationImage.size.width, animationImage.size.height);
-    endAnimationLayer.opacity = 0;
-    [endAnimationLayer setMasksToBounds:YES];
-    
-    
-    CAKeyframeAnimation * animation;
-    animation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
-    animation.duration = 1;
-    //animation.delegate = self;
-    animation.removedOnCompletion = NO;
-    animation.fillMode = kCAFillModeForwards;
-    animation.values = @[[NSNumber numberWithFloat:0.0],
-                         [NSNumber numberWithFloat:0.3],
-                         [NSNumber numberWithFloat:0.5],
-                         [NSNumber numberWithFloat:0.7],
-                         [NSNumber numberWithFloat:1.0]];
-    animation.beginTime = beginTime+0.5;
-    [endAnimationLayer addAnimation:animation
-                             forKey:nil];
-    CAKeyframeAnimation *anim = [CAKeyframeAnimation animation];
-    anim.keyPath = @"transform.rotation";
-    anim.values = @[@(0),@(-5/180.0 * M_PI),@(5/180.0 * M_PI),@(-5/180.0 * M_PI),@(5/180.0 * M_PI),@(0)];
-    anim.removedOnCompletion = NO;
-    anim.duration = 1;
-    anim.fillMode = kCAFillModeForwards;
-    anim.beginTime = beginTime+1.5;
-    [endAnimationLayer addAnimation:anim forKey:nil];
-    [targetLayer addSublayer:endAnimationLayer];
-}
 
 
 -(NSMutableArray *)praseGIFDataToImageArray:(NSData *)data;
@@ -522,80 +290,14 @@
     [layer addSublayer:endAnimationLayer];
 }
 
-- (UIImage *)createTextImageForContext:(NSString *)text
-{
-    UIGraphicsBeginImageContextWithOptions(_videoSize, NO, 0.0);
-    //获得 图形上下文
-    CGContextRef context=UIGraphicsGetCurrentContext();
-    CGContextDrawPath(context, kCGPathStroke);
-    CGFloat nameFont = (_videoSize.width-40)/(float)text.length;
-    //画 自己想要画的内容
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:nameFont],
-                                 NSForegroundColorAttributeName:[UIColor whiteColor]};
-    CGRect sizeToFit = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, nameFont) options:NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil];
-    NSLog(@"sizeToFit: %f %f",sizeToFit.size.width,sizeToFit.size.height);
-    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
-    [text drawAtPoint:CGPointMake((_videoSize.width-sizeToFit.size.width)/2,(_videoSize.height-sizeToFit.size.height)/2) withAttributes:attributes];
-    //返回绘制的新图形
-    
-    UIImage *newImage=UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    return newImage;
-}
 
-- (UIImage*)createClipImage:(UIImage*)image
-{
-    UIImage *borderImage = [UIImage imageNamed:@"videMaker_border"];
-    UIGraphicsBeginImageContext(image.size);
-    CGContextRef gc = UIGraphicsGetCurrentContext();
-    
-    CGContextMoveToPoint(gc, 178.5, 94.5);
-    CGContextAddLineToPoint(gc, 87.5, 433.5);
-    CGContextAddLineToPoint(gc, 424.5, 523.5);
-    CGContextAddLineToPoint(gc, 515.5, 186.5);
-    CGContextAddLineToPoint(gc, 178.5, 94.5);
-    CGContextClosePath(gc);
-    CGContextClip(gc);
-    
-    CGContextTranslateCTM(gc, 0, image.size.height);
-    CGContextScaleCTM(gc, 1, -1);
-    CGContextDrawImage(gc, CGRectMake(0, 0, image.size.width, image.size.height), [image CGImage]);
-    CGContextDrawImage(gc, CGRectMake(0, 0, borderImage.size.width, borderImage.size.height), [borderImage CGImage]);
-    //结束绘画
-    UIImage *destImg = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return destImg;
-//
-//    UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-//    [bezierPath moveToPoint: CGPointMake(178.5, 94.5)];
-//    [bezierPath addLineToPoint: CGPointMake(87.5, 433.5)];
-//    [bezierPath addLineToPoint: CGPointMake(424.5, 523.5)];
-//    [bezierPath addLineToPoint: CGPointMake(515.5, 186.5)];
-//    [bezierPath addLineToPoint: CGPointMake(178.5, 94.5)];
-//    [bezierPath closePath];
-//    [UIColor.grayColor setFill];
-//    [bezierPath fill];
-//    [UIColor.blackColor setStroke];
-//    bezierPath.lineWidth = 1;
-//    [bezierPath stroke];
-}
+
 //根据 CAAnimationGroup 生成视频
 - (void)startMakePhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
-                                     withMusic:(NSString*)musicName
                                        forSize:(CGSize)videoSize
                                withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
                               adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock
 {
-    if (musicName == nil)
-    {
-        self.musicName = @"What Is Love.mp3";
-    }
-    else
-    {
-        self.musicName = musicName;
-    }
     self.videoSize = videoSize;
     self.finishBlock = photosMakeFinishBlock;
     self.errorMsgBlock = errorMsgBlock;
@@ -649,8 +351,6 @@
     AVMutableComposition *avMutableComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *avMutableCompositionTrack = [avMutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo
                                                                                              preferredTrackID:kCMPersistentTrackID_Invalid];
-    AVMutableCompositionTrack *auMutableCompositionTrack = [avMutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio
-                                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
     AVMutableVideoComposition *avMutableVideoComposition = [AVMutableVideoComposition videoComposition];
     avMutableVideoComposition.renderSize = _videoSize;
     avMutableVideoComposition.renderScale = 1.0;
@@ -675,27 +375,10 @@
         videoLayer.frame = CGRectMake(0, 0, _videoSize.width, _videoSize.height);
         [parentLayer setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_videoMaker"]].CGColor];
         [parentLayer addSublayer:videoLayer];
-        NSString *audioPath = [[NSBundle mainBundle] pathForResource:self.musicName
-                                                              ofType:nil];
-        AVAsset *auAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:audioPath]];
-        
-        CMTime auAssetTime = [auAsset duration];
-        Float64 audioDuration = CMTimeGetSeconds(auAssetTime);
-        
-        AVAssetTrack *auAssetTrack = nil;
-        auAssetTrack = [[auAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-        if ( [auMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
-                                                                        CMTimeMakeWithSeconds(duration+3, videoFrame))
-                                                ofTrack:auAssetTrack
-                                                 atTime:kCMTimeZero
-                                                  error:&error])
-        {
-            //            auMutableCompositionTrack.preferredTransform = auAssetTrack.preferredTransform;
-        }
+       
         group.beginTime = AVCoreAnimationBeginTimeAtZero;
         [videoLayer addAnimation:group forKey:nil];
-        [self addEndAnimationForLayer:parentLayer
-                          atBeginTime:duration];
+
         
         avMutableVideoComposition.animationTool = [AVVideoCompositionCoreAnimationTool
                                                    videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer

@@ -626,7 +626,6 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
     ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
     CGSize videoSize = CGSizeMake(600, 600);
     [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
-                                         withMusic:_musicArray[_musicSegment.selectedSegmentIndex]
                                            forSize:videoSize
                                    withFinishBlock:^(NSURL *fileUrl)
      {

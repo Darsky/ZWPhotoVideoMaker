@@ -19,7 +19,6 @@ typedef void (^ErrorMsgBlock)    (NSString *errorMsg);
 
 
 - (void)startMakePhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
-                                     withMusic:(NSString*)musicName
                                        forSize:(CGSize)videoSize
                                withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
                               adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock;
