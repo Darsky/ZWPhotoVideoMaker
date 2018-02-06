@@ -1,0 +1,547 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DE8100F52029EA830030A3D6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8100F42029EA830030A3D6 /* AppDelegate.m */; };
+		DE8100F82029EA830030A3D6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8100F72029EA830030A3D6 /* ViewController.m */; };
+		DE8100FD2029EA830030A3D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE8100FC2029EA830030A3D6 /* Assets.xcassets */; };
+		DE8101002029EA830030A3D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE8100FE2029EA830030A3D6 /* LaunchScreen.storyboard */; };
+		DE8101032029EA830030A3D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8101022029EA830030A3D6 /* main.m */; };
+		DE81012E2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE81010A2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m */; };
+		DE81012F2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE81010B2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.m */; };
+		DE8101302029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE81010F2029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.xib */; };
+		DE8101312029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8101102029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.m */; };
+		DE8101322029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE8101122029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib */; };
+		DE8101332029EAA70030A3D6 /* ZWPhotosMakerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8101132029EAA70030A3D6 /* ZWPhotosMakerHelper.m */; };
+		DE8101342029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8101142029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.m */; };
+		DE8101372029EAA70030A3D6 /* ZWVideoThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DE81011B2029EAA70030A3D6 /* ZWVideoThumbnailCell.m */; };
+		DE8101382029EAA70030A3D6 /* ZWVideoThumbnailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE81011C2029EAA70030A3D6 /* ZWVideoThumbnailCell.xib */; };
+		DE8101392029EAA70030A3D6 /* ZWPhotosMakerAssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE81011D2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.xib */; };
+		DE81013A2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DE81011E2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m */; };
+		DE81013B2029EAA70030A3D6 /* shining.gif in Resources */ = {isa = PBXBuildFile; fileRef = DE8101222029EAA70030A3D6 /* shining.gif */; };
+		DE81013C2029EAA70030A3D6 /* videMaker_border@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101232029EAA70030A3D6 /* videMaker_border@3x.png */; };
+		DE81013D2029EAA70030A3D6 /* bg_videoMaker@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101242029EAA70030A3D6 /* bg_videoMaker@3x.png */; };
+		DE81013E2029EAA70030A3D6 /* img_meclass_unselect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101252029EAA70030A3D6 /* img_meclass_unselect@2x.png */; };
+		DE81013F2029EAA70030A3D6 /* img_meclass_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101262029EAA70030A3D6 /* img_meclass_select@2x.png */; };
+		DE8101402029EAA70030A3D6 /* bling_bling@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101272029EAA70030A3D6 /* bling_bling@2x.png */; };
+		DE8101422029EAA70030A3D6 /* end_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101292029EAA70030A3D6 /* end_logo@3x.png */; };
+		DE8101432029EAA70030A3D6 /* animationGif4.gif in Resources */ = {isa = PBXBuildFile; fileRef = DE81012A2029EAA70030A3D6 /* animationGif4.gif */; };
+		DE8101442029EAA70030A3D6 /* animationGif1.gif in Resources */ = {isa = PBXBuildFile; fileRef = DE81012B2029EAA70030A3D6 /* animationGif1.gif */; };
+		DE8101452029EAA70030A3D6 /* animationGif3.gif in Resources */ = {isa = PBXBuildFile; fileRef = DE81012C2029EAA70030A3D6 /* animationGif3.gif */; };
+		DE8101462029EAA70030A3D6 /* animationGif2.gif in Resources */ = {isa = PBXBuildFile; fileRef = DE81012D2029EAA70030A3D6 /* animationGif2.gif */; };
+		DE8101492029EF7E0030A3D6 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE8101482029EF7E0030A3D6 /* ViewController.xib */; };
+		E9B6293C9F7EE68D2D12D990 /* libPods-PhotosMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EE1EFEB7C5D793A06666E85 /* libPods-PhotosMaker.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1EE1EFEB7C5D793A06666E85 /* libPods-PhotosMaker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhotosMaker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		862099A5DC35AC74C40FC677 /* Pods-PhotosMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotosMaker.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotosMaker/Pods-PhotosMaker.release.xcconfig"; sourceTree = "<group>"; };
+		DE8100F02029EA830030A3D6 /* PhotosMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE8100F32029EA830030A3D6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DE8100F42029EA830030A3D6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DE8100F62029EA830030A3D6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DE8100F72029EA830030A3D6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DE8100FC2029EA830030A3D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DE8100FF2029EA830030A3D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DE8101012029EA830030A3D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE8101022029EA830030A3D6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DE81010A2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerVideoModel.m; sourceTree = "<group>"; };
+		DE81010B2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerAssetModel.m; sourceTree = "<group>"; };
+		DE81010C2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerVideoModel.h; sourceTree = "<group>"; };
+		DE81010D2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerAssetModel.h; sourceTree = "<group>"; };
+		DE81010F2029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZWPhotosMakerAssetViewController.xib; sourceTree = "<group>"; };
+		DE8101102029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerAssetViewController.m; sourceTree = "<group>"; };
+		DE8101122029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZWPhotosMakerEditerViewController.xib; sourceTree = "<group>"; };
+		DE8101132029EAA70030A3D6 /* ZWPhotosMakerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerHelper.m; sourceTree = "<group>"; };
+		DE8101142029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerEditerViewController.m; sourceTree = "<group>"; };
+		DE8101172029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerAssetViewController.h; sourceTree = "<group>"; };
+		DE8101182029EAA70030A3D6 /* ZWPhotosMakerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerHelper.h; sourceTree = "<group>"; };
+		DE8101192029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerEditerViewController.h; sourceTree = "<group>"; };
+		DE81011B2029EAA70030A3D6 /* ZWVideoThumbnailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWVideoThumbnailCell.m; sourceTree = "<group>"; };
+		DE81011C2029EAA70030A3D6 /* ZWVideoThumbnailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZWVideoThumbnailCell.xib; sourceTree = "<group>"; };
+		DE81011D2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZWPhotosMakerAssetCell.xib; sourceTree = "<group>"; };
+		DE81011E2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerAssetCell.m; sourceTree = "<group>"; };
+		DE81011F2029EAA70030A3D6 /* ZWVideoThumbnailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWVideoThumbnailCell.h; sourceTree = "<group>"; };
+		DE8101202029EAA70030A3D6 /* ZWPhotosMakerAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerAssetCell.h; sourceTree = "<group>"; };
+		DE8101222029EAA70030A3D6 /* shining.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = shining.gif; sourceTree = "<group>"; };
+		DE8101232029EAA70030A3D6 /* videMaker_border@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "videMaker_border@3x.png"; sourceTree = "<group>"; };
+		DE8101242029EAA70030A3D6 /* bg_videoMaker@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_videoMaker@3x.png"; sourceTree = "<group>"; };
+		DE8101252029EAA70030A3D6 /* img_meclass_unselect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_meclass_unselect@2x.png"; sourceTree = "<group>"; };
+		DE8101262029EAA70030A3D6 /* img_meclass_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_meclass_select@2x.png"; sourceTree = "<group>"; };
+		DE8101272029EAA70030A3D6 /* bling_bling@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bling_bling@2x.png"; sourceTree = "<group>"; };
+		DE8101292029EAA70030A3D6 /* end_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "end_logo@3x.png"; sourceTree = "<group>"; };
+		DE81012A2029EAA70030A3D6 /* animationGif4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = animationGif4.gif; sourceTree = "<group>"; };
+		DE81012B2029EAA70030A3D6 /* animationGif1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = animationGif1.gif; sourceTree = "<group>"; };
+		DE81012C2029EAA70030A3D6 /* animationGif3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = animationGif3.gif; sourceTree = "<group>"; };
+		DE81012D2029EAA70030A3D6 /* animationGif2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = animationGif2.gif; sourceTree = "<group>"; };
+		DE8101472029EBFF0030A3D6 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		DE8101482029EF7E0030A3D6 /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		E4326CF9F15BB405B217BCEC /* Pods-PhotosMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotosMaker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotosMaker/Pods-PhotosMaker.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DE8100ED2029EA830030A3D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9B6293C9F7EE68D2D12D990 /* libPods-PhotosMaker.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B291F742F95494343A66D6A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E4326CF9F15BB405B217BCEC /* Pods-PhotosMaker.debug.xcconfig */,
+				862099A5DC35AC74C40FC677 /* Pods-PhotosMaker.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3959E275DECB29DAF77B40F7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1EE1EFEB7C5D793A06666E85 /* libPods-PhotosMaker.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DE8100E72029EA830030A3D6 = {
+			isa = PBXGroup;
+			children = (
+				DE8100F22029EA830030A3D6 /* PhotosMaker */,
+				DE8100F12029EA830030A3D6 /* Products */,
+				2B291F742F95494343A66D6A /* Pods */,
+				3959E275DECB29DAF77B40F7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DE8100F12029EA830030A3D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE8100F02029EA830030A3D6 /* PhotosMaker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE8100F22029EA830030A3D6 /* PhotosMaker */ = {
+			isa = PBXGroup;
+			children = (
+				DE8101472029EBFF0030A3D6 /* PrefixHeader.pch */,
+				DE81010E2029EAA70030A3D6 /* Controller */,
+				DE8101092029EAA70030A3D6 /* Model */,
+				DE8101212029EAA70030A3D6 /* Resource */,
+				DE81011A2029EAA70030A3D6 /* View */,
+				DE8100F32029EA830030A3D6 /* AppDelegate.h */,
+				DE8100F42029EA830030A3D6 /* AppDelegate.m */,
+				DE8100F62029EA830030A3D6 /* ViewController.h */,
+				DE8100F72029EA830030A3D6 /* ViewController.m */,
+				DE8100FC2029EA830030A3D6 /* Assets.xcassets */,
+				DE8100FE2029EA830030A3D6 /* LaunchScreen.storyboard */,
+				DE8101012029EA830030A3D6 /* Info.plist */,
+				DE8101022029EA830030A3D6 /* main.m */,
+				DE8101482029EF7E0030A3D6 /* ViewController.xib */,
+			);
+			path = PhotosMaker;
+			sourceTree = "<group>";
+		};
+		DE8101092029EAA70030A3D6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DE81010C2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.h */,
+				DE81010A2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m */,
+				DE81010D2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.h */,
+				DE81010B2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DE81010E2029EAA70030A3D6 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DE8101172029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.h */,
+				DE8101102029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.m */,
+				DE81010F2029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.xib */,
+				DE8101192029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.h */,
+				DE8101142029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.m */,
+				DE8101122029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib */,
+				DE8101182029EAA70030A3D6 /* ZWPhotosMakerHelper.h */,
+				DE8101132029EAA70030A3D6 /* ZWPhotosMakerHelper.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		DE81011A2029EAA70030A3D6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DE81011B2029EAA70030A3D6 /* ZWVideoThumbnailCell.m */,
+				DE81011C2029EAA70030A3D6 /* ZWVideoThumbnailCell.xib */,
+				DE81011D2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.xib */,
+				DE81011E2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m */,
+				DE81011F2029EAA70030A3D6 /* ZWVideoThumbnailCell.h */,
+				DE8101202029EAA70030A3D6 /* ZWPhotosMakerAssetCell.h */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DE8101212029EAA70030A3D6 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				DE8101222029EAA70030A3D6 /* shining.gif */,
+				DE8101232029EAA70030A3D6 /* videMaker_border@3x.png */,
+				DE8101242029EAA70030A3D6 /* bg_videoMaker@3x.png */,
+				DE8101252029EAA70030A3D6 /* img_meclass_unselect@2x.png */,
+				DE8101262029EAA70030A3D6 /* img_meclass_select@2x.png */,
+				DE8101272029EAA70030A3D6 /* bling_bling@2x.png */,
+				DE8101292029EAA70030A3D6 /* end_logo@3x.png */,
+				DE81012A2029EAA70030A3D6 /* animationGif4.gif */,
+				DE81012B2029EAA70030A3D6 /* animationGif1.gif */,
+				DE81012C2029EAA70030A3D6 /* animationGif3.gif */,
+				DE81012D2029EAA70030A3D6 /* animationGif2.gif */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DE8100EF2029EA830030A3D6 /* PhotosMaker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE8101062029EA830030A3D6 /* Build configuration list for PBXNativeTarget "PhotosMaker" */;
+			buildPhases = (
+				9A4E1EF24D2AECBAF25E43BA /* [CP] Check Pods Manifest.lock */,
+				DE8100EC2029EA830030A3D6 /* Sources */,
+				DE8100ED2029EA830030A3D6 /* Frameworks */,
+				DE8100EE2029EA830030A3D6 /* Resources */,
+				CA14783EC0F60B51E1A94612 /* [CP] Embed Pods Frameworks */,
+				496B091038FEA81BDFDFB933 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotosMaker;
+			productName = PhotosMaker;
+			productReference = DE8100F02029EA830030A3D6 /* PhotosMaker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DE8100E82029EA830030A3D6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = Darsky;
+				TargetAttributes = {
+					DE8100EF2029EA830030A3D6 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = DE8100EB2029EA830030A3D6 /* Build configuration list for PBXProject "PhotosMaker" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DE8100E72029EA830030A3D6;
+			productRefGroup = DE8100F12029EA830030A3D6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DE8100EF2029EA830030A3D6 /* PhotosMaker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DE8100EE2029EA830030A3D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE8101462029EAA70030A3D6 /* animationGif2.gif in Resources */,
+				DE81013D2029EAA70030A3D6 /* bg_videoMaker@3x.png in Resources */,
+				DE8101422029EAA70030A3D6 /* end_logo@3x.png in Resources */,
+				DE8101382029EAA70030A3D6 /* ZWVideoThumbnailCell.xib in Resources */,
+				DE8101392029EAA70030A3D6 /* ZWPhotosMakerAssetCell.xib in Resources */,
+				DE8101002029EA830030A3D6 /* LaunchScreen.storyboard in Resources */,
+				DE8101402029EAA70030A3D6 /* bling_bling@2x.png in Resources */,
+				DE8100FD2029EA830030A3D6 /* Assets.xcassets in Resources */,
+				DE81013B2029EAA70030A3D6 /* shining.gif in Resources */,
+				DE8101452029EAA70030A3D6 /* animationGif3.gif in Resources */,
+				DE8101492029EF7E0030A3D6 /* ViewController.xib in Resources */,
+				DE8101322029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib in Resources */,
+				DE8101302029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.xib in Resources */,
+				DE81013C2029EAA70030A3D6 /* videMaker_border@3x.png in Resources */,
+				DE81013F2029EAA70030A3D6 /* img_meclass_select@2x.png in Resources */,
+				DE81013E2029EAA70030A3D6 /* img_meclass_unselect@2x.png in Resources */,
+				DE8101442029EAA70030A3D6 /* animationGif1.gif in Resources */,
+				DE8101432029EAA70030A3D6 /* animationGif4.gif in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		496B091038FEA81BDFDFB933 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhotosMaker/Pods-PhotosMaker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A4E1EF24D2AECBAF25E43BA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhotosMaker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CA14783EC0F60B51E1A94612 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhotosMaker/Pods-PhotosMaker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DE8100EC2029EA830030A3D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE8101342029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.m in Sources */,
+				DE81012F2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.m in Sources */,
+				DE8101332029EAA70030A3D6 /* ZWPhotosMakerHelper.m in Sources */,
+				DE81013A2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m in Sources */,
+				DE8101372029EAA70030A3D6 /* ZWVideoThumbnailCell.m in Sources */,
+				DE8100F82029EA830030A3D6 /* ViewController.m in Sources */,
+				DE8101032029EA830030A3D6 /* main.m in Sources */,
+				DE81012E2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m in Sources */,
+				DE8101312029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.m in Sources */,
+				DE8100F52029EA830030A3D6 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DE8100FE2029EA830030A3D6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DE8100FF2029EA830030A3D6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DE8101042029EA830030A3D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DE8101052029EA830030A3D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DE8101072029EA830030A3D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4326CF9F15BB405B217BCEC /* Pods-PhotosMaker.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 954K52NUN2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PhotosMaker/Resource",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/PhotosMaker/PrefixHeader.pch";
+				INFOPLIST_FILE = PhotosMaker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = PigPopcorn.PhotosMaker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		DE8101082029EA830030A3D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 862099A5DC35AC74C40FC677 /* Pods-PhotosMaker.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 954K52NUN2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PhotosMaker/Resource",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/PhotosMaker/PrefixHeader.pch";
+				INFOPLIST_FILE = PhotosMaker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = PigPopcorn.PhotosMaker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DE8100EB2029EA830030A3D6 /* Build configuration list for PBXProject "PhotosMaker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE8101042029EA830030A3D6 /* Debug */,
+				DE8101052029EA830030A3D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE8101062029EA830030A3D6 /* Build configuration list for PBXNativeTarget "PhotosMaker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE8101072029EA830030A3D6 /* Debug */,
+				DE8101082029EA830030A3D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DE8100E82029EA830030A3D6 /* Project object */;
+}
