@@ -31,17 +31,13 @@
     
     CGSize   _thumbnailSize;
     
-    __weak IBOutlet UISegmentedControl *_musicSegment;
     
-    NSArray  *_musicArray;
     
     BOOL _isPlaying;
 }
 @property (strong, nonatomic) CAAnimationGroup *group;
 
 @property (strong, nonatomic) CADisplayLink *playTimer;
-
-@property (strong, nonatomic) AVPlayer      *musicPlayer;
 
 
 @end
@@ -108,18 +104,6 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
                                        forKey:@"group"];
         _displayImageView.layer.speed = 0;
         [_collectionView reloadData];
-        _musicArray = @[@"Micmacs A La Gare.mp3",@"Valse di Fantastica.mp3",@"带你去旅行.mp3",];
-        NSString *audioPath = [[NSBundle mainBundle] pathForResource:_musicArray[_musicSegment.selectedSegmentIndex]
-                                                              ofType:nil];
-        AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[NSURL fileURLWithPath:audioPath]];
-        if (self.musicPlayer == nil)
-        {
-            self.musicPlayer = [AVPlayer playerWithPlayerItem:playerItem];
-        }
-        else
-        {
-            [self.musicPlayer replaceCurrentItemWithPlayerItem:playerItem];
-        }
         self.view.userInteractionEnabled = YES;
     }
 
@@ -428,32 +412,22 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
     {
         _isPlaying = NO;
         [self.playTimer setPaused:YES];
-        [self.musicPlayer pause];
         _playButton.selected = NO;
     }
     else
     {
-        self.view.userInteractionEnabled = NO;
-        [self.musicPlayer seekToTime:CMTimeMakeWithSeconds(_displayImageView.layer.timeOffset, self.musicPlayer.currentItem.duration.timescale)
-                   completionHandler:^(BOOL finished)
-         {
-             if (finished)
-             {
-                 self.view.userInteractionEnabled = YES;
-                 [self.musicPlayer play];
-                 if (self.playTimer == nil)
-                 {
-                     self.playTimer = [CADisplayLink displayLinkWithTarget:self
-                                                                  selector:@selector(updateSilder)];
-                     [self.playTimer addToRunLoop:[NSRunLoop currentRunLoop]
-                                          forMode:NSRunLoopCommonModes];
-                     
-                 }
-                 [self.playTimer setPaused:NO];
-                 _playButton.selected = YES;
-                 _isPlaying = YES;
-             }
-         }];
+
+        if (self.playTimer == nil)
+        {
+            self.playTimer = [CADisplayLink displayLinkWithTarget:self
+                                                         selector:@selector(updateSilder)];
+            [self.playTimer addToRunLoop:[NSRunLoop currentRunLoop]
+                                 forMode:NSRunLoopCommonModes];
+            
+        }
+        [self.playTimer setPaused:NO];
+        _playButton.selected = YES;
+        _isPlaying = YES;
 
     }
 }
@@ -552,26 +526,6 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
         [cell.thumbnailImageView setImage:self.mediasArray[indexPath.row]];
     }
     return cell;
-}
-- (IBAction)didMusicSegmentChange:(UISegmentedControl *)sender
-{
-    if (_isPlaying)
-    {
-        [self didPlayButtonTouch:_playButton];
-    }
-    NSString *audioPath = [[NSBundle mainBundle] pathForResource:_musicArray[_musicSegment.selectedSegmentIndex]
-                                                          ofType:nil];
-    AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[NSURL fileURLWithPath:audioPath]];
-    if (self.musicPlayer == nil)
-    {
-        self.musicPlayer = [AVPlayer playerWithPlayerItem:playerItem];
-    }
-    else
-    {
-        [self.musicPlayer replaceCurrentItemWithPlayerItem:playerItem];
-    }
-    _displayImageView.layer.timeOffset = 0.0;
-    [self setVideoCollectionAtProgress:0];
 }
 
 #pragma mark - UIScrollViewDelegate Method

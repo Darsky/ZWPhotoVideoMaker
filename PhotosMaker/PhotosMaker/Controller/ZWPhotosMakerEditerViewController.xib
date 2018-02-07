@@ -16,7 +16,6 @@
                 <outlet property="_collectionView" destination="w5K-0f-ahK" id="EzS-mR-8If"/>
                 <outlet property="_displayBgImageView" destination="08k-J9-J2r" id="VZC-ni-Xg1"/>
                 <outlet property="_displayView" destination="ng0-NQ-wVB" id="zdU-kz-fbI"/>
-                <outlet property="_musicSegment" destination="fWq-N2-KGW" id="b9T-uW-ee4"/>
                 <outlet property="_playButton" destination="bc8-hW-eN8" id="Eg9-f2-W9Z"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -67,7 +66,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="awt-7q-N8a">
-                    <rect key="frame" x="0.0" y="547" width="375" height="120"/>
+                    <rect key="frame" x="0.0" y="567" width="375" height="100"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="w5K-0f-ahK">
                             <rect key="frame" x="15" y="14" width="345" height="40"/>
@@ -93,31 +92,16 @@
                                 <constraint firstAttribute="width" constant="4" id="t6k-JW-7oZ"/>
                             </constraints>
                         </view>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fWq-N2-KGW">
-                            <rect key="frame" x="15" y="64" width="345" height="29"/>
-                            <segments>
-                                <segment title="欢快"/>
-                                <segment title="大气"/>
-                                <segment title="流行"/>
-                            </segments>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="didMusicSegmentChange:" destination="-1" eventType="valueChanged" id="UFX-cU-J9Y"/>
-                            </connections>
-                        </segmentedControl>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="w5K-0f-ahK" firstAttribute="top" secondItem="awt-7q-N8a" secondAttribute="top" constant="14" id="IQW-4d-SCf"/>
                         <constraint firstItem="wgo-Mh-DkP" firstAttribute="centerX" secondItem="w5K-0f-ahK" secondAttribute="centerX" id="RiH-ov-FAa"/>
-                        <constraint firstAttribute="height" constant="120" id="e7J-GB-1CQ"/>
+                        <constraint firstAttribute="height" constant="100" id="e7J-GB-1CQ"/>
                         <constraint firstItem="wgo-Mh-DkP" firstAttribute="height" secondItem="w5K-0f-ahK" secondAttribute="height" id="eaf-5d-7bb"/>
                         <constraint firstItem="w5K-0f-ahK" firstAttribute="centerX" secondItem="awt-7q-N8a" secondAttribute="centerX" id="iXY-Ob-Qyv"/>
-                        <constraint firstItem="fWq-N2-KGW" firstAttribute="top" secondItem="w5K-0f-ahK" secondAttribute="bottom" constant="10" id="kcv-mB-IpA"/>
                         <constraint firstItem="w5K-0f-ahK" firstAttribute="leading" secondItem="awt-7q-N8a" secondAttribute="leading" constant="15" id="ncu-DU-F7d"/>
                         <constraint firstAttribute="trailing" secondItem="w5K-0f-ahK" secondAttribute="trailing" constant="15" id="r0S-0T-t4d"/>
-                        <constraint firstItem="fWq-N2-KGW" firstAttribute="leading" secondItem="awt-7q-N8a" secondAttribute="leading" constant="15" id="tmM-46-jB5"/>
-                        <constraint firstAttribute="trailing" secondItem="fWq-N2-KGW" secondAttribute="trailing" constant="15" id="ueX-hg-uhl"/>
                         <constraint firstItem="wgo-Mh-DkP" firstAttribute="centerY" secondItem="w5K-0f-ahK" secondAttribute="centerY" id="vJs-nt-IHW"/>
                     </constraints>
                 </view>
