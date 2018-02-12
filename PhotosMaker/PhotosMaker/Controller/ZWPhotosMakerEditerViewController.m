@@ -137,9 +137,6 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
                 showAnimation.removedOnCompletion = NO;
                 showAnimation.fillMode = kCAFillModeForwards;
                 showAnimation.values = @[[NSNumber numberWithFloat:0.0],
-                                         [NSNumber numberWithFloat:0.3],
-                                         [NSNumber numberWithFloat:0.5],
-                                         [NSNumber numberWithFloat:0.7],
                                          [NSNumber numberWithFloat:1.0]];
                 showAnimation.beginTime = totalDuration;
                 [animations addObject:showAnimation];
@@ -187,9 +184,7 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
             scaleAnimation.removedOnCompletion = NO;
             scaleAnimation.fillMode = kCAFillModeForwards;
             scaleAnimation.values = @[[NSNumber numberWithFloat:1],
-                                      [NSNumber numberWithFloat:1.2],
-                                      [NSNumber numberWithFloat:1.4],
-                                      [NSNumber numberWithFloat:1.5]];
+                                      [NSNumber numberWithFloat:2.0]];
             scaleAnimation.beginTime = totalDuration;
             [animations addObject:scaleAnimation];
             totalDuration+= scaleAnimation.duration;
@@ -223,9 +218,6 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
                 showAnimation.removedOnCompletion = NO;
                 showAnimation.fillMode = kCAFillModeForwards;
                 showAnimation.values = @[[NSNumber numberWithFloat:0.0],
-                                         [NSNumber numberWithFloat:0.3],
-                                         [NSNumber numberWithFloat:0.5],
-                                         [NSNumber numberWithFloat:0.7],
                                          [NSNumber numberWithFloat:1.0]];
                 showAnimation.beginTime = totalDuration;
                 [animations addObject:showAnimation];
@@ -374,36 +366,15 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
     _displayImageView.layer.speed = 0;
 }
 
-- (IBAction)silder:(UISlider *)sender
-{
-    if (_displayImageView.layer.animationKeys.count > 0 && _totalDuration > 0)
-    {
-        NSLog(@"progress is %f",sender.value);
-        if (_playButton.selected)
-        {
-            [self didPlayButtonTouch:_playButton];
-        }
-        _displayImageView.layer.timeOffset = (double)_totalDuration*sender.value;
-//        [_displayImageView.layer removeAllAnimations];
-//        [_displayImageView.layer convertTime:_totalDuration*sender.value
-//                                   fromLayer:self.view.layer];
-        
-//        self.group.timeOffset  = (double)_totalDuration*sender.value;
-//        [_displayImageView.layer addAnimation:self.group
-//                                       forKey:@"group"];
-//        NSLog(@"%f %f",self.group.speed,_displayImageView.layer.speed);
-    }
-}
+
 
 - (void)animationDidStart:(CAAnimation *)anim
 {
-    
 }
 
 - (void)animationDidStop:(CAAnimation *)anim
                 finished:(BOOL)flag
 {
-
 }
 
 - (IBAction)didPlayButtonTouch:(UIButton *)sender
@@ -619,6 +590,7 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation
