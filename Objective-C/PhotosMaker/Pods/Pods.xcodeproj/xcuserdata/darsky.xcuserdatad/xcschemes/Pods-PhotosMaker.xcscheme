@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '2805B6ED06F057855BA7B43E6EB6F62C'
+               BlueprintIdentifier = '71629D3943B7E41C44AE244E83EC973B'
                BlueprintName = 'Pods-PhotosMaker'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-PhotosMaker.a'>

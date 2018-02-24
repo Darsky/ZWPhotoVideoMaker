@@ -7,81 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		053D05C3C4D6C794B5710521745AA7B8 /* Pods-PhotosMaker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 40FDE5FDAB4178AFD58F0E227B3E5711 /* Pods-PhotosMaker-dummy.m */; };
-		1C76817FA5353D989D7BC33E8C5997B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FAEBC0A8F199391A6D447C3CAFB73E /* CoreGraphics.framework */; };
-		324BF4E2142523C24D862CB3E2ABF980 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72885ED03C2EF95285B9DEF15EE4D98B /* SystemConfiguration.framework */; };
-		3D0408D738202AAACDA401D8EB144D5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F177258EF9E957F1A89FA097DD9DEA /* Foundation.framework */; };
-		47C7381183BA15546828EA6657D68CFE /* Reachability-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23E0200585D372AC74CC7D64214271 /* Reachability-dummy.m */; };
-		536F7D0550F5FD9F5869CEC995CFEE9B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DB7FD6F3D7A7E8AD7E8997AEB9053C /* MBProgressHUD.m */; };
-		7291E906AE8A3C1F92183154FE65DCDD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2B92C2A569170706BDA30E2745F459 /* QuartzCore.framework */; };
-		91ABF0EDFEF738053AA2B68D0DB82CC4 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = A867407D46E083A2E3FC8BAB6B751A12 /* Reachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93F12B05D8333C37D9CBEA3D1782CC04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F177258EF9E957F1A89FA097DD9DEA /* Foundation.framework */; };
-		ABFBE5B7DCBBE91CEE9DDB88298EFBAC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F177258EF9E957F1A89FA097DD9DEA /* Foundation.framework */; };
-		E5229F5125ACD420659E7B2D19BB30A8 /* MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C06A77A92F81D7E59C9546530556CA21 /* MBProgressHUD-dummy.m */; };
-		E931256DA3C2E100EDEF74A5439D8A72 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDE67FAEF76DD9D76641D245CD14D18 /* Reachability.m */; };
-		EA321C98029015AA4895C0B26891D8F8 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = BD54A6119572E8824D406E891D10EF0C /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C76817FA5353D989D7BC33E8C5997B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409899CE1143F81E8130E2069D59605B /* CoreGraphics.framework */; };
+		1D3B6160AD3CA48C898FFC8109D9EF9A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12992E853CAE14F2102525E0D84ADAB5 /* Foundation.framework */; };
+		536F7D0550F5FD9F5869CEC995CFEE9B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 30858F8F84BD7A73D99478028C4C0E9A /* MBProgressHUD.m */; };
+		6F2466BC80C2D978568F0B6AAC72AE1F /* Pods-PhotosMaker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 40FDE5FDAB4178AFD58F0E227B3E5711 /* Pods-PhotosMaker-dummy.m */; };
+		7291E906AE8A3C1F92183154FE65DCDD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7BDB2580B244756CFA046131516EF2 /* QuartzCore.framework */; };
+		93F12B05D8333C37D9CBEA3D1782CC04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12992E853CAE14F2102525E0D84ADAB5 /* Foundation.framework */; };
+		E5229F5125ACD420659E7B2D19BB30A8 /* MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9895137673E5059F732A42A1E2A66E0B /* MBProgressHUD-dummy.m */; };
+		EA321C98029015AA4895C0B26891D8F8 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E67CBBACD85CE50C19C6320AAD17088 /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E22198D97BCB5B2FB19E30113C4D9DE6 /* PBXContainerItemProxy */ = {
+		AD2E67585DFD772D85EC29DE6A1AEB47 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 586F2DFA9BDCC6675C2546793A69E5CC;
 			remoteInfo = MBProgressHUD;
 		};
-		FB6A5ACE2AD4F9B084E9FD304F5984D3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DC5CF205D1BE2F12F254B90ABF616E61;
-			remoteInfo = Reachability;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0ED4C390832625CBFE5E6180163D8B83 /* MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.xcconfig; sourceTree = "<group>"; };
+		12992E853CAE14F2102525E0D84ADAB5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		1D26AA353DB16D7D2B97E059DAC7A87A /* Pods-PhotosMaker-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PhotosMaker-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1ED334200F41E45F731F182B31426F65 /* libPods-PhotosMaker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-PhotosMaker.a"; path = "libPods-PhotosMaker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D2B92C2A569170706BDA30E2745F459 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		3FDE67FAEF76DD9D76641D245CD14D18 /* Reachability.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		1E67CBBACD85CE50C19C6320AAD17088 /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		30858F8F84BD7A73D99478028C4C0E9A /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		409899CE1143F81E8130E2069D59605B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		40FDE5FDAB4178AFD58F0E227B3E5711 /* Pods-PhotosMaker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PhotosMaker-dummy.m"; sourceTree = "<group>"; };
-		519920DCCDD4C71DFBE4A06029357784 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libMBProgressHUD.a; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		51DB7FD6F3D7A7E8AD7E8997AEB9053C /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		54FAEBC0A8F199391A6D447C3CAFB73E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		5844E01B2722660AA01649A7340CCECF /* Pods-PhotosMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PhotosMaker.debug.xcconfig"; sourceTree = "<group>"; };
-		72885ED03C2EF95285B9DEF15EE4D98B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
-		851FB07FDD686168395307635FB282E7 /* libReachability.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libReachability.a; path = libReachability.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BBDD54404F39FCDF688FDC59E4F20EB /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libMBProgressHUD.a; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F7BDB2580B244756CFA046131516EF2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		80DB6C08B9B312D2B623E23F6515C0A5 /* MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.xcconfig; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9895137673E5059F732A42A1E2A66E0B /* MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
 		A08A79D219B5DA567D915AD77DC43A05 /* Pods-PhotosMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PhotosMaker.release.xcconfig"; sourceTree = "<group>"; };
-		A291199A07747CBAA5A2294EA06F8D9A /* Reachability.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Reachability.xcconfig; sourceTree = "<group>"; };
-		A58F5AB534DF4F18FB20F0DFC7F19CAD /* Reachability-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Reachability-prefix.pch"; sourceTree = "<group>"; };
-		A867407D46E083A2E3FC8BAB6B751A12 /* Reachability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		BD54A6119572E8824D406E891D10EF0C /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		C06A77A92F81D7E59C9546530556CA21 /* MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
+		AABE45081325970398177350B3365B5A /* MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
 		D6E06A1334D3EAACE6A8BBE1C43F9E40 /* Pods-PhotosMaker-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PhotosMaker-resources.sh"; sourceTree = "<group>"; };
-		D7F80B9B962E23A144C595B4A0CBA476 /* MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
-		D9F177258EF9E957F1A89FA097DD9DEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		E615EC3A7CD261FBDCBA6EA28608A5A3 /* Pods-PhotosMaker-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PhotosMaker-frameworks.sh"; sourceTree = "<group>"; };
 		ED718030E4E8BDA122B6BE0F0100A393 /* Pods-PhotosMaker-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PhotosMaker-acknowledgements.plist"; sourceTree = "<group>"; };
-		FE23E0200585D372AC74CC7D64214271 /* Reachability-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Reachability-dummy.m"; sourceTree = "<group>"; };
+		EE4B38F4CB5B8F260B7C1C0BA394F741 /* libPods-PhotosMaker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-PhotosMaker.a"; path = "libPods-PhotosMaker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7C6CF1851E646DC89F932C336A89D621 /* Frameworks */ = {
+		12E16D779BDA901C118F382C3C403C59 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D0408D738202AAACDA401D8EB144D5F /* Foundation.framework in Frameworks */,
-				324BF4E2142523C24D862CB3E2ABF980 /* SystemConfiguration.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B507CA9B71797E01ADCB9205E994F6FF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ABFBE5B7DCBBE91CEE9DDB88298EFBAC /* Foundation.framework in Frameworks */,
+				1D3B6160AD3CA48C898FFC8109D9EF9A /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,32 +85,21 @@
 			path = "Target Support Files/Pods-PhotosMaker";
 			sourceTree = "<group>";
 		};
-		060F935D290657A45CB54199EBEC31B0 /* Reachability */ = {
+		077EB30DB6AD0F301EC92B8EAEA22722 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				A867407D46E083A2E3FC8BAB6B751A12 /* Reachability.h */,
-				3FDE67FAEF76DD9D76641D245CD14D18 /* Reachability.m */,
-				6CDBAE47513232B4A6C664FC1DDFEA7F /* Support Files */,
-			);
-			name = Reachability;
-			path = Reachability;
-			sourceTree = "<group>";
-		};
-		088E20479A3FFE561E3965B204BCF504 /* MBProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				BD54A6119572E8824D406E891D10EF0C /* MBProgressHUD.h */,
-				51DB7FD6F3D7A7E8AD7E8997AEB9053C /* MBProgressHUD.m */,
-				77258903D7A00D1B1BD8EB108DDF8730 /* Support Files */,
+				1E67CBBACD85CE50C19C6320AAD17088 /* MBProgressHUD.h */,
+				30858F8F84BD7A73D99478028C4C0E9A /* MBProgressHUD.m */,
+				2848C0E8056CB6EE547CD6E0C1780766 /* Support Files */,
 			);
 			name = MBProgressHUD;
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
-		14B8B9B15ECBE87983FF987239AB2D7B /* Frameworks */ = {
+		122DA2E5084A4393C29BE363C764795C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9B11A8D1502F29B3DB0A762BDDDAA9ED /* iOS */,
+				5A4DBD434EA75DD3EDD3494C46AE6968 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,67 +112,53 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		362EC58B2EC4E9F43085C2B3977A15B3 /* Products */ = {
+		2848C0E8056CB6EE547CD6E0C1780766 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				519920DCCDD4C71DFBE4A06029357784 /* libMBProgressHUD.a */,
-				1ED334200F41E45F731F182B31426F65 /* libPods-PhotosMaker.a */,
-				851FB07FDD686168395307635FB282E7 /* libReachability.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6CDBAE47513232B4A6C664FC1DDFEA7F /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				A291199A07747CBAA5A2294EA06F8D9A /* Reachability.xcconfig */,
-				FE23E0200585D372AC74CC7D64214271 /* Reachability-dummy.m */,
-				A58F5AB534DF4F18FB20F0DFC7F19CAD /* Reachability-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Reachability";
-			sourceTree = "<group>";
-		};
-		77258903D7A00D1B1BD8EB108DDF8730 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				0ED4C390832625CBFE5E6180163D8B83 /* MBProgressHUD.xcconfig */,
-				C06A77A92F81D7E59C9546530556CA21 /* MBProgressHUD-dummy.m */,
-				D7F80B9B962E23A144C595B4A0CBA476 /* MBProgressHUD-prefix.pch */,
+				80DB6C08B9B312D2B623E23F6515C0A5 /* MBProgressHUD.xcconfig */,
+				9895137673E5059F732A42A1E2A66E0B /* MBProgressHUD-dummy.m */,
+				AABE45081325970398177350B3365B5A /* MBProgressHUD-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/MBProgressHUD";
+			sourceTree = "<group>";
+		};
+		5836A44A75C427EBF4739C55E2315758 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				077EB30DB6AD0F301EC92B8EAEA22722 /* MBProgressHUD */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		5A4DBD434EA75DD3EDD3494C46AE6968 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				409899CE1143F81E8130E2069D59605B /* CoreGraphics.framework */,
+				12992E853CAE14F2102525E0D84ADAB5 /* Foundation.framework */,
+				5F7BDB2580B244756CFA046131516EF2 /* QuartzCore.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				14B8B9B15ECBE87983FF987239AB2D7B /* Frameworks */,
-				A691AB219E6546715AD0E015717CC428 /* Pods */,
-				362EC58B2EC4E9F43085C2B3977A15B3 /* Products */,
+				122DA2E5084A4393C29BE363C764795C /* Frameworks */,
+				5836A44A75C427EBF4739C55E2315758 /* Pods */,
+				F346A18F85AAB9F6D6644B1655A45732 /* Products */,
 				180AC08BCD821F936536E34B54CBFCDB /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		9B11A8D1502F29B3DB0A762BDDDAA9ED /* iOS */ = {
+		F346A18F85AAB9F6D6644B1655A45732 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				54FAEBC0A8F199391A6D447C3CAFB73E /* CoreGraphics.framework */,
-				D9F177258EF9E957F1A89FA097DD9DEA /* Foundation.framework */,
-				3D2B92C2A569170706BDA30E2745F459 /* QuartzCore.framework */,
-				72885ED03C2EF95285B9DEF15EE4D98B /* SystemConfiguration.framework */,
+				5BBDD54404F39FCDF688FDC59E4F20EB /* libMBProgressHUD.a */,
+				EE4B38F4CB5B8F260B7C1C0BA394F741 /* libPods-PhotosMaker.a */,
 			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		A691AB219E6546715AD0E015717CC428 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				088E20479A3FFE561E3965B204BCF504 /* MBProgressHUD */,
-				060F935D290657A45CB54199EBEC31B0 /* Reachability */,
-			);
-			name = Pods;
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,35 +172,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DEA69E368991201DC053612DC4B86CCE /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				91ABF0EDFEF738053AA2B68D0DB82CC4 /* Reachability.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2805B6ED06F057855BA7B43E6EB6F62C /* Pods-PhotosMaker */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 74E63EC11A05548F1E887B6C6A34B627 /* Build configuration list for PBXNativeTarget "Pods-PhotosMaker" */;
-			buildPhases = (
-				9C168C376ED556F7830652230A6F0A5F /* Sources */,
-				B507CA9B71797E01ADCB9205E994F6FF /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2C66CA539AA65535976557C584C2AD00 /* PBXTargetDependency */,
-				28FAF6B6BEA7C24BF49A31ECD8DA169B /* PBXTargetDependency */,
-			);
-			name = "Pods-PhotosMaker";
-			productName = "Pods-PhotosMaker";
-			productReference = 1ED334200F41E45F731F182B31426F65 /* libPods-PhotosMaker.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		586F2DFA9BDCC6675C2546793A69E5CC /* MBProgressHUD */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6B44251FA50022CA55D4B2FBE1468C76 /* Build configuration list for PBXNativeTarget "MBProgressHUD" */;
@@ -268,24 +189,24 @@
 			);
 			name = MBProgressHUD;
 			productName = MBProgressHUD;
-			productReference = 519920DCCDD4C71DFBE4A06029357784 /* libMBProgressHUD.a */;
+			productReference = 5BBDD54404F39FCDF688FDC59E4F20EB /* libMBProgressHUD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		DC5CF205D1BE2F12F254B90ABF616E61 /* Reachability */ = {
+		71629D3943B7E41C44AE244E83EC973B /* Pods-PhotosMaker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6AACC7D78990CCC9CA9C663A3FD5AD27 /* Build configuration list for PBXNativeTarget "Reachability" */;
+			buildConfigurationList = 2FA4B217B68B64D107C217131927F078 /* Build configuration list for PBXNativeTarget "Pods-PhotosMaker" */;
 			buildPhases = (
-				476D257D9089AC37721A1F58104FE705 /* Sources */,
-				7C6CF1851E646DC89F932C336A89D621 /* Frameworks */,
-				DEA69E368991201DC053612DC4B86CCE /* Headers */,
+				236F13C732EB22CA6EB51E16C074B9F8 /* Sources */,
+				12E16D779BDA901C118F382C3C403C59 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				546057179DA48601CE6701865D526007 /* PBXTargetDependency */,
 			);
-			name = Reachability;
-			productName = Reachability;
-			productReference = 851FB07FDD686168395307635FB282E7 /* libReachability.a */;
+			name = "Pods-PhotosMaker";
+			productName = "Pods-PhotosMaker";
+			productReference = EE4B38F4CB5B8F260B7C1C0BA394F741 /* libPods-PhotosMaker.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -305,24 +226,22 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 362EC58B2EC4E9F43085C2B3977A15B3 /* Products */;
+			productRefGroup = F346A18F85AAB9F6D6644B1655A45732 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				586F2DFA9BDCC6675C2546793A69E5CC /* MBProgressHUD */,
-				2805B6ED06F057855BA7B43E6EB6F62C /* Pods-PhotosMaker */,
-				DC5CF205D1BE2F12F254B90ABF616E61 /* Reachability */,
+				71629D3943B7E41C44AE244E83EC973B /* Pods-PhotosMaker */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		476D257D9089AC37721A1F58104FE705 /* Sources */ = {
+		236F13C732EB22CA6EB51E16C074B9F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47C7381183BA15546828EA6657D68CFE /* Reachability-dummy.m in Sources */,
-				E931256DA3C2E100EDEF74A5439D8A72 /* Reachability.m in Sources */,
+				6F2466BC80C2D978568F0B6AAC72AE1F /* Pods-PhotosMaker-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,33 +254,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9C168C376ED556F7830652230A6F0A5F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				053D05C3C4D6C794B5710521745AA7B8 /* Pods-PhotosMaker-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		28FAF6B6BEA7C24BF49A31ECD8DA169B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Reachability;
-			target = DC5CF205D1BE2F12F254B90ABF616E61 /* Reachability */;
-			targetProxy = FB6A5ACE2AD4F9B084E9FD304F5984D3 /* PBXContainerItemProxy */;
-		};
-		2C66CA539AA65535976557C584C2AD00 /* PBXTargetDependency */ = {
+		546057179DA48601CE6701865D526007 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = MBProgressHUD;
 			target = 586F2DFA9BDCC6675C2546793A69E5CC /* MBProgressHUD */;
-			targetProxy = E22198D97BCB5B2FB19E30113C4D9DE6 /* PBXContainerItemProxy */;
+			targetProxy = AD2E67585DFD772D85EC29DE6A1AEB47 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		39529953B610155B598E4DE848C2449D /* Release */ = {
+		1525BD94D3765D4C9157281206FB184D /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A08A79D219B5DA567D915AD77DC43A05 /* Pods-PhotosMaker.release.xcconfig */;
 			buildSettings = {
@@ -384,7 +289,7 @@
 		};
 		3DF956A357D278C29F53AD3094728975 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0ED4C390832625CBFE5E6180163D8B83 /* MBProgressHUD.xcconfig */;
+			baseConfigurationReference = 80DB6C08B9B312D2B623E23F6515C0A5 /* MBProgressHUD.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -406,7 +311,7 @@
 		};
 		587AEEE2AC12944079DE6A6112E7E4C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0ED4C390832625CBFE5E6180163D8B83 /* MBProgressHUD.xcconfig */;
+			baseConfigurationReference = 80DB6C08B9B312D2B623E23F6515C0A5 /* MBProgressHUD.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -480,27 +385,25 @@
 			};
 			name = Release;
 		};
-		97D4FA2D79EEB4723A3D14044A446363 /* Release */ = {
+		A4B787FC73649DBE53DA5F076671AB91 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A291199A07747CBAA5A2294EA06F8D9A /* Reachability.xcconfig */;
+			baseConfigurationReference = 5844E01B2722660AA01649A7340CCECF /* Pods-PhotosMaker.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Reachability/Reachability-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		B57951D085A1B98A97F8A1062A5E5C5B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -562,47 +465,6 @@
 			};
 			name = Debug;
 		};
-		D19AB878BD3A6560A93C047FF33378C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A291199A07747CBAA5A2294EA06F8D9A /* Reachability.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Reachability/Reachability-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		EC2BF97E0396940F25DA1EDF89503FC5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5844E01B2722660AA01649A7340CCECF /* Pods-PhotosMaker.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -615,11 +477,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6AACC7D78990CCC9CA9C663A3FD5AD27 /* Build configuration list for PBXNativeTarget "Reachability" */ = {
+		2FA4B217B68B64D107C217131927F078 /* Build configuration list for PBXNativeTarget "Pods-PhotosMaker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D19AB878BD3A6560A93C047FF33378C7 /* Debug */,
-				97D4FA2D79EEB4723A3D14044A446363 /* Release */,
+				A4B787FC73649DBE53DA5F076671AB91 /* Debug */,
+				1525BD94D3765D4C9157281206FB184D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -629,15 +491,6 @@
 			buildConfigurations = (
 				587AEEE2AC12944079DE6A6112E7E4C5 /* Debug */,
 				3DF956A357D278C29F53AD3094728975 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		74E63EC11A05548F1E887B6C6A34B627 /* Build configuration list for PBXNativeTarget "Pods-PhotosMaker" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EC2BF97E0396940F25DA1EDF89503FC5 /* Debug */,
-				39529953B610155B598E4DE848C2449D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
