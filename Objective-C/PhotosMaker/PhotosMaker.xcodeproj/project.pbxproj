@@ -165,12 +165,12 @@
 		DE81011A2029EAA70030A3D6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DE81011F2029EAA70030A3D6 /* ZWVideoThumbnailCell.h */,
 				DE81011B2029EAA70030A3D6 /* ZWVideoThumbnailCell.m */,
 				DE81011C2029EAA70030A3D6 /* ZWVideoThumbnailCell.xib */,
-				DE81011D2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.xib */,
-				DE81011E2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m */,
-				DE81011F2029EAA70030A3D6 /* ZWVideoThumbnailCell.h */,
 				DE8101202029EAA70030A3D6 /* ZWPhotosMakerAssetCell.h */,
+				DE81011E2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m */,
+				DE81011D2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
