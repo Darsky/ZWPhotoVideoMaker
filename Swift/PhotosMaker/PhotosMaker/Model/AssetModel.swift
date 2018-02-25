@@ -15,6 +15,8 @@ class AssetModel: NSObject
     
     var _asset:PHAsset?
     
+    var isSeleted:Bool = false
+    
     var asset:PHAsset?{
         set
         {
@@ -29,7 +31,7 @@ class AssetModel: NSObject
             return _asset
         }
     }
-    var durationDesc:NSString?
+    var durationDesc:NSString = "00:00"
 
     class func assetModelWithPHAssets (asset:PHAsset) -> AssetModel
     {

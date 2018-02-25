@@ -218,7 +218,6 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                               ^{
                                   [MBProgressHUD hideHUDForView:self.view
                                                        animated:YES];
-                                  _dataArray = resultArray;
                                   [_collectionView reloadData];
                                   [_collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:(int)_dataArray.count-1 inSection:0]
                                                                 animated:NO
