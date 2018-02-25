@@ -13,14 +13,13 @@ class AssetModel: NSObject
 {
     var image:UIImage?
     
-    var _asset:PHAsset?
-    
     var isSeleted:Bool = false
     
+    var _asset:PHAsset?
     var asset:PHAsset?{
         set
         {
-            _asset = asset
+            _asset = newValue
             if _asset != nil && _asset?.mediaType == PHAssetMediaType.video
             {
                 durationDesc = NSString(format: "%02ld:%02ld", _asset!.duration/60,_asset!.duration.truncatingRemainder(dividingBy: 60))
@@ -36,7 +35,7 @@ class AssetModel: NSObject
     class func assetModelWithPHAssets (asset:PHAsset) -> AssetModel
     {
         let model:AssetModel = AssetModel()
-        model.asset = asset
+        model.asset = asset.copy() as? PHAsset
         
         return model
     }

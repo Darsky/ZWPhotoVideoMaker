@@ -20,7 +20,7 @@ class AssetsViewController: UIViewController,UICollectionViewDataSource,UICollec
     var itemSize:CGSize = CGSize.zero
     //MARK: - CollectionView
     @IBOutlet weak var collectionView: UICollectionView!
-    var dataArray:[AssetModel]?
+    var dataArray:[AssetModel]! = []
     let AssetCellIdentifier = "AssetCollectionViewCell"
     
     //MARK: - Other
@@ -52,17 +52,17 @@ class AssetsViewController: UIViewController,UICollectionViewDataSource,UICollec
         confirmButton.layer.masksToBounds = true
         confirmButton.layer.cornerRadius  = 5
         
-        collectionView.register(UINib.init(nibName: AssetCellIdentifier, bundle: Bundle.main),
-                                forCellWithReuseIdentifier:AssetCellIdentifier)
+        self.collectionView.register(UINib.init(nibName: "AssetCollectionViewCell", bundle: Bundle.main),
+                                     forCellWithReuseIdentifier:AssetCellIdentifier)
         
     }
     
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
-        if dataArray?.count == 0
+        if dataArray?.count == 0 || dataArray == nil
         {
-            itemSize = CGSize.init(width: (UIScreen.main.bounds.size.width-10)/4.0, height: (UIScreen.main.bounds.size.height-10)/4.0)
+            itemSize = CGSize.init(width: (UIScreen.main.bounds.size.width-10)/4.0, height: (UIScreen.main.bounds.size.width-10)/4.0)
             MBProgressHUD.showAdded(to: self.view, animated: true)
             PHPhotoLibrary.requestAuthorization({ (status) in
                 if status == PHAuthorizationStatus.authorized
@@ -71,22 +71,30 @@ class AssetsViewController: UIViewController,UICollectionViewDataSource,UICollec
                 }
                 else
                 {
-                    
+                    MBProgressHUD.hide(for: self.view, animated: true)
                 }
                 
             })
         }
     }
+    // MARK: - UICollectionViewDelegateFlowLayout Method
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        return itemSize
+    }
     
     // MARK: - UICollectionViewDataSource Method
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return dataArray!.count
+        return dataArray.count
     }
+    
+
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell:AssetCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: AssetCellIdentifier, for: indexPath) as! AssetCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AssetCollectionViewCell", for: indexPath) as! AssetCollectionViewCell
+        
         if dataArray![indexPath.row].asset!.mediaType == PHAssetMediaType.video
         {
             cell.durationLabel.isHidden = false
@@ -119,7 +127,7 @@ class AssetsViewController: UIViewController,UICollectionViewDataSource,UICollec
             PHImageManager.default().requestImage(for: tempAsset, targetSize: targetSize, contentMode: PHImageContentMode.default, options: imageRequestOptions, resultHandler:
                 {
                     (result, info) in
-                    let model:AssetModel = AssetModel.assetModelWithPHAssets(asset: tempAsset)
+                    let model:AssetModel = AssetModel.assetModelWithPHAssets(asset: tempAsset.copy() as! PHAsset)
                     model.image = result
                     resultArray.append(model)
                     if resultArray.count == fetchResult.count
@@ -127,9 +135,7 @@ class AssetsViewController: UIViewController,UICollectionViewDataSource,UICollec
                         self.dataArray = resultArray
                         DispatchQueue.main.sync {
                             MBProgressHUD.hide(for: self.view, animated: true)
-                            self.collectionView.reloadData()
-                            self.collectionView.scrollToItem(at: IndexPath.init(row: self.dataArray!.count - 1, section: 0), at: UICollectionViewScrollPosition.bottom, animated: false)
-                            
+                            self.collectionView.reloadData()                            
                         }
                     }
             })
