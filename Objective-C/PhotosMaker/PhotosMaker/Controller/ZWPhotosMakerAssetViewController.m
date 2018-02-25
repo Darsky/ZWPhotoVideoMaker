@@ -170,6 +170,11 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
 
 #pragma mark - UICollectionViewDelegate Method
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(nonnull UICollectionViewCell *)cell forItemAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_dataArray[indexPath.row].isSelected)
@@ -191,38 +196,46 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
 
 - (void)loadOriginPhotosFromUserLibary
 {
-    PHFetchResult *fetchResult = self.onlyPicture?[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage
-                                                                            options:nil]:[PHAsset fetchAssetsWithOptions:nil];
+    PHFetchOptions*options = [[PHFetchOptions alloc]init];
     
+    options.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
+                                                            ascending:NO]];
+
+    PHFetchResult *fetchResult = self.onlyPicture?[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage
+                                                                            options:options]:[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage
+                                                                                                                   options:options];
     CGSize targetSize = CGSizeMake(_itemSize.width*[UIScreen mainScreen].scale, _itemSize.height*[UIScreen mainScreen].scale);
     PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
     imageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeFast;
-    imageRequestOptions.synchronous = YES;
+    imageRequestOptions.synchronous = NO;
     NSMutableArray *resultArray = [NSMutableArray array];
     for (int x = 0; x<fetchResult.count; x++)
     {
         PHAsset *targetAsset = fetchResult[x];
-        [[PHImageManager defaultManager] requestImageForAsset:targetAsset
+        ZWPhotosMakerAssetModel *model = [ZWPhotosMakerAssetModel assetModelWithPHAssets:targetAsset];
+        [resultArray insertObject:model
+                          atIndex:0];
+
+
+        [[PHImageManager defaultManager] requestImageForAsset:model.asset
                                                    targetSize:targetSize
                                                   contentMode:PHImageContentModeDefault
                                                       options:imageRequestOptions
                                                 resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info)
-        {
-            ZWPhotosMakerAssetModel *model = [ZWPhotosMakerAssetModel assetModelWithPHAssets:targetAsset];
-            model.image = result;
-            [resultArray addObject:model];
-            if (resultArray.count == fetchResult.count)
-            {
-                _dataArray = resultArray;
-                dispatch_sync(dispatch_get_main_queue(),
-                              ^{
-                                  [MBProgressHUD hideHUDForView:self.view
-                                                       animated:YES];
-                                  [_collectionView reloadData];
-                              });
-            }
-        }];
+         {
+             model.image = result;
+         }];
+
     }
+    _dataArray = resultArray;
+    dispatch_sync(dispatch_get_main_queue(),
+                  ^{
+                      [MBProgressHUD hideHUDForView:self.view
+                                           animated:YES];
+                      [_collectionView reloadData];
+                      [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_dataArray.count - 1 inSection:0]
+                                              atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+                  });
 }
 - (IBAction)didConfirmButtonTouch:(id)sender
 {
