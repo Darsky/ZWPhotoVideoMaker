@@ -14,24 +14,41 @@
 #import "ZWPhotosMakerEditerViewController.h"
 #import "ZWPhotosMakerVideoModel.h"
 
-@interface ZWPhotosMakerAssetViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
-{    
+@interface ZWPhotosMakerAssetViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,UITextFieldDelegate>
+{
+    NSMutableArray<ZWPhotosMakerAssetModel*> *_originDataArray;
+
     NSMutableArray<ZWPhotosMakerAssetModel*> *_dataArray;
     
+    NSMutableArray<ZWPhotosMakerAssetModel*> *_selectedArray;
+
     CGSize _itemSize;
         
     __weak IBOutlet UIButton *_confirmButton;
     
     NSInteger _selectedItemCount;
     
-    NSArray  *_musicArray;
+    __weak IBOutlet UITextField *_startTimeField;
     
-    __weak IBOutlet UISegmentedControl *_musicSegment;
+    NSDate *_startTimeDate;
     
+    __weak IBOutlet UITextField *_endTimeField;
+    
+    NSDate *_endTimeDate;
+    
+    UITextField *_selectedTimeField;
+    
+    NSDateFormatter *_dateFormatter;
+    
+    
+    __weak IBOutlet UIButton *_searchButton;
+    
+    __weak IBOutlet UIView *_pickerDisView;
+    
+    __weak IBOutlet UIDatePicker *_datePicker;
 }
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-
 
 
 @end
@@ -47,7 +64,6 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     {
         self.maxCount = 20;
     }
-    _musicArray = @[@"Micmacs A La Gare.mp3",@"Valse di Fantastica.mp3",@"带你去旅行.mp3",];
     //设置是否半透明度
     self.navigationController.navigationBar.translucent = NO;
     //设置背景颜色
@@ -122,6 +138,12 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self showOrHideDatePickerView:NO];
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -170,7 +192,9 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
 
 #pragma mark - UICollectionViewDelegate Method
 
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(nonnull UICollectionViewCell *)cell forItemAtIndexPath:(nonnull NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView
+       willDisplayCell:(nonnull UICollectionViewCell *)cell
+    forItemAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     
 }
@@ -180,6 +204,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     if (_dataArray[indexPath.row].isSelected)
     {
         _dataArray[indexPath.row].isSelected = NO;
+        [_selectedArray removeObject:_dataArray[indexPath.row]];
         _selectedItemCount--;
         [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }
@@ -188,8 +213,18 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         ZWPhotosMakerAssetModel *assetModel = _dataArray[indexPath.row];
         assetModel.isSelected = YES;
         _selectedItemCount++;
+        [_selectedArray addObject:assetModel];
         [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
     }
+}
+
+#pragma mark - UITextFieldDelegate Method
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    _selectedTimeField = textField;
+    [self showOrHideDatePickerView:YES];
+    return NO;
 }
 
 #pragma mark - 数据处理
@@ -201,9 +236,8 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     options.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
                                                             ascending:NO]];
 
-    PHFetchResult *fetchResult = self.onlyPicture?[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage
-                                                                            options:options]:[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage
-                                                                                                                   options:options];
+    PHFetchResult *fetchResult = self.onlyPicture?[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeVideo
+                                                                            options:options]:[PHAsset fetchAssetsWithOptions:options];
     CGSize targetSize = CGSizeMake(_itemSize.width*[UIScreen mainScreen].scale, _itemSize.height*[UIScreen mainScreen].scale);
     PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
     imageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeFast;
@@ -215,8 +249,16 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         ZWPhotosMakerAssetModel *model = [ZWPhotosMakerAssetModel assetModelWithPHAssets:targetAsset];
         [resultArray insertObject:model
                           atIndex:0];
+        if (x == 0)
+        {
+            _endTimeDate = [model.createDate copy];
 
+        }
+        else if (x == fetchResult.count - 1)
+        {
+            _startTimeDate = [model.createDate copy];
 
+        }
         [[PHImageManager defaultManager] requestImageForAsset:model.asset
                                                    targetSize:targetSize
                                                   contentMode:PHImageContentModeDefault
@@ -227,11 +269,29 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
          }];
 
     }
-    _dataArray = resultArray;
+
+    _originDataArray = resultArray;
+    _dataArray = _originDataArray;
+    _selectedArray = [NSMutableArray array];
     dispatch_sync(dispatch_get_main_queue(),
                   ^{
                       [MBProgressHUD hideHUDForView:self.view
                                            animated:YES];
+                      if (_startTimeDate && _endTimeDate)
+                      {
+                          _startTimeField.userInteractionEnabled =
+                          _endTimeField.userInteractionEnabled   =
+                          _searchButton.userInteractionEnabled   = YES;
+                          [_datePicker setMaximumDate:_endTimeDate];
+                          if (_dateFormatter == nil)
+                          {
+                              _dateFormatter = [[NSDateFormatter alloc] init];
+                              [_dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                          }
+                          _endTimeField.text = [_dateFormatter stringFromDate:_endTimeDate];
+                          [_datePicker setMinimumDate:_startTimeDate];
+                          _startTimeField.text = [_dateFormatter stringFromDate:_startTimeDate];
+                      }
                       [_collectionView reloadData];
                       [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_dataArray.count - 1 inSection:0]
                                               atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
@@ -241,18 +301,10 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
 {
     if (_selectedItemCount > 0)
     {
-        NSMutableArray *seletcedAssetArray = [NSMutableArray array];
-        for (int x = 0; x<_dataArray.count; x++)
-        {
-            if (_dataArray[x].isSelected)
-            {
-                [seletcedAssetArray addObject:_dataArray[x]];
-            }
-        }
         self.view.userInteractionEnabled = NO;
         [MBProgressHUD showHUDAddedTo:self.view
                              animated:YES];
-        [self requestHeighImageByAsset:seletcedAssetArray
+        [self requestHeighImageByAsset:_selectedArray
                        withFinsihBlock:^(NSMutableArray *resultArray)
          {
              dispatch_async(dispatch_get_main_queue(), ^{
@@ -471,6 +523,80 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     NSLog(@"OK");
 }
 
+- (void)showOrHideDatePickerView:(BOOL)shouldShow
+{
+    if (shouldShow && _pickerDisView.hidden)
+    {
+        _pickerDisView.hidden = NO;
+        [_datePicker setDate:[NSDate date]];
+        self.view.userInteractionEnabled = NO;
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                                         _pickerDisView.transform = CGAffineTransformMakeTranslation(0, -_pickerDisView.frame.size.height);
+        }
+                         completion:^(BOOL finished)
+         {
+             if (finished)
+             {
+                 self.view.userInteractionEnabled = YES;
+             }
+        }];
+    }
+    else if (!shouldShow && !_pickerDisView.hidden)
+    {
+        _pickerDisView.hidden = NO;
+        self.view.userInteractionEnabled = NO;
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                            
+                             _pickerDisView.transform = CGAffineTransformIdentity;
+                         }
+                         completion:^(BOOL finished)
+         {
+             if (finished)
+             {
+                 self.view.userInteractionEnabled = YES;
+                 _pickerDisView.hidden = YES;
+             }
+         }];
+    }
+}
+
+- (IBAction)didDateConfirmButtonTouch:(UIButton *)sender
+{
+    if (sender.tag == 0)
+    {
+        [self showOrHideDatePickerView:NO];
+    }
+    else if (sender.tag == 1)
+    {
+        [self showOrHideDatePickerView:NO];
+        if (_selectedTimeField == _startTimeField &&  [_datePicker.date compare:_endTimeDate] == NSOrderedAscending)
+        {
+            _startTimeDate = _datePicker.date;
+            _startTimeField.text = [_dateFormatter stringFromDate:_startTimeDate];
+        }
+        else if (_selectedTimeField == _endTimeField &&  [_datePicker.date compare:_startTimeDate] == NSOrderedDescending)
+        {
+            _endTimeDate = _datePicker.date;
+            _endTimeField.text = [_dateFormatter stringFromDate:_endTimeDate];
+        }
+    }
+    else
+    {
+        
+    }
+}
+
+- (IBAction)didSearchButtonTouch:(id)sender
+{
+    if (_startTimeDate && _endTimeDate && _originDataArray.count > 0)
+    {
+        NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"SELF.createDate >= %@ AND SELF.createDate <= %@",_startTimeDate,_endTimeDate];
+        _dataArray = [[_originDataArray filteredArrayUsingPredicate:datePredicate] mutableCopy];
+        [_collectionView reloadData];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

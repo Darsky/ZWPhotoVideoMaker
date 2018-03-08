@@ -19,7 +19,7 @@
 
 @property (strong, nonatomic) PHAsset *asset;
 
-@property (copy, nonatomic) NSString *durationDesc;
+@property (copy, nonatomic)   NSString *durationDesc;
 
 @property (nonatomic) BOOL isSelected;
 
