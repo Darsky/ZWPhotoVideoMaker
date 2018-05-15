@@ -231,6 +231,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
 
 - (void)loadOriginPhotosFromUserLibary
 {
+    
     PHFetchOptions*options = [[PHFetchOptions alloc]init];
     
     options.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
@@ -267,7 +268,6 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
          {
              model.image = result;
          }];
-
     }
 
     _originDataArray = resultArray;
@@ -336,8 +336,8 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
              withFinsihBlock:(void(^)(NSMutableArray *resultArray))finishBlock
            exceptionResponse:(void(^)(void))exceptionResponse
 {
-    CGSize targetSize = CGSizeMake(600,
-                            600);
+    CGSize targetSize = CGSizeMake(1800,
+                            900);
     __block NSInteger count = 0;
     PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
     imageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;

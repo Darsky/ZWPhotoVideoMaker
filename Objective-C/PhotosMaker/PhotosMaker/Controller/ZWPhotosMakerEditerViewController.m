@@ -12,6 +12,7 @@
 #import "ZWPhotosMakerVideoModel.h"
 #import "ZWPhotosMakerHelper.h"
 #import <Photos/Photos.h>
+#import "ZWPhotosMakerBackgroundCell.h"
 #define frameSize   3.0
 
 
@@ -31,6 +32,13 @@
     
     CGSize   _thumbnailSize;
     
+    __weak IBOutlet UISegmentedControl *_segmentControl;
+    
+    NSInteger        _selectedIndex;
+    
+    NSArray         *_bgArray;
+    
+    __weak IBOutlet UICollectionView *_additionalCollectionView;
     
     
     BOOL _isPlaying;
@@ -49,6 +57,8 @@ static NSString *ZWVideoThumbnailCellIdentifier          = @"ZWVideoThumbnailCel
 static NSString *ZWVideoThumbnailHeaderIdentifier        = @"ZWVideoThumbnailHeader";
 
 static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFooter";
+
+static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgroundCell";
 
 
 - (void)viewDidLoad
@@ -70,10 +80,15 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.navigationItem.rightBarButtonItem = barButtonItem;
     
+    _bgArray = @[[UIImage imageNamed:@"bg_videoMaker01"],[UIImage imageNamed:@"bg_videoMaker02"],[UIImage imageNamed:@"bg_videoMaker03"]];
+    [_displayBgImageView setImage:_bgArray[_selectedIndex]];
     _thumbnailSize = CGSizeZero;
     [_collectionView registerNib:[UINib nibWithNibName:ZWVideoThumbnailCellIdentifier
                                                          bundle:[NSBundle mainBundle]]
                forCellWithReuseIdentifier:ZWVideoThumbnailCellIdentifier];
+    [_additionalCollectionView registerNib:[UINib nibWithNibName:ZWPhotosMakerBackgroundCellIdentifier
+                                                          bundle:[NSBundle mainBundle]]
+      forCellWithReuseIdentifier:ZWPhotosMakerBackgroundCellIdentifier];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                withReuseIdentifier:ZWVideoThumbnailHeaderIdentifier];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
@@ -88,15 +103,7 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
         _thumbnailSize = CGSizeMake(([UIScreen mainScreen].bounds.size.width - 30)/5.0, 40);
         self.view.userInteractionEnabled = NO;
         _displayImageView = [[UIImageView alloc] initWithFrame:_displayView.bounds];
-        if ([self.mediasArray[0] isKindOfClass:[UIImage class]])
-        {
-            [_displayBgImageView setImage:self.mediasArray[0]];
-        }
-        else if ([self.mediasArray[0] isKindOfClass:[ZWPhotosMakerVideoModel class]])
-        {
-            ZWPhotosMakerVideoModel *viewModel = self.mediasArray[0];
-            [_displayBgImageView setImage:viewModel.videoImageArray[0]];
-        }
+        
         [_displayView addSubview:_displayImageView];
         self.group = [self createAnimationGroupWithSize:_displayImageView.bounds.size];
         _totalDuration = self.group.duration;
@@ -422,19 +429,187 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    // 如果当前想要的是头部视图
-    // UICollectionElementKindSectionHeader是一个const修饰的字符串常量,所以可以直接使用==比较
-    if (kind == UICollectionElementKindSectionHeader) {
-        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:ZWVideoThumbnailHeaderIdentifier
-                                                                                         forIndexPath:indexPath];
-        headerView.backgroundColor = [UIColor lightGrayColor];
-        return headerView;
+    if (collectionView == _collectionView)
+    {
+        // 如果当前想要的是头部视图
+        // UICollectionElementKindSectionHeader是一个const修饰的字符串常量,所以可以直接使用==比较
+        if (kind == UICollectionElementKindSectionHeader) {
+            UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:ZWVideoThumbnailHeaderIdentifier
+                                                                                             forIndexPath:indexPath];
+            headerView.backgroundColor = [UIColor lightGrayColor];
+            return headerView;
+        }
+        else if (kind == UICollectionElementKindSectionFooter) {
+            UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:ZWVideoThumbnailFooterIdentifier
+                                                                                             forIndexPath:indexPath];
+            footerView.backgroundColor = [UIColor lightGrayColor];
+            return footerView;
+        }
+        else
+        {
+            return nil;
+        }
     }
-    else if (kind == UICollectionElementKindSectionFooter) {
-        UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:ZWVideoThumbnailFooterIdentifier
-                                                                                         forIndexPath:indexPath];
-        footerView.backgroundColor = [UIColor lightGrayColor];
-        return footerView;
+    else
+    {
+        return nil;
+    }
+
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    if (collectionView == _collectionView)
+    {
+        return CGSizeMake((SCREEN_WIDTH-30)/2.0, 40);
+    }
+    else if (collectionView == _additionalCollectionView)
+    {
+        if (_segmentControl.selectedSegmentIndex == 0)
+        {
+            return CGSizeZero;
+        }
+        else
+        {
+            return CGSizeZero;
+        }
+    }
+    else
+    {
+        return CGSizeZero;
+    }
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    if (collectionView == _collectionView)
+    {
+        return CGSizeMake((SCREEN_WIDTH-30)/2.0, 40);
+    }
+    else
+    {
+        return CGSizeZero;
+    }
+}
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (collectionView == _collectionView)
+    {
+        if ([self.mediasArray[indexPath.row] isKindOfClass:[UIImage class]])
+        {
+            return _thumbnailSize;
+        }
+        else if ([self.mediasArray[indexPath.row] isKindOfClass:[ZWPhotosMakerVideoModel class]])
+        {
+            ZWPhotosMakerVideoModel *videoModel = self.mediasArray[indexPath.row];
+            return CGSizeMake(_thumbnailSize.width*(videoModel.duration/2.0), _thumbnailSize.height);
+        }
+        else
+        {
+            return _thumbnailSize;
+        }
+    }
+    else if (collectionView == _additionalCollectionView)
+    {
+        if (_segmentControl.selectedSegmentIndex == 0)
+        {
+            return CGSizeMake(100, 100);
+        }
+        else
+        {
+            return CGSizeZero;
+        }
+    }
+    else
+    {
+        return CGSizeZero;
+    }
+
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    if (collectionView == _collectionView)
+    {
+        return UIEdgeInsetsMake(0, 0, 0, 0);
+    }
+    else if (collectionView == _additionalCollectionView)
+    {
+        return UIEdgeInsetsMake(0, 0, 0, 0);
+    }
+    else
+    {
+        return UIEdgeInsetsMake(0, 0, 0, 0);
+    }
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    
+    if (collectionView == _collectionView)
+    {
+        return self.mediasArray.count;
+    }
+    else if (collectionView == _additionalCollectionView)
+    {
+        if (_segmentControl.selectedSegmentIndex == 0)
+        {
+            return _bgArray.count;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (collectionView == _collectionView)
+    {
+        ZWVideoThumbnailCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZWVideoThumbnailCellIdentifier
+                                                                               forIndexPath:indexPath];
+        if ([self.mediasArray[indexPath.row] isKindOfClass:[ZWPhotosMakerVideoModel class]])
+        {
+            ZWPhotosMakerVideoModel *model = self.mediasArray[indexPath.row];
+            [cell.thumbnailImageView setImage:[model.videoImageArray firstObject]];
+        }
+        else
+        {
+            [cell.thumbnailImageView setImage:self.mediasArray[indexPath.row]];
+        }
+        return cell;
+    }
+    else if (collectionView == _additionalCollectionView)
+    {
+        if (_segmentControl.selectedSegmentIndex == 0)
+        {
+            ZWPhotosMakerBackgroundCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZWPhotosMakerBackgroundCellIdentifier forIndexPath:indexPath];
+            cell.bgNameLabel.text = [NSString stringWithFormat:@"背景%d",(int)indexPath.row];
+            [cell.bgImageView setImage:_bgArray[indexPath.row]];
+            if (indexPath.row == _selectedIndex)
+            {
+                cell.selectedView.hidden = NO;
+            }
+            else
+            {
+                cell.selectedView.hidden = YES;
+            }
+            return cell;
+        }
+        else
+        {
+            return nil;
+        }
     }
     else
     {
@@ -442,61 +617,23 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
     }
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-{
-    return CGSizeMake((SCREEN_WIDTH-30)/2.0, 40);
-}
+#pragma mark - UICollectionViewDelegate Method
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((SCREEN_WIDTH-30)/2.0, 40);
-}
-
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([self.mediasArray[indexPath.row] isKindOfClass:[UIImage class]])
+    if (collectionView == _additionalCollectionView)
     {
-        return _thumbnailSize;
+        if (_segmentControl.selectedSegmentIndex == 0)
+        {
+            _selectedIndex = indexPath.row;
+            [_displayBgImageView setImage:_bgArray[_selectedIndex]];
+            [_additionalCollectionView reloadData];
+        }
+        else
+        {
+            
+        }
     }
-    else if ([self.mediasArray[indexPath.row] isKindOfClass:[ZWPhotosMakerVideoModel class]])
-    {
-        ZWPhotosMakerVideoModel *videoModel = self.mediasArray[indexPath.row];
-        return CGSizeMake(_thumbnailSize.width*(videoModel.duration/2.0), _thumbnailSize.height);
-    }
-    else
-    {
-        return _thumbnailSize;
-    }
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(0, 0, 0, 0);
-}
-
-#pragma mark - UICollectionViewDataSource
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return self.mediasArray.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    ZWVideoThumbnailCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZWVideoThumbnailCellIdentifier
-                                                                           forIndexPath:indexPath];
-    if ([self.mediasArray[indexPath.row] isKindOfClass:[ZWPhotosMakerVideoModel class]])
-    {
-        ZWPhotosMakerVideoModel *model = self.mediasArray[indexPath.row];
-        [cell.thumbnailImageView setImage:[model.videoImageArray firstObject]];
-    }
-    else
-    {
-        [cell.thumbnailImageView setImage:self.mediasArray[indexPath.row]];
-    }
-    return cell;
 }
 
 #pragma mark - UIScrollViewDelegate Method
@@ -549,7 +686,7 @@ static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFoo
     [MBProgressHUD showHUDAddedTo:self.view
                          animated:YES];
     ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
-    CGSize videoSize = CGSizeMake(600, 600);
+    CGSize videoSize = CGSizeMake(1800, 900);
     [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
                                            forSize:videoSize
                                    withFinishBlock:^(NSURL *fileUrl)
