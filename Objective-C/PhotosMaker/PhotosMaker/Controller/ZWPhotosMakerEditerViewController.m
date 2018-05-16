@@ -791,6 +791,8 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
     CGSize videoSize = CGSizeMake(1800, 900);
     [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
+                                       withBgImage:_bgArray[_selectedBgIndex]
+                                          andMusic:_musicArray[_selectedMusicIndex]
                                            forSize:videoSize
                                    withFinishBlock:^(NSURL *fileUrl)
      {

@@ -136,6 +136,8 @@
 
 //根据 CAAnimationGroup 生成视频
 - (void)startMakePhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
+                                    withBgImage:(UIImage*)bgImage
+                                      andMusic:(MusicFileModel*)musicModel
                                        forSize:(CGSize)videoSize
                                withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
                               adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock
@@ -175,7 +177,9 @@
                      CVPixelBufferRelease(buffer);
                      [self.videoWriterInput markAsFinished];
                      [self.videoWriter finishWritingWithCompletionHandler:^{
-                         [self createPhotoVideosWithAnimationGroup:group];
+                         [self createPhotoVideosWithAnimationGroup:group
+                                                       withBgImage:bgImage
+                                                          andMusic:musicModel];
                          self.adaptor = nil;
                          self.videoWriterInput = nil;
                          self.videoWriter = nil;
@@ -189,9 +193,13 @@
 }
 
 - (void)createPhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
+                                withBgImage:(UIImage*)bgImage
+                                   andMusic:(MusicFileModel*)musicModel
 {
     AVMutableComposition *avMutableComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *avMutableCompositionTrack = [avMutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
+    AVMutableCompositionTrack *auMutableCompositionTrack = [avMutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio
                                                                                              preferredTrackID:kCMPersistentTrackID_Invalid];
     AVMutableVideoComposition *avMutableVideoComposition = [AVMutableVideoComposition videoComposition];
     avMutableVideoComposition.renderSize = _videoSize;
@@ -215,8 +223,27 @@
         CALayer *videoLayer = [CALayer layer];
         parentLayer.frame = CGRectMake(0, 0, _videoSize.width, _videoSize.height);
         videoLayer.frame = CGRectMake(0, 0, _videoSize.width, _videoSize.height);
-        [parentLayer setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_videoMaker"]].CGColor];
+        [parentLayer setBackgroundColor:[UIColor colorWithPatternImage:bgImage].CGColor];
         [parentLayer addSublayer:videoLayer];
+        
+        //插入音频
+        NSString *audioPath =[ [NSBundle mainBundle]  pathForResource:musicModel.fileName
+                                                          ofType:@"mp3"];
+        AVAsset *auAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:audioPath]];
+        
+        CMTime auAssetTime = [auAsset duration];
+        Float64 audioDuration = CMTimeGetSeconds(auAssetTime);
+        
+        AVAssetTrack *auAssetTrack = nil;
+        auAssetTrack = [[auAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
+        if ( [auMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
+                                                                        CMTimeMakeWithSeconds(duration+3, videoFrame))
+                                                ofTrack:auAssetTrack
+                                                 atTime:kCMTimeZero
+                                                  error:&error])
+        {
+            //            auMutableCompositionTrack.preferredTransform = auAssetTrack.preferredTransform;
+        }
        
         group.beginTime = AVCoreAnimationBeginTimeAtZero;
         [videoLayer addAnimation:group forKey:nil];

@@ -18,8 +18,9 @@ typedef void (^ErrorMsgBlock)    (NSString *errorMsg);
 @property (copy, nonatomic) PhotosMakeFinishBlock finishBlock;
 @property (copy, nonatomic) ErrorMsgBlock errorMsgBlock;
 
-
 - (void)startMakePhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
+                                   withBgImage:(UIImage*)bgImage
+                                      andMusic:(MusicFileModel*)musicModel
                                        forSize:(CGSize)videoSize
                                withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
                               adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock;
