@@ -277,7 +277,7 @@
         __block AVMutableComposition *targetMutableComposition = avMutableComposition;
 
         AVAssetExportSession *avAssetExportSession = [[AVAssetExportSession alloc] initWithAsset:avMutableComposition
-                                                                                      presetName:AVAssetExportPresetMediumQuality];
+                                                                                      presetName:AVAssetExportPresetHighestQuality];
         [avAssetExportSession setVideoComposition:avMutableVideoComposition];
         [avAssetExportSession setOutputURL:saveLocationURL];
         [avAssetExportSession setOutputFileType:AVFileTypeMPEG4];

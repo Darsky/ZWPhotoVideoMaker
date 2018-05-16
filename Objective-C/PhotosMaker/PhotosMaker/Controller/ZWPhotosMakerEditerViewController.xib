@@ -94,7 +94,7 @@
                             </connections>
                         </segmentedControl>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="naY-ah-6wU">
-                            <rect key="frame" x="15" y="122" width="345" height="174"/>
+                            <rect key="frame" x="15" y="122" width="345" height="184"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="TkL-kj-cF3">
                                 <size key="itemSize" width="50" height="50"/>
@@ -110,7 +110,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="naY-ah-6wU" secondAttribute="bottom" constant="40" id="3U9-lR-hq6"/>
+                        <constraint firstAttribute="bottom" secondItem="naY-ah-6wU" secondAttribute="bottom" constant="30" id="3U9-lR-hq6"/>
                         <constraint firstItem="naY-ah-6wU" firstAttribute="leading" secondItem="awt-7q-N8a" secondAttribute="leading" constant="15" id="73s-Hk-KRg"/>
                         <constraint firstAttribute="trailing" secondItem="naY-ah-6wU" secondAttribute="trailing" constant="15" id="I1e-Rc-UcL"/>
                         <constraint firstItem="w5K-0f-ahK" firstAttribute="top" secondItem="awt-7q-N8a" secondAttribute="top" constant="14" id="IQW-4d-SCf"/>

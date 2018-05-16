@@ -41,11 +41,13 @@
     
     CGSize           _bgItemSize;
     
-    NSInteger        _selectedMusicIndex;
-    
     NSArray         *_musicArray;
     
+    NSInteger        _selectedMusicIndex;
+    
     CGSize           _musicItemSize;
+    
+    MusicFileModel  *_selectedMusicFileModel;
 
     
     __weak IBOutlet UICollectionView *_additionalCollectionView;
@@ -135,8 +137,8 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                                  animated:YES];
             self.view.userInteractionEnabled = YES;
             _musicArray = array;
-            MusicFileModel *model = _musicArray[_selectedMusicIndex];
-            NSString *path =[ [NSBundle mainBundle]  pathForResource:model.fileName
+            _selectedMusicFileModel = _musicArray[_selectedMusicIndex];
+            NSString *path =[ [NSBundle mainBundle]  pathForResource:_selectedMusicFileModel.fileName
                                                               ofType:@"mp3"];
             self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]
                                                                       error:nil];
@@ -704,8 +706,8 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                 [self.audioPlayer stop];
                 self.audioPlayer = nil;
                 _selectedMusicIndex = indexPath.row;
-                MusicFileModel *model = _musicArray[_selectedMusicIndex];
-                NSString *path =[ [NSBundle mainBundle]  pathForResource:model.fileName
+                _selectedMusicFileModel = _musicArray[_selectedMusicIndex];
+                NSString *path =[ [NSBundle mainBundle]  pathForResource:_selectedMusicFileModel.fileName
                                                                   ofType:@"mp3"];
                 self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]
                                                                           error:nil];
@@ -714,9 +716,9 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                 
                 float padding = (SCREEN_WIDTH-30)/2.0;
                 NSInteger currentDuration = _collectionView.contentOffset.x/(_collectionView.contentSize.width-padding*2.0)*_totalDuration;
-                if (currentDuration > model.duration)
+                if (currentDuration > _selectedMusicFileModel.duration)
                 {
-                    [self.audioPlayer setCurrentTime:model.duration];
+                    [self.audioPlayer setCurrentTime:_selectedMusicFileModel.duration];
                 }
                 else
                 {
@@ -756,7 +758,17 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
         float padding = (SCREEN_WIDTH-30)/2.0;
         float progress = scrollView.contentOffset.x/(_collectionView.contentSize.width-padding*2);
         NSLog(@"scroll Progress is %.2f",progress);
-        _displayImageView.layer.timeOffset = _totalDuration*progress;
+        double currentOffset = _totalDuration*progress;
+        _displayImageView.layer.timeOffset = currentOffset;
+        
+        if (currentOffset > _selectedMusicFileModel.duration)
+        {
+            [self.audioPlayer setCurrentTime:_selectedMusicFileModel.duration];
+        }
+        else
+        {
+            [self.audioPlayer setCurrentTime:currentOffset];
+        }
     }
 }
 
@@ -789,7 +801,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     [MBProgressHUD showHUDAddedTo:self.view
                          animated:YES];
     ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
-    CGSize videoSize = CGSizeMake(1800, 900);
+    CGSize videoSize = CGSizeMake(900, 450);
     [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
                                        withBgImage:_bgArray[_selectedBgIndex]
                                           andMusic:_musicArray[_selectedMusicIndex]
