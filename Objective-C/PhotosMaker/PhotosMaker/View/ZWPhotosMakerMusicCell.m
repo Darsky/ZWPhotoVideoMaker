@@ -13,7 +13,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    _selectedView.layer.borderWidth = 2.0;
+    _selectedView.layer.borderWidth = 4.0;
     _selectedView.layer.borderColor = [UIColor blueColor].CGColor;
 }
 

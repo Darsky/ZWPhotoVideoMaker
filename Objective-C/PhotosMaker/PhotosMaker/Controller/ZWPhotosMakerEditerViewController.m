@@ -147,6 +147,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
             [_displayImageView.layer addAnimation:self.group
                                            forKey:@"group"];
             _displayImageView.layer.speed = 0;
+            [_additionalCollectionView reloadData];
             [_collectionView reloadData];
         }
                                         andErrorBlock:^(NSError *error)
@@ -563,6 +564,10 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
         {
             return _bgItemSize;
         }
+        else if (_segmentControl.selectedSegmentIndex == 1)
+        {
+            return _musicItemSize;
+        }
         else
         {
             return CGSizeZero;
@@ -706,6 +711,19 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                                                                           error:nil];
                 self.audioPlayer.delegate = self;
                 [self.audioPlayer prepareToPlay];
+                
+                float padding = (SCREEN_WIDTH-30)/2.0;
+                NSInteger currentDuration = _collectionView.contentOffset.x/(_collectionView.contentSize.width-padding*2.0)*_totalDuration;
+                if (currentDuration > model.duration)
+                {
+                    [self.audioPlayer setCurrentTime:model.duration];
+                }
+                else
+                {
+                    [self.audioPlayer setCurrentTime:currentDuration];
+                }
+                
+                [_additionalCollectionView reloadData];
             }
         }
         else
