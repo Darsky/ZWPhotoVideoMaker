@@ -89,6 +89,9 @@
                                 <segment title="配乐"/>
                             </segments>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="didSegmentControlChanged:" destination="-1" eventType="valueChanged" id="0AB-sz-z4y"/>
+                            </connections>
                         </segmentedControl>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="naY-ah-6wU">
                             <rect key="frame" x="15" y="122" width="345" height="174"/>

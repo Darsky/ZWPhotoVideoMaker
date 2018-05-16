@@ -13,10 +13,11 @@
 #import "ZWPhotosMakerHelper.h"
 #import <Photos/Photos.h>
 #import "ZWPhotosMakerBackgroundCell.h"
+#import "ZWPhotosMakerMusicCell.h"
 #define frameSize   3.0
 
 
-@interface ZWPhotosMakerEditerViewController ()<CAAnimationDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface ZWPhotosMakerEditerViewController ()<CAAnimationDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,AVAudioPlayerDelegate>
 {
     __weak IBOutlet UIView *_displayView;
     
@@ -34,9 +35,18 @@
     
     __weak IBOutlet UISegmentedControl *_segmentControl;
     
-    NSInteger        _selectedIndex;
+    NSInteger        _selectedBgIndex;
     
     NSArray         *_bgArray;
+    
+    CGSize           _bgItemSize;
+    
+    NSInteger        _selectedMusicIndex;
+    
+    NSArray         *_musicArray;
+    
+    CGSize           _musicItemSize;
+
     
     __weak IBOutlet UICollectionView *_additionalCollectionView;
     
@@ -46,6 +56,8 @@
 @property (strong, nonatomic) CAAnimationGroup *group;
 
 @property (strong, nonatomic) CADisplayLink *playTimer;
+
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 
 @end
@@ -59,6 +71,9 @@ static NSString *ZWVideoThumbnailHeaderIdentifier        = @"ZWVideoThumbnailHea
 static NSString *ZWVideoThumbnailFooterIdentifier        = @"ZWVideoThumbnailFooter";
 
 static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgroundCell";
+
+static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicCell";
+
 
 
 - (void)viewDidLoad
@@ -81,18 +96,22 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
     self.navigationItem.rightBarButtonItem = barButtonItem;
     
     _bgArray = @[[UIImage imageNamed:@"bg_videoMaker01"],[UIImage imageNamed:@"bg_videoMaker02"],[UIImage imageNamed:@"bg_videoMaker03"]];
-    [_displayBgImageView setImage:_bgArray[_selectedIndex]];
+    [_displayBgImageView setImage:_bgArray[_selectedBgIndex]];
     _thumbnailSize = CGSizeZero;
     [_collectionView registerNib:[UINib nibWithNibName:ZWVideoThumbnailCellIdentifier
                                                          bundle:[NSBundle mainBundle]]
                forCellWithReuseIdentifier:ZWVideoThumbnailCellIdentifier];
-    [_additionalCollectionView registerNib:[UINib nibWithNibName:ZWPhotosMakerBackgroundCellIdentifier
-                                                          bundle:[NSBundle mainBundle]]
-      forCellWithReuseIdentifier:ZWPhotosMakerBackgroundCellIdentifier];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                withReuseIdentifier:ZWVideoThumbnailHeaderIdentifier];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
                withReuseIdentifier:ZWVideoThumbnailFooterIdentifier];
+    
+    [_additionalCollectionView registerNib:[UINib nibWithNibName:ZWPhotosMakerBackgroundCellIdentifier
+                                                          bundle:[NSBundle mainBundle]]
+                forCellWithReuseIdentifier:ZWPhotosMakerBackgroundCellIdentifier];
+    [_additionalCollectionView registerNib:[UINib nibWithNibName:ZWPhotosMakerMusicCellIdentifier
+                                                          bundle:[NSBundle mainBundle]]
+                forCellWithReuseIdentifier:ZWPhotosMakerMusicCellIdentifier];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -101,17 +120,42 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
     if (self.mediasArray.count > 0 && self.group == nil)
     {
         _thumbnailSize = CGSizeMake(([UIScreen mainScreen].bounds.size.width - 30)/5.0, 40);
-        self.view.userInteractionEnabled = NO;
+        _bgItemSize = CGSizeMake(100, 100);
+        _musicItemSize = CGSizeMake(100, 100);
+
         _displayImageView = [[UIImageView alloc] initWithFrame:_displayView.bounds];
-        
         [_displayView addSubview:_displayImageView];
-        self.group = [self createAnimationGroupWithSize:_displayImageView.bounds.size];
-        _totalDuration = self.group.duration;
-        [_displayImageView.layer addAnimation:self.group
-                                       forKey:@"group"];
-        _displayImageView.layer.speed = 0;
-        [_collectionView reloadData];
-        self.view.userInteractionEnabled = YES;
+        self.view.userInteractionEnabled = NO;
+        [MBProgressHUD showHUDAddedTo:self.view
+                             animated:YES];
+        ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
+        [helper initializeMusicFolderWithSuccessBlock:^(NSArray *array)
+        {
+            [MBProgressHUD hideHUDForView:self.view
+                                 animated:YES];
+            self.view.userInteractionEnabled = YES;
+            _musicArray = array;
+            MusicFileModel *model = _musicArray[_selectedMusicIndex];
+            NSString *path =[ [NSBundle mainBundle]  pathForResource:model.fileName
+                                                              ofType:@"mp3"];
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]
+                                                                      error:nil];
+            [self.audioPlayer prepareToPlay];
+
+            self.group = [self createAnimationGroupWithSize:_displayImageView.bounds.size];
+            _totalDuration = self.group.duration;
+            [_displayImageView.layer addAnimation:self.group
+                                           forKey:@"group"];
+            _displayImageView.layer.speed = 0;
+            [_collectionView reloadData];
+        }
+                                        andErrorBlock:^(NSError *error)
+        {
+            [MBProgressHUD hideHUDForView:self.view
+                                 animated:YES];
+            self.view.userInteractionEnabled = YES;
+        }];
+
     }
 
 }
@@ -388,6 +432,7 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
 {
     if (sender.selected)
     {
+        [self.audioPlayer pause];
         _isPlaying = NO;
         [self.playTimer setPaused:YES];
         _playButton.selected = NO;
@@ -406,6 +451,7 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
         [self.playTimer setPaused:NO];
         _playButton.selected = YES;
         _isPlaying = YES;
+        [self.audioPlayer play];
 
     }
 }
@@ -515,7 +561,7 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
     {
         if (_segmentControl.selectedSegmentIndex == 0)
         {
-            return CGSizeMake(100, 100);
+            return _bgItemSize;
         }
         else
         {
@@ -562,7 +608,7 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
         }
         else
         {
-            return 0;
+            return _musicArray.count;
         }
     }
     else
@@ -596,7 +642,24 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
             ZWPhotosMakerBackgroundCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZWPhotosMakerBackgroundCellIdentifier forIndexPath:indexPath];
             cell.bgNameLabel.text = [NSString stringWithFormat:@"背景%d",(int)indexPath.row];
             [cell.bgImageView setImage:_bgArray[indexPath.row]];
-            if (indexPath.row == _selectedIndex)
+            if (indexPath.row == _selectedBgIndex)
+            {
+                cell.selectedView.hidden = NO;
+            }
+            else
+            {
+                cell.selectedView.hidden = YES;
+            }
+            return cell;
+        }
+        else if (_segmentControl.selectedSegmentIndex == 1)
+        {
+            ZWPhotosMakerMusicCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZWPhotosMakerMusicCellIdentifier forIndexPath:indexPath];
+            
+            MusicFileModel *model = _musicArray[indexPath.row];
+            cell.musicNameLabel.text = model.musicName?:@"未知曲目";
+            [cell.coverImageView setImage:model.coverImage];
+            if (indexPath.row == _selectedMusicIndex)
             {
                 cell.selectedView.hidden = NO;
             }
@@ -625,9 +688,25 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
     {
         if (_segmentControl.selectedSegmentIndex == 0)
         {
-            _selectedIndex = indexPath.row;
-            [_displayBgImageView setImage:_bgArray[_selectedIndex]];
+            _selectedBgIndex = indexPath.row;
+            [_displayBgImageView setImage:_bgArray[_selectedBgIndex]];
             [_additionalCollectionView reloadData];
+        }
+        else if (_segmentControl.selectedSegmentIndex == 1)
+        {
+            if (_selectedMusicIndex != indexPath.row)
+            {
+                [self.audioPlayer stop];
+                self.audioPlayer = nil;
+                _selectedMusicIndex = indexPath.row;
+                MusicFileModel *model = _musicArray[_selectedMusicIndex];
+                NSString *path =[ [NSBundle mainBundle]  pathForResource:model.fileName
+                                                                  ofType:@"mp3"];
+                self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]
+                                                                          error:nil];
+                self.audioPlayer.delegate = self;
+                [self.audioPlayer prepareToPlay];
+            }
         }
         else
         {
@@ -675,6 +754,12 @@ static NSString *ZWPhotosMakerBackgroundCellIdentifier   = @"ZWPhotosMakerBackgr
 }
 
 #pragma mark - Other Method
+
+- (IBAction)didSegmentControlChanged:(UISegmentedControl *)sender
+{
+    [_additionalCollectionView reloadData];
+}
+
 
 - (void)didConfirmButtonTouch
 {

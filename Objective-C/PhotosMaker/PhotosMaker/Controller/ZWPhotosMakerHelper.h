@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MusicFileModel.h"
 
 typedef void (^PhotosMakeFinishBlock) (NSURL *fileUrl);
 
@@ -22,4 +23,7 @@ typedef void (^ErrorMsgBlock)    (NSString *errorMsg);
                                        forSize:(CGSize)videoSize
                                withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
                               adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock;
+
+- (void)initializeMusicFolderWithSuccessBlock:(void(^)(NSArray* array))successBlock
+                                andErrorBlock:(void(^)(NSError *error))errorBlock;
 @end

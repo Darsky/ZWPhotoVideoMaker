@@ -23,6 +23,8 @@
 @property (strong, nonatomic) AVAssetWriterInputPixelBufferAdaptor *adaptor;
 @property (nonatomic) CGSize videoSize;
 
+@property (strong, nonatomic) NSMutableArray *defaultMusicArray;
+
 @end
 
 
@@ -316,6 +318,51 @@
     }
     self.finishBlock = nil;
     self.errorMsgBlock = nil;
+}
+
+- (void)initializeMusicFolderWithSuccessBlock:(void(^)(NSArray* array))successBlock
+                                andErrorBlock:(void(^)(NSError *error))errorBlock
+{
+    NSArray *defaultMusicArray  = @[@"MKJ - Time",@"Matteo - Panama",@"Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore",@"AnimeVibe - Умри если меня не любишь",@"Saphire - Be Good"];
+    NSMutableArray *resultArray = [NSMutableArray array];
+    for (int x = 0; x<defaultMusicArray.count; x++)
+    {
+        MusicFileModel *musicModel = [[MusicFileModel alloc] init];
+        musicModel.fileName = defaultMusicArray[x];
+        NSString *path =[ [NSBundle mainBundle]  pathForResource:musicModel.fileName
+                                                          ofType:@"mp3"];
+        AVURLAsset *avURLAsset = [[AVURLAsset alloc] initWithURL:[NSURL fileURLWithPath:path]
+                                                         options:nil];
+        musicModel.duration = avURLAsset.duration.value/avURLAsset.duration.timescale;
+        for (NSString *format in [avURLAsset availableMetadataFormats])
+        {
+            for (AVMetadataItem *metaData in [avURLAsset metadataForFormat:format])
+            {
+                NSLog(@"%@",metaData.commonKey);
+                if ([metaData.commonKey isEqualToString:@"title"])
+                {
+                    musicModel.musicName = (NSString*)metaData.value;
+                }
+                else if ([metaData.commonKey isEqualToString:@"artwork"])
+                {
+                    musicModel.coverImage = [UIImage imageWithData:(NSData*)metaData.value];
+                }
+                else if ([metaData.commonKey isEqualToString:@"artist"])
+                {
+                    musicModel.artist = (NSString*)metaData.value;
+                }
+            }
+        }
+        [resultArray addObject:musicModel];
+    }
+    if (resultArray.count > 0)
+    {
+        successBlock(resultArray);
+    }
+    else
+    {
+        errorBlock(nil);
+    }
 }
 
 

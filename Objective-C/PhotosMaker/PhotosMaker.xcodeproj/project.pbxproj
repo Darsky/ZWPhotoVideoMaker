@@ -34,6 +34,14 @@
 		DEAFBCAF20AAE137007B9F56 /* img_videoMaker01@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEAFBCAA20AAE137007B9F56 /* img_videoMaker01@3x.png */; };
 		DEAFBCB320AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DEAFBCB120AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.m */; };
 		DEAFBCB420AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEAFBCB220AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.xib */; };
+		DEC096DE20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DEC096DC20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.m */; };
+		DEC096DF20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEC096DD20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.xib */; };
+		DEC096E220ABC3390054A493 /* MusicFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DEC096E020ABC3390054A493 /* MusicFileModel.m */; };
+		DEC096E820ABC3500054A493 /* AnimeVibe - Умри если меня не любишь.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC096E320ABC3500054A493 /* AnimeVibe - Умри если меня не любишь.mp3 */; };
+		DEC096E920ABC3500054A493 /* Matteo - Panama.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC096E420ABC3500054A493 /* Matteo - Panama.mp3 */; };
+		DEC096EA20ABC3500054A493 /* MKJ - Time.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC096E520ABC3500054A493 /* MKJ - Time.mp3 */; };
+		DEC096EB20ABC3500054A493 /* Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC096E620ABC3500054A493 /* Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore.mp3 */; };
+		DEC096EC20ABC3500054A493 /* Saphire - Be Good.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC096E720ABC3500054A493 /* Saphire - Be Good.mp3 */; };
 		E9B6293C9F7EE68D2D12D990 /* libPods-PhotosMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EE1EFEB7C5D793A06666E85 /* libPods-PhotosMaker.a */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +88,16 @@
 		DEAFBCB020AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerBackgroundCell.h; sourceTree = "<group>"; };
 		DEAFBCB120AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerBackgroundCell.m; sourceTree = "<group>"; };
 		DEAFBCB220AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZWPhotosMakerBackgroundCell.xib; sourceTree = "<group>"; };
+		DEC096DB20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZWPhotosMakerMusicCell.h; sourceTree = "<group>"; };
+		DEC096DC20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosMakerMusicCell.m; sourceTree = "<group>"; };
+		DEC096DD20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZWPhotosMakerMusicCell.xib; sourceTree = "<group>"; };
+		DEC096E020ABC3390054A493 /* MusicFileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicFileModel.m; sourceTree = "<group>"; };
+		DEC096E120ABC3390054A493 /* MusicFileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicFileModel.h; sourceTree = "<group>"; };
+		DEC096E320ABC3500054A493 /* AnimeVibe - Умри если меня не любишь.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "AnimeVibe - Умри если меня не любишь.mp3"; sourceTree = "<group>"; };
+		DEC096E420ABC3500054A493 /* Matteo - Panama.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Matteo - Panama.mp3"; sourceTree = "<group>"; };
+		DEC096E520ABC3500054A493 /* MKJ - Time.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "MKJ - Time.mp3"; sourceTree = "<group>"; };
+		DEC096E620ABC3500054A493 /* Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore.mp3"; sourceTree = "<group>"; };
+		DEC096E720ABC3500054A493 /* Saphire - Be Good.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Saphire - Be Good.mp3"; sourceTree = "<group>"; };
 		E4326CF9F15BB405B217BCEC /* Pods-PhotosMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotosMaker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotosMaker/Pods-PhotosMaker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,8 +154,8 @@
 				DE8101472029EBFF0030A3D6 /* PrefixHeader.pch */,
 				DE81010E2029EAA70030A3D6 /* Controller */,
 				DE8101092029EAA70030A3D6 /* Model */,
-				DE8101212029EAA70030A3D6 /* Resource */,
 				DE81011A2029EAA70030A3D6 /* View */,
+				DE8101212029EAA70030A3D6 /* Resource */,
 				DE8100F32029EA830030A3D6 /* AppDelegate.h */,
 				DE8100F42029EA830030A3D6 /* AppDelegate.m */,
 				DE8100F62029EA830030A3D6 /* ViewController.h */,
@@ -154,6 +172,8 @@
 		DE8101092029EAA70030A3D6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DEC096E120ABC3390054A493 /* MusicFileModel.h */,
+				DEC096E020ABC3390054A493 /* MusicFileModel.m */,
 				DE81010C2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.h */,
 				DE81010A2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m */,
 				DE81010D2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.h */,
@@ -189,6 +209,9 @@
 				DEAFBCB020AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.h */,
 				DEAFBCB120AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.m */,
 				DEAFBCB220AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.xib */,
+				DEC096DB20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.h */,
+				DEC096DC20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.m */,
+				DEC096DD20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -196,6 +219,11 @@
 		DE8101212029EAA70030A3D6 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				DEC096E320ABC3500054A493 /* AnimeVibe - Умри если меня не любишь.mp3 */,
+				DEC096E420ABC3500054A493 /* Matteo - Panama.mp3 */,
+				DEC096E520ABC3500054A493 /* MKJ - Time.mp3 */,
+				DEC096E620ABC3500054A493 /* Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore.mp3 */,
+				DEC096E720ABC3500054A493 /* Saphire - Be Good.mp3 */,
 				DE8101242029EAA70030A3D6 /* bg_videoMaker01@3x.png */,
 				DEAFBCA720AAE137007B9F56 /* bg_videoMaker02@3x.png */,
 				DEAFBCA920AAE137007B9F56 /* bg_videoMaker03@3x.png */,
@@ -269,7 +297,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEC096EC20ABC3500054A493 /* Saphire - Be Good.mp3 in Resources */,
 				DEAFBCAE20AAE137007B9F56 /* bg_videoMaker03@3x.png in Resources */,
+				DEC096DF20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.xib in Resources */,
 				DE81013D2029EAA70030A3D6 /* bg_videoMaker01@3x.png in Resources */,
 				DEAFBCAC20AAE137007B9F56 /* bg_videoMaker02@3x.png in Resources */,
 				DE8101382029EAA70030A3D6 /* ZWVideoThumbnailCell.xib in Resources */,
@@ -278,10 +308,14 @@
 				DE8101002029EA830030A3D6 /* LaunchScreen.storyboard in Resources */,
 				DE8100FD2029EA830030A3D6 /* Assets.xcassets in Resources */,
 				DEAFBCAD20AAE137007B9F56 /* img_videoMaker03@3x.png in Resources */,
+				DEC096EB20ABC3500054A493 /* Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore.mp3 in Resources */,
+				DEC096E920ABC3500054A493 /* Matteo - Panama.mp3 in Resources */,
 				DE8101492029EF7E0030A3D6 /* ViewController.xib in Resources */,
 				DE8101322029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib in Resources */,
 				DE8101302029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.xib in Resources */,
+				DEC096EA20ABC3500054A493 /* MKJ - Time.mp3 in Resources */,
 				DE81013F2029EAA70030A3D6 /* img_meclass_select@2x.png in Resources */,
+				DEC096E820ABC3500054A493 /* AnimeVibe - Умри если меня не любишь.mp3 in Resources */,
 				DEAFBCAB20AAE137007B9F56 /* img_videoMaker02@3x.png in Resources */,
 				DEAFBCB420AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.xib in Resources */,
 				DE81013E2029EAA70030A3D6 /* img_meclass_unselect@2x.png in Resources */,
@@ -349,9 +383,11 @@
 				DE8101342029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.m in Sources */,
 				DE81012F2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.m in Sources */,
 				DE8101332029EAA70030A3D6 /* ZWPhotosMakerHelper.m in Sources */,
+				DEC096E220ABC3390054A493 /* MusicFileModel.m in Sources */,
 				DE81013A2029EAA70030A3D6 /* ZWPhotosMakerAssetCell.m in Sources */,
 				DE8101372029EAA70030A3D6 /* ZWVideoThumbnailCell.m in Sources */,
 				DEAFBCB320AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.m in Sources */,
+				DEC096DE20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.m in Sources */,
 				DE8100F82029EA830030A3D6 /* ViewController.m in Sources */,
 				DE8101032029EA830030A3D6 /* main.m in Sources */,
 				DE81012E2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m in Sources */,

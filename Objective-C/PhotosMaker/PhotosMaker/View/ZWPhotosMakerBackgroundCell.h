@@ -10,7 +10,9 @@
 
 @interface ZWPhotosMakerBackgroundCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *bgNameLabel;
-@property (weak, nonatomic) IBOutlet UIView *selectedView;
+
+@property (weak, nonatomic) IBOutlet UIView  *selectedView;
 
 @end
