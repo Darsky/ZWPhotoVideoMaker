@@ -13,17 +13,19 @@
 #import "ZWPhotosMakerHelper.h"
 #import "ZWPhotosMakerEditerViewController.h"
 #import "ZWPhotosMakerVideoModel.h"
+#import "ZWPhotosNodeModel.h"
+
 
 @interface ZWPhotosMakerAssetViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,UITextFieldDelegate>
 {
     NSMutableArray<ZWPhotosMakerAssetModel*> *_originDataArray;
-
+    
     NSMutableArray<ZWPhotosMakerAssetModel*> *_dataArray;
     
     NSMutableArray<ZWPhotosMakerAssetModel*> *_selectedArray;
-
+    
     CGSize _itemSize;
-        
+    
     __weak IBOutlet UIButton *_confirmButton;
     
     NSInteger _selectedItemCount;
@@ -46,6 +48,12 @@
     __weak IBOutlet UIView *_pickerDisView;
     
     __weak IBOutlet UIDatePicker *_datePicker;
+    
+    double    _previewDuration;
+    
+    NSInteger _previewDealIndex;
+    
+    NSMutableArray *_previewResultArray;
 }
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -68,7 +76,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     self.navigationController.navigationBar.translucent = NO;
     //设置背景颜色
     //    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-
+    
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     [self.navigationController.navigationBar setBackgroundImage:[self createImageWithColor:[UIColor blackColor]]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -94,8 +102,8 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     // Do any additional setup after loading the view from its nib.
     
     [_collectionView registerNib:[UINib nibWithNibName:ZWPhotosMakerAssetCellIdentifier
-                                                       bundle:[NSBundle mainBundle]]
-             forCellWithReuseIdentifier:ZWPhotosMakerAssetCellIdentifier];
+                                                bundle:[NSBundle mainBundle]]
+      forCellWithReuseIdentifier:ZWPhotosMakerAssetCellIdentifier];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -236,7 +244,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     
     options.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
                                                             ascending:NO]];
-
+    
     PHFetchResult *fetchResult = self.onlyPicture?[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeVideo
                                                                             options:options]:[PHAsset fetchAssetsWithOptions:options];
     CGSize targetSize = CGSizeMake(_itemSize.width*[UIScreen mainScreen].scale, _itemSize.height*[UIScreen mainScreen].scale);
@@ -253,12 +261,12 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         if (x == 0)
         {
             _endTimeDate = [model.createDate copy];
-
+            
         }
         else if (x == fetchResult.count - 1)
         {
             _startTimeDate = [model.createDate copy];
-
+            
         }
         [[PHImageManager defaultManager] requestImageForAsset:model.asset
                                                    targetSize:targetSize
@@ -269,7 +277,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
              model.image = result;
          }];
     }
-
+    
     _originDataArray = resultArray;
     _dataArray = _originDataArray;
     _selectedArray = [NSMutableArray array];
@@ -304,8 +312,123 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         self.view.userInteractionEnabled = NO;
         [MBProgressHUD showHUDAddedTo:self.view
                              animated:YES];
-        [self requestHeighImageByAsset:_selectedArray
-                       withFinsihBlock:^(NSMutableArray *resultArray)
+        _previewDuration = 0.0;
+        _previewDealIndex = 0;
+        _previewResultArray = [NSMutableArray array];
+        [self createPhotoNodeModel];
+    }
+}
+
+- (void)createPhotoNodeModelAtIndex:(NSInteger)index
+                    withFinsihBlock:(void(^)(ZWPhotosNodeModel *nodeModel))finishBlock
+                  exceptionResponse:(void(^)(void))exceptionResponse
+{
+    CGSize targetSize = CGSizeMake(1800,
+                                   900);
+    ZWPhotosMakerAssetModel *model = _selectedArray[index];
+    if (model.asset.mediaType == PHAssetMediaTypeImage)
+    {
+
+        PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
+        imageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+        imageRequestOptions.synchronous = YES;
+        imageRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+        [[PHImageManager defaultManager] requestImageForAsset:model.asset
+                                                   targetSize:targetSize
+                                                  contentMode:PHImageContentModeAspectFit
+                                                      options:imageRequestOptions
+                                                resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info)
+         {
+             if (result != nil)
+             {
+                 ZWPhotosNodeModel *nodeModel = [[ZWPhotosNodeModel alloc] init];
+                 nodeModel.type = ZWPhotosNodeTypePicture;
+                 nodeModel.startTime = _previewDuration;
+                 nodeModel.duration  = 3.0;
+                 nodeModel.endTime   = _previewDuration+3.0;
+                 nodeModel.animationType = ZWPhotosNodeAnimationTypeFade;
+                 nodeModel.object = result;
+                 _previewDuration += 3;
+                 finishBlock(nodeModel);
+             }
+             else
+             {
+                 exceptionResponse();
+             }
+         }];
+    }
+    else if (model.asset.mediaType == PHAssetMediaTypeVideo)
+    {
+        PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+        options.version = PHImageRequestOptionsVersionCurrent;
+        options.deliveryMode = PHVideoRequestOptionsDeliveryModeMediumQualityFormat;
+        
+        PHImageManager *manager = [PHImageManager defaultManager];
+        [manager requestAVAssetForVideo:model.asset
+                                options:options
+                          resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info)
+         {
+             if (asset != nil)
+             {
+                 AVAssetImageGenerator *imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
+                 imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+                 imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+                 imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeProductionAperture;
+                 imageGenerator.appliesPreferredTrackTransform = YES;
+                 imageGenerator.maximumSize =  CGSizeMake(targetSize.width/2.0, targetSize.height/2.0);
+                 NSMutableArray *times = [NSMutableArray array];
+                 NSValue *timeValue = [NSValue valueWithCMTime:CMTimeMake(0, 30)];
+                 [times addObject:timeValue];
+                 
+                 [imageGenerator generateCGImagesAsynchronouslyForTimes:times
+                                                      completionHandler:^(CMTime requestedTime,
+                                                                          CGImageRef  _Nullable image,
+                                                                          CMTime actualTime,
+                                                                          AVAssetImageGeneratorResult result,
+                                                                          NSError * _Nullable error)
+                  {
+                      if (result == AVAssetImageGeneratorSucceeded)
+                      {
+                          UIImage *tempImage = [UIImage imageWithCGImage:image];
+                          ZWPhotosNodeModel *nodeModel = [[ZWPhotosNodeModel alloc] init];
+                          nodeModel.type = ZWPhotosNodeTypeVideo;
+                          nodeModel.startTime = _previewDuration;
+                          nodeModel.duration  = asset.duration.value/asset.duration.timescale;
+                          nodeModel.endTime   = _previewDuration+nodeModel.duration;
+                          nodeModel.animationType = ZWPhotosNodeAnimationTypeFade;
+                          nodeModel.object = asset;
+                          nodeModel.thumImage = tempImage;
+                          _previewDuration += nodeModel.duration;
+                          finishBlock(nodeModel);
+                      }
+                      else
+                      {
+                          NSLog(@"获取视频截图出错");
+                          exceptionResponse();
+                      }
+                  }];
+             }
+             else
+             {
+                 exceptionResponse();
+             }
+         }];
+    }
+    else
+    {
+        exceptionResponse();
+    }
+}
+
+
+
+- (void)createPhotoNodeModel
+{
+    [self createPhotoNodeModelAtIndex:_previewDealIndex
+                      withFinsihBlock:^(ZWPhotosNodeModel *nodeModel)
+     {
+         [_previewResultArray addObject:nodeModel];
+         if (_previewResultArray.count == _selectedArray.count)
          {
              dispatch_async(dispatch_get_main_queue(), ^{
                  [MBProgressHUD hideHUDForView:self.view
@@ -314,30 +437,33 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                  ZWPhotosMakerEditerViewController *viewController = nil;
                  viewController = [[ZWPhotosMakerEditerViewController alloc] initWithNibName:@"ZWPhotosMakerEditerViewController"
                                                                                       bundle:nil];
-                 viewController.mediasArray = resultArray;
+                 viewController.mediasArray = _previewResultArray;
                  [self.navigationController pushViewController:viewController
                                                       animated:YES];
              });
          }
-                     exceptionResponse:^
+         else
          {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 self.view.userInteractionEnabled = YES;
-                 [MBProgressHUD hideHUDForView:self.view
-                                      animated:YES];
-             });
-         }];
-    }
+             _previewDealIndex++;
+             [self createPhotoNodeModel];
+         }
+     }
+                    exceptionResponse:^
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             self.view.userInteractionEnabled = YES;
+             [MBProgressHUD hideHUDForView:self.view
+                                  animated:YES];
+         });
+     }];
 }
 
-
-
 - (void)requestHeighImageByAsset:(NSMutableArray*)array
-             withFinsihBlock:(void(^)(NSMutableArray *resultArray))finishBlock
-           exceptionResponse:(void(^)(void))exceptionResponse
+                 withFinsihBlock:(void(^)(NSMutableArray *resultArray))finishBlock
+               exceptionResponse:(void(^)(void))exceptionResponse
 {
     CGSize targetSize = CGSizeMake(1800,
-                            900);
+                                   900);
     __block NSInteger count = 0;
     PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
     imageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
@@ -438,8 +564,8 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                           NSLog(@"获取视频截图出错");
                           exceptionResponse();
                       }
-                 }];
-            }];
+                  }];
+             }];
         }
         else
         {
@@ -532,15 +658,15 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         self.view.userInteractionEnabled = NO;
         [UIView animateWithDuration:0.3
                          animations:^{
-                                         _pickerDisView.transform = CGAffineTransformMakeTranslation(0, -_pickerDisView.frame.size.height);
-        }
+                             _pickerDisView.transform = CGAffineTransformMakeTranslation(0, -_pickerDisView.frame.size.height);
+                         }
                          completion:^(BOOL finished)
          {
              if (finished)
              {
                  self.view.userInteractionEnabled = YES;
              }
-        }];
+         }];
     }
     else if (!shouldShow && !_pickerDisView.hidden)
     {
@@ -548,7 +674,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         self.view.userInteractionEnabled = NO;
         [UIView animateWithDuration:0.3
                          animations:^{
-                            
+                             
                              _pickerDisView.transform = CGAffineTransformIdentity;
                          }
                          completion:^(BOOL finished)
@@ -604,13 +730,13 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

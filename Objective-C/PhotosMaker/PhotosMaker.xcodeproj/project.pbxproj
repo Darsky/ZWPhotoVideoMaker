@@ -27,6 +27,7 @@
 		DE81013E2029EAA70030A3D6 /* img_meclass_unselect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101252029EAA70030A3D6 /* img_meclass_unselect@2x.png */; };
 		DE81013F2029EAA70030A3D6 /* img_meclass_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101262029EAA70030A3D6 /* img_meclass_select@2x.png */; };
 		DE8101492029EF7E0030A3D6 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE8101482029EF7E0030A3D6 /* ViewController.xib */; };
+		DE8B63CD20AD36BE00191696 /* ZWPhotosNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8B63CC20AD36BE00191696 /* ZWPhotosNodeModel.m */; };
 		DEAFBCAB20AAE137007B9F56 /* img_videoMaker02@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEAFBCA620AAE137007B9F56 /* img_videoMaker02@3x.png */; };
 		DEAFBCAC20AAE137007B9F56 /* bg_videoMaker02@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEAFBCA720AAE137007B9F56 /* bg_videoMaker02@3x.png */; };
 		DEAFBCAD20AAE137007B9F56 /* img_videoMaker03@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEAFBCA820AAE137007B9F56 /* img_videoMaker03@3x.png */; };
@@ -80,6 +81,8 @@
 		DE8101262029EAA70030A3D6 /* img_meclass_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_meclass_select@2x.png"; sourceTree = "<group>"; };
 		DE8101472029EBFF0030A3D6 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DE8101482029EF7E0030A3D6 /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		DE8B63CB20AD36BE00191696 /* ZWPhotosNodeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZWPhotosNodeModel.h; sourceTree = "<group>"; };
+		DE8B63CC20AD36BE00191696 /* ZWPhotosNodeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosNodeModel.m; sourceTree = "<group>"; };
 		DEAFBCA620AAE137007B9F56 /* img_videoMaker02@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_videoMaker02@3x.png"; sourceTree = "<group>"; };
 		DEAFBCA720AAE137007B9F56 /* bg_videoMaker02@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_videoMaker02@3x.png"; sourceTree = "<group>"; };
 		DEAFBCA820AAE137007B9F56 /* img_videoMaker03@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_videoMaker03@3x.png"; sourceTree = "<group>"; };
@@ -178,6 +181,8 @@
 				DE81010A2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m */,
 				DE81010D2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.h */,
 				DE81010B2029EAA70030A3D6 /* ZWPhotosMakerAssetModel.m */,
+				DE8B63CB20AD36BE00191696 /* ZWPhotosNodeModel.h */,
+				DE8B63CC20AD36BE00191696 /* ZWPhotosNodeModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 				DEAFBCB320AAE2D8007B9F56 /* ZWPhotosMakerBackgroundCell.m in Sources */,
 				DEC096DE20ABC1BA0054A493 /* ZWPhotosMakerMusicCell.m in Sources */,
 				DE8100F82029EA830030A3D6 /* ViewController.m in Sources */,
+				DE8B63CD20AD36BE00191696 /* ZWPhotosNodeModel.m in Sources */,
 				DE8101032029EA830030A3D6 /* main.m in Sources */,
 				DE81012E2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m in Sources */,
 				DE8101312029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.m in Sources */,

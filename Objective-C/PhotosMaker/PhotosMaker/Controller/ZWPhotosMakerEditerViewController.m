@@ -14,6 +14,7 @@
 #import <Photos/Photos.h>
 #import "ZWPhotosMakerBackgroundCell.h"
 #import "ZWPhotosMakerMusicCell.h"
+
 #define frameSize   3.0
 
 
@@ -21,6 +22,7 @@
 {
     __weak IBOutlet UIView *_displayView;
     
+    __weak IBOutlet UIView *_videoDisplayView;
     IBOutlet UIImageView   *_displayBgImageView;
     
     UIImageView            *_displayImageView;
@@ -61,6 +63,10 @@
 
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
+@property (strong, nonatomic) AVPlayer      *videoPlayer;
+
+@property (strong, nonatomic) AVPlayerLayer *playerLayer;
+
 
 @end
 
@@ -82,7 +88,6 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = [UIColor clearColor]; //加上背景颜色，方便观察Button的大小
     //设置图片
@@ -114,6 +119,8 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     [_additionalCollectionView registerNib:[UINib nibWithNibName:ZWPhotosMakerMusicCellIdentifier
                                                           bundle:[NSBundle mainBundle]]
                 forCellWithReuseIdentifier:ZWPhotosMakerMusicCellIdentifier];
+    
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -171,16 +178,17 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
 
     for (int index = 0; index<self.mediasArray.count; index++)
     {
-        if ([self.mediasArray[index] isKindOfClass:[UIImage class]])
+        ZWPhotosNodeModel *nodeModel = self.mediasArray[index];
+        if (nodeModel.type == ZWPhotosNodeTypePicture)
         {
             CAKeyframeAnimation * contentsAnimation;
             contentsAnimation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
             contentsAnimation.duration = 0.5f;
             contentsAnimation.removedOnCompletion = NO;
             contentsAnimation.fillMode = kCAFillModeForwards;
-            UIImage *tempImage = self.mediasArray[index];
+            UIImage *tempImage = nodeModel.object;
             contentsAnimation.values = @[(__bridge UIImage*)tempImage.CGImage];
-            contentsAnimation.beginTime = totalDuration;
+            contentsAnimation.beginTime = nodeModel.startTime;
             [animations addObject:contentsAnimation];
             if (index != 0)
             {
@@ -192,10 +200,9 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                 showAnimation.fillMode = kCAFillModeForwards;
                 showAnimation.values = @[[NSNumber numberWithFloat:0.0],
                                          [NSNumber numberWithFloat:1.0]];
-                showAnimation.beginTime = totalDuration;
+                showAnimation.beginTime = nodeModel.startTime;
                 [animations addObject:showAnimation];
             }
-            totalDuration+=contentsAnimation.duration;
             
             CGFloat imageWidth  = 0;
             CGFloat imageHeight = 0;
@@ -219,7 +226,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
             boundsAnimation.removedOnCompletion = NO;
             boundsAnimation.fillMode = kCAFillModeForwards;
             boundsAnimation.values = @[[NSValue valueWithCGRect:CGRectMake(xPoint,yPoint,imageWidth,imageHeight)]];
-            boundsAnimation.beginTime = totalDuration-0.5;
+            boundsAnimation.beginTime = nodeModel.startTime;
             [animations addObject:boundsAnimation];
             
             CAKeyframeAnimation *scaleZeroAnimation;
@@ -229,19 +236,18 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
             scaleZeroAnimation.autoreverses = YES;
             scaleZeroAnimation.fillMode = kCAFillModeForwards;
             scaleZeroAnimation.values = @[[NSNumber numberWithFloat:1]];
-            scaleZeroAnimation.beginTime = totalDuration-0.5;
+            scaleZeroAnimation.beginTime = nodeModel.startTime;
             [animations addObject:scaleZeroAnimation];
-            
+
             CAKeyframeAnimation *scaleAnimation;
             scaleAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-            scaleAnimation.duration = 1.0f;
+            scaleAnimation.duration = 2.0f;
             scaleAnimation.removedOnCompletion = NO;
             scaleAnimation.fillMode = kCAFillModeForwards;
             scaleAnimation.values = @[[NSNumber numberWithFloat:1],
                                       [NSNumber numberWithFloat:2.0]];
-            scaleAnimation.beginTime = totalDuration;
+            scaleAnimation.beginTime = nodeModel.startTime+0.5;
             [animations addObject:scaleAnimation];
-            totalDuration+= scaleAnimation.duration;
             
             CAKeyframeAnimation * dissAnimation;
             dissAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
@@ -256,100 +262,40 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                                                                                                                   [NSNumber numberWithFloat:0.5],
                                                                                                                   [NSNumber numberWithFloat:0.3],
                                                                                                                   [NSNumber numberWithFloat:0.2]];
-            dissAnimation.beginTime = totalDuration;
+            dissAnimation.beginTime = nodeModel.endTime - 0.5;
             [animations addObject:dissAnimation];
-            totalDuration+=dissAnimation.duration;
+            totalDuration += nodeModel.duration;
         }
-        else if ([self.mediasArray[index] isKindOfClass:[ZWPhotosMakerVideoModel class]])
+        else if (nodeModel.type == ZWPhotosNodeTypeVideo)
         {
-            ZWPhotosMakerVideoModel *viewModel = self.mediasArray[index];
-            if (index != 0)
-            {
-                CAKeyframeAnimation * showAnimation;
-                showAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
-                showAnimation.duration = 0.5;
-                //animation.delegate = self;
-                showAnimation.removedOnCompletion = NO;
-                showAnimation.fillMode = kCAFillModeForwards;
-                showAnimation.values = @[[NSNumber numberWithFloat:0.0],
-                                         [NSNumber numberWithFloat:1.0]];
-                showAnimation.beginTime = totalDuration;
-                [animations addObject:showAnimation];
-            }
-            UIImage *firstImage = nil;
-            CAKeyframeAnimation * contentsAnimation;
-            contentsAnimation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
-            contentsAnimation.duration = viewModel.duration;
-            contentsAnimation.removedOnCompletion = NO;
-            contentsAnimation.fillMode = kCAFillModeForwards;
-            NSMutableArray *videoContentsArray = [NSMutableArray array];
-            for (int v = 0; v<viewModel.videoImageArray.count; v++)
-            {
-                UIImage *tempImage = viewModel.videoImageArray[v];
-                if (v == 0)
-                {
-                    firstImage = tempImage;
-                }
-                [videoContentsArray addObject:(__bridge UIImage*)tempImage.CGImage];
-            }
-            contentsAnimation.values = videoContentsArray;
-            contentsAnimation.beginTime = totalDuration;
-            [animations addObject:contentsAnimation];
-            
-            CGFloat imageWidth  = 0;
-            CGFloat imageHeight = 0;
-            if (firstImage.size.width > firstImage.size.height)
-            {
-                imageWidth  = targetSize.width;
-                imageHeight = imageWidth/firstImage.size.width*firstImage.size.height;
-            }
-            else
-            {
-                imageHeight = targetSize.height;
-                imageWidth  = imageHeight/firstImage.size.height*firstImage.size.width;
-            }
-            CGFloat xPoint = targetSize.width/2.0 - imageWidth/2.0;
-            CGFloat yPoint = targetSize.height/2.0 - imageHeight/2.0;
-            
-            CAKeyframeAnimation * boundsAnimation;
-            boundsAnimation = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
-            boundsAnimation.duration = 0.5f;
+            CAKeyframeAnimation * showAnimation;
+//            showAnimation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
+            showAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+            showAnimation.duration = nodeModel.duration;
             //animation.delegate = self;
-            boundsAnimation.removedOnCompletion = NO;
-            boundsAnimation.fillMode = kCAFillModeForwards;
-            boundsAnimation.values = @[[NSValue valueWithCGRect:CGRectMake(xPoint,yPoint,imageWidth,imageHeight)]];
-            boundsAnimation.beginTime = totalDuration;
-            [animations addObject:boundsAnimation];
+            showAnimation.removedOnCompletion = NO;
+            showAnimation.fillMode = kCAFillModeForwards;
+            showAnimation.values = @[[NSNumber numberWithFloat:0.0]];
+            showAnimation.beginTime = nodeModel.startTime;
+            [animations addObject:showAnimation];
+            totalDuration += nodeModel.duration;
             
-            CAKeyframeAnimation *scaleZeroAnimation;
-            scaleZeroAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-            scaleZeroAnimation.duration = 0.5f;
-            //animation.delegate = self;
-            scaleZeroAnimation.removedOnCompletion = NO;
-            scaleZeroAnimation.autoreverses = YES;
-            scaleZeroAnimation.fillMode = kCAFillModeForwards;
-            scaleZeroAnimation.values = @[[NSNumber numberWithFloat:1]];
-            scaleZeroAnimation.beginTime = totalDuration;
-            [animations addObject:scaleZeroAnimation];
+            AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:nodeModel.object];
+            AVPlayer     *avplayer = [AVPlayer playerWithPlayerItem:playItem];
+            if (@available(iOS 10.0, *)) {
+                avplayer.automaticallyWaitsToMinimizeStalling = YES;
+            } else {
+                // Fallback on earlier versions
+            }
+            AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:avplayer];
+            playerLayer.frame = _videoDisplayView.bounds;
+            playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+            
+            nodeModel.player = avplayer;
+            nodeModel.playerLayer = playerLayer;
+            nodeModel.playerLayer.hidden = YES;
+            [_videoDisplayView.layer addSublayer:nodeModel.playerLayer];
 
-            totalDuration+=contentsAnimation.duration;
-            
-            CAKeyframeAnimation * dissAnimation;
-            dissAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
-            dissAnimation.duration = 0.5;
-            //animation.delegate = self;
-            dissAnimation.removedOnCompletion = NO;
-            dissAnimation.fillMode = kCAFillModeForwards;
-            dissAnimation.values = (index == (int)self.mediasArray.count - 1)?@[[NSNumber numberWithFloat:1.0],
-                                     [NSNumber numberWithFloat:0.8],
-                                     [NSNumber numberWithFloat:0.4],
-                                                                                [NSNumber numberWithFloat:0.0]]:@[[NSNumber numberWithFloat:1.0],
-                                                                                                                  [NSNumber numberWithFloat:0.5],
-                                                                                                                  [NSNumber numberWithFloat:0.3],
-                                                                                                                  [NSNumber numberWithFloat:0.0]];
-            dissAnimation.beginTime = totalDuration;
-            [animations addObject:dissAnimation];
-            totalDuration+=dissAnimation.duration;
         }
     }
     
@@ -439,6 +385,10 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
         _isPlaying = NO;
         [self.playTimer setPaused:YES];
         _playButton.selected = NO;
+        float padding = (SCREEN_WIDTH-30)/2.0;
+        NSTimeInterval currentDuration = _collectionView.contentOffset.x/(_collectionView.contentSize.width-padding*2.0)*_totalDuration;
+        [self checkVideoAtDuration:currentDuration
+                     andShouldPlay:NO];
     }
     else
     {
@@ -546,14 +496,14 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
 {
     if (collectionView == _collectionView)
     {
-        if ([self.mediasArray[indexPath.row] isKindOfClass:[UIImage class]])
+        ZWPhotosNodeModel *nodeModel = self.mediasArray[indexPath.row];
+        if (nodeModel.type == ZWPhotosNodeTypePicture)
         {
             return _thumbnailSize;
         }
-        else if ([self.mediasArray[indexPath.row] isKindOfClass:[ZWPhotosMakerVideoModel class]])
+        else if (nodeModel.type == ZWPhotosNodeTypeVideo)
         {
-            ZWPhotosMakerVideoModel *videoModel = self.mediasArray[indexPath.row];
-            return CGSizeMake(_thumbnailSize.width*(videoModel.duration/2.0), _thumbnailSize.height);
+            return CGSizeMake(_thumbnailSize.width*(nodeModel.duration/3.0), _thumbnailSize.height);
         }
         else
         {
@@ -631,14 +581,14 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     {
         ZWVideoThumbnailCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZWVideoThumbnailCellIdentifier
                                                                                forIndexPath:indexPath];
-        if ([self.mediasArray[indexPath.row] isKindOfClass:[ZWPhotosMakerVideoModel class]])
+        ZWPhotosNodeModel *nodeModel = self.mediasArray[indexPath.row];
+        if (nodeModel.type == ZWPhotosNodeTypePicture)
         {
-            ZWPhotosMakerVideoModel *model = self.mediasArray[indexPath.row];
-            [cell.thumbnailImageView setImage:[model.videoImageArray firstObject]];
+            [cell.thumbnailImageView setImage:nodeModel.object];
         }
-        else
+        else if (nodeModel.type == ZWPhotosNodeTypeVideo)
         {
-            [cell.thumbnailImageView setImage:self.mediasArray[indexPath.row]];
+            [cell.thumbnailImageView setImage:nodeModel.thumImage];
         }
         return cell;
     }
@@ -753,21 +703,94 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (!_isPlaying)
+    if (scrollView == _collectionView)
     {
-        float padding = (SCREEN_WIDTH-30)/2.0;
-        float progress = scrollView.contentOffset.x/(_collectionView.contentSize.width-padding*2);
-        NSLog(@"scroll Progress is %.2f",progress);
-        double currentOffset = _totalDuration*progress;
-        _displayImageView.layer.timeOffset = currentOffset;
-        
-        if (currentOffset > _selectedMusicFileModel.duration)
+        if (!_isPlaying)
         {
-            [self.audioPlayer setCurrentTime:_selectedMusicFileModel.duration];
+            float padding = (SCREEN_WIDTH-30)/2.0;
+            float progress = scrollView.contentOffset.x/(_collectionView.contentSize.width-padding*2);
+            double currentOffset = _totalDuration*progress;
+            _displayImageView.layer.timeOffset = currentOffset;
+            
+            if (currentOffset > _selectedMusicFileModel.duration)
+            {
+                [self.audioPlayer setCurrentTime:_selectedMusicFileModel.duration];
+            }
+            else
+            {
+                [self.audioPlayer setCurrentTime:currentOffset];
+            }
+            //检查当前时间是否属于视频
+            [self checkVideoAtDuration:currentOffset
+                         andShouldPlay:NO];
         }
         else
         {
-            [self.audioPlayer setCurrentTime:currentOffset];
+            float padding = (SCREEN_WIDTH-30)/2.0;
+            float progress = scrollView.contentOffset.x/(_collectionView.contentSize.width-padding*2);
+            double currentOffset = _totalDuration*progress;
+            //检查下一段是否是视频节点
+            [self checkVideoAtDuration:currentOffset
+                         andShouldPlay:YES];
+        }
+    }
+}
+
+- (void)checkVideoAtDuration:(NSTimeInterval)duration
+               andShouldPlay:(BOOL)shouldPlay
+{
+    NSArray *videoNodeModels = [_mediasArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF.startTime <= %.2f AND SELF.endTime >= %.2f AND SELF.type == 1",duration,duration]]];
+    if (videoNodeModels.count > 0)
+    {
+        _videoDisplayView.hidden = NO;
+        ZWPhotosNodeModel *videoNodeModel = [videoNodeModels firstObject];
+        videoNodeModel.playerLayer.hidden = NO;
+        if (shouldPlay)
+        {
+            if (!videoNodeModel.isPlaying)
+            {
+                NSTimeInterval targetTime = duration - videoNodeModel.startTime;
+                [videoNodeModel.player seekToTime:CMTimeMakeWithSeconds(targetTime, videoNodeModel.player.currentItem.duration.timescale)
+                                completionHandler:^(BOOL finished)
+                 {
+                     if (finished)
+                     {
+                         videoNodeModel.isPlaying = YES;
+                         [videoNodeModel.player play];
+                     }
+                 }];
+            }
+        }
+        else
+        {
+            if (videoNodeModel.isPlaying)
+            {
+                videoNodeModel.isPlaying = NO;
+                [videoNodeModel.player pause];
+            }
+            NSTimeInterval targetTime = duration - videoNodeModel.startTime;
+            [videoNodeModel.player seekToTime:CMTimeMakeWithSeconds(targetTime, videoNodeModel.player.currentItem.duration.timescale)
+                            completionHandler:^(BOOL finished)
+             {
+
+             }];
+        }
+       
+    }
+    else
+    {
+        _videoDisplayView.hidden = YES;
+         NSArray *allVideoNodeModels = [_mediasArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.type == 1"]];
+        for (ZWPhotosNodeModel *nodeModel in allVideoNodeModels)
+        {
+            if (!nodeModel.playerLayer.hidden)
+            {
+                nodeModel.playerLayer.hidden = YES;
+                if (nodeModel.isPlaying)
+                {
+                    [nodeModel.player pause];
+                }
+            }
         }
     }
 }
@@ -789,6 +812,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
 {
     [_additionalCollectionView reloadData];
 }
+
 
 
 - (void)didConfirmButtonTouch
@@ -839,6 +863,8 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
          });
     }];
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

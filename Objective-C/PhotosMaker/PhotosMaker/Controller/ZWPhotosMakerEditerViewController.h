@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZWPhotosNodeModel.h"
+
+
 
 @interface ZWPhotosMakerEditerViewController : UIViewController
 
-@property (strong, nonatomic) NSMutableArray *mediasArray;
+@property (strong, nonatomic) NSMutableArray<ZWPhotosNodeModel*> *mediasArray;
 @end

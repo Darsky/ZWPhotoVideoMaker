@@ -19,6 +19,7 @@
                 <outlet property="_displayView" destination="ng0-NQ-wVB" id="zdU-kz-fbI"/>
                 <outlet property="_playButton" destination="bc8-hW-eN8" id="Eg9-f2-W9Z"/>
                 <outlet property="_segmentControl" destination="CiA-vr-CNj" id="xRF-IJ-mYF"/>
+                <outlet property="_videoDisplayView" destination="yHV-Mz-kp9" id="LuH-bI-l78"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -42,6 +43,10 @@
                         <constraint firstAttribute="trailing" secondItem="08k-J9-J2r" secondAttribute="trailing" id="kyt-5t-P7j"/>
                         <constraint firstItem="08k-J9-J2r" firstAttribute="leading" secondItem="ng0-NQ-wVB" secondAttribute="leading" id="qgS-aN-baS"/>
                     </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yHV-Mz-kp9">
+                    <rect key="frame" x="-0.5" y="80" width="375" height="211"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bc8-hW-eN8">
                     <rect key="frame" x="147" y="145.5" width="80" height="80"/>
@@ -132,9 +137,13 @@
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="ng0-NQ-wVB" secondAttribute="trailing" id="5L3-Gx-pGx"/>
                 <constraint firstItem="bc8-hW-eN8" firstAttribute="centerX" secondItem="ng0-NQ-wVB" secondAttribute="centerX" id="5R2-jA-eEU"/>
                 <constraint firstItem="ng0-NQ-wVB" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="60" id="7aj-jj-cZF"/>
+                <constraint firstItem="yHV-Mz-kp9" firstAttribute="centerX" secondItem="ng0-NQ-wVB" secondAttribute="centerX" id="AdD-s2-ycA"/>
                 <constraint firstItem="awt-7q-N8a" firstAttribute="top" secondItem="ng0-NQ-wVB" secondAttribute="bottom" constant="40" id="CHa-bC-3YQ"/>
                 <constraint firstItem="bc8-hW-eN8" firstAttribute="centerY" secondItem="ng0-NQ-wVB" secondAttribute="centerY" id="KAr-Aj-U1t"/>
+                <constraint firstItem="yHV-Mz-kp9" firstAttribute="height" secondItem="ng0-NQ-wVB" secondAttribute="height" id="P9B-JN-iKh"/>
+                <constraint firstItem="yHV-Mz-kp9" firstAttribute="centerY" secondItem="ng0-NQ-wVB" secondAttribute="centerY" id="Qjc-xI-p78"/>
                 <constraint firstAttribute="bottom" secondItem="awt-7q-N8a" secondAttribute="bottom" id="TFT-f9-2TG"/>
+                <constraint firstItem="yHV-Mz-kp9" firstAttribute="width" secondItem="ng0-NQ-wVB" secondAttribute="width" id="kkq-Hq-1T5"/>
                 <constraint firstItem="ng0-NQ-wVB" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="myz-dc-iR8"/>
                 <constraint firstItem="awt-7q-N8a" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="v8S-Cx-rFu"/>
                 <constraint firstItem="awt-7q-N8a" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="w6G-aa-nIZ"/>
