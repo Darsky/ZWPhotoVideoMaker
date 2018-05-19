@@ -378,21 +378,29 @@
 
             if (nodeModel.isPortraitVideo)
             {
-                scale = _videoSize.height/nodeModel.mediaWidth;
-//                CGAffineTransform trans = CGAffineTransformMakeTranslation(nodeModel.mediaWidth*scale/2.0, 0);
-//                trans = CGAffineTransformRotate(trans, M_PI_2);
-//                trans = CGAffineTransformTranslate(trans, 0, nodeModel.mediaWidth*scale/2);
-//                trans = CGAffineTransformScale(trans, scale, scale);
-
-                
-                CGAffineTransform trans = CGAffineTransformMakeScale(scale, scale);
-                trans = CGAffineTransformRotate(trans, M_PI_2);
-                
-                trans = CGAffineTransformTranslate(trans, 0, -((float)_videoSize.width/scale/2.0+ nodeModel.mediaHeight/2.0));
-                
-
-                [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                 atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                if (nodeModel.degree == 0)//不含转角的竖视频
+                {
+                    scale = _videoSize.height/nodeModel.mediaHeight;
+                    CGAffineTransform trans = CGAffineTransformMakeScale(scale, scale);
+                    
+                    trans = CGAffineTransformTranslate(trans,((float)_videoSize.width/scale/2.0- nodeModel.mediaWidth/2.0),0);
+                    
+                    
+                    [avMutableVideoCompositionLayerInstruction setTransform:trans
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                }
+                else
+                {
+                    scale = _videoSize.height/nodeModel.mediaWidth;
+                    CGAffineTransform trans = CGAffineTransformMakeScale(scale, scale);
+                    trans = CGAffineTransformRotate(trans, M_PI_2);
+                    
+                    trans = CGAffineTransformTranslate(trans, 0, -((float)_videoSize.width/scale/2.0+ nodeModel.mediaHeight/2.0));
+                    
+                    
+                    [avMutableVideoCompositionLayerInstruction setTransform:trans
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                }
             }
             else
             {

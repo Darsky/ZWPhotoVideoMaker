@@ -415,6 +415,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                           {
                               nodeModel.isPortraitVideo = degree > 0?YES:NO;
                           }
+                          nodeModel.degree = degree;
                           nodeModel.mediaWidth = videoTrack.naturalSize.width;
                           nodeModel.mediaHeight = videoTrack.naturalSize.height;
                           _previewDuration += nodeModel.duration;

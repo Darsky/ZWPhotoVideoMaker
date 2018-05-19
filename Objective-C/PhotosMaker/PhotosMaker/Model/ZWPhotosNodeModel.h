@@ -41,6 +41,8 @@ typedef enum
 
 @property (nonatomic) BOOL   isPortraitVideo;
 
+@property (nonatomic) float  degree;
+
 @property (strong, nonatomic) UIImage* thumImage;
 
 @property (strong, nonatomic) AVPlayer *player;

@@ -282,6 +282,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
             
             AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:nodeModel.object];
             AVPlayer     *avplayer = [AVPlayer playerWithPlayerItem:playItem];
+            avplayer.volume = 0;
             if (@available(iOS 10.0, *)) {
                 avplayer.automaticallyWaitsToMinimizeStalling = YES;
             } else {
