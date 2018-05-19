@@ -9,6 +9,8 @@
 #import "ZWPhotosMakerHelper.h"
 #import <AVFoundation/AVFoundation.h>
 #import "ZWPhotosMakerAssetModel.h"
+#import "ZWPhotosNodeModel.h"
+
 
 #define videoFrame 1
 #define frameSize   3
@@ -132,24 +134,24 @@
 }
 
 
-
-
-//根据 CAAnimationGroup 生成视频
 - (void)startMakePhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
-                                    withBgImage:(UIImage*)bgImage
+                                     withNodes:(NSArray*)nodeArray
+                                   withBgImage:(UIImage*)bgImage
                                       andMusic:(MusicFileModel*)musicModel
                                        forSize:(CGSize)videoSize
                                withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
+                              andProgressBlock:(PhotosMakeProgressBlock)progressBlock
                               adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock
 {
     self.videoSize = videoSize;
     self.finishBlock = photosMakeFinishBlock;
+    self.progressBlock = progressBlock;
     self.errorMsgBlock = errorMsgBlock;
     if (self.videoWriter == nil && [self setupVideoWriter])
     {
         dispatch_queue_t dispatchQueue = dispatch_queue_create("mediaInputQueue", NULL);
         int __block frame = 0;
-
+        
         float duration = group.duration;
         UIImage *emptyImage = [self createImageWithColor:[UIColor whiteColor]];
         CVPixelBufferRef buffer = [self pixelBufferFromCGImage:emptyImage.CGImage];
@@ -178,6 +180,7 @@
                      [self.videoWriterInput markAsFinished];
                      [self.videoWriter finishWritingWithCompletionHandler:^{
                          [self createPhotoVideosWithAnimationGroup:group
+                                                     withVideoNode:nodeArray
                                                        withBgImage:bgImage
                                                           andMusic:musicModel];
                          self.adaptor = nil;
@@ -189,12 +192,12 @@
              }
          }];
     }
-  
 }
 
 - (void)createPhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
+                              withVideoNode:(NSArray*)videoArray
                                 withBgImage:(UIImage*)bgImage
-                                   andMusic:(MusicFileModel*)musicModel
+                                   andMusic:(MusicFileModel*)musicModel;
 {
     AVMutableComposition *avMutableComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *avMutableCompositionTrack = [avMutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo
@@ -228,7 +231,7 @@
         
         //插入音频
         NSString *audioPath =[ [NSBundle mainBundle]  pathForResource:musicModel.fileName
-                                                          ofType:@"mp3"];
+                                                               ofType:@"mp3"];
         AVAsset *auAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:audioPath]];
         
         CMTime auAssetTime = [auAsset duration];
@@ -244,10 +247,10 @@
         {
             //            auMutableCompositionTrack.preferredTransform = auAssetTrack.preferredTransform;
         }
-       
+        
         group.beginTime = AVCoreAnimationBeginTimeAtZero;
         [videoLayer addAnimation:group forKey:nil];
-
+        
         
         avMutableVideoComposition.animationTool = [AVVideoCompositionCoreAnimationTool
                                                    videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer
@@ -275,7 +278,7 @@
         }
         __weak CAAnimationGroup *weakgroup = group;
         __block AVMutableComposition *targetMutableComposition = avMutableComposition;
-
+        
         AVAssetExportSession *avAssetExportSession = [[AVAssetExportSession alloc] initWithAsset:avMutableComposition
                                                                                       presetName:AVAssetExportPresetHighestQuality];
         [avAssetExportSession setVideoComposition:avMutableVideoComposition];
@@ -286,6 +289,14 @@
          {
              switch (avAssetExportSession.status)
              {
+                 case AVAssetExportSessionStatusExporting:
+                 {
+                     if (self.progressBlock != nil)
+                     {
+                         self.progressBlock(avAssetExportSession.progress);
+                     }
+                 }
+                     break;
                  case AVAssetExportSessionStatusFailed:
                  {
                      NSLog(@"exporting failed %@",[avAssetExportSession error]);
@@ -297,14 +308,12 @@
                      break;
                  case AVAssetExportSessionStatusCompleted:
                  {
-                     NSLog(@"exporting completed");
+                     NSLog(@"生成原动画视频");
                      // 想做什么事情在这个
                      weakgroup.animations = nil;
                      targetMutableComposition = nil;
-                     if (self.finishBlock != nil)
-                     {
-                         self.finishBlock(saveLocationURL);
-                     }
+                     [self mixVideoForOrigin:saveLocationURL
+                                   WithNodes:videoArray];
                  }
                      break;
                  case AVAssetExportSessionStatusCancelled:
@@ -322,6 +331,187 @@
          }];
     }
 }
+
+- (void)mixVideoForOrigin:(NSURL*)originVideoUrl
+                WithNodes:(NSArray*)nodeArray
+{
+    AVMutableComposition *resultComposition = [AVMutableComposition composition];
+    AVMutableCompositionTrack * videoMutableCompositionTrack = nil;//视频合成轨道
+    videoMutableCompositionTrack = [resultComposition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                            preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    AVMutableCompositionTrack *audioMutableCompositionTrack = nil;//音频合成轨道
+    audioMutableCompositionTrack = [resultComposition addMutableTrackWithMediaType:AVMediaTypeAudio
+                                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    
+    //原视频 asset
+    AVAsset *originAsset   = [AVAsset assetWithURL:originVideoUrl];
+    CMTime originAssetTime = [originAsset duration];
+    Float64 originAssetDuration = CMTimeGetSeconds(originAssetTime);
+    AVAssetTrack *oriVideoAssetTrack = [[originAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+    AVAssetTrack *oriAudioAssetTrack = [[originAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
+    CALayer *videoLayer = [CALayer layer];
+    videoLayer.frame = CGRectMake(0, 0, _videoSize.width, _videoSize.height);
+    
+
+    AVMutableVideoCompositionLayerInstruction *avMutableVideoCompositionLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoMutableCompositionTrack];
+    
+    NSMutableArray *instructions = [NSMutableArray array];
+    NSError *error;
+    for (int x = 0; x<nodeArray.count; x++)
+    {
+        ZWPhotosNodeModel *nodeModel = nodeArray[x];
+        
+        if (nodeModel.type == ZWPhotosNodeTypeVideo)
+        {
+            AVAsset *insertAsset = nodeModel.object;
+            AVAssetTrack *insertAssetTrack = [[insertAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
+                                                CMTimeMakeWithSeconds(nodeModel.duration, videoFrame))
+                                                  ofTrack:insertAssetTrack
+                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)
+                                                    error:&error];
+
+
+            float scale = 1.0;
+
+            if (nodeModel.isPortraitVideo)
+            {
+                scale = _videoSize.height/nodeModel.mediaWidth;
+//                CGAffineTransform trans = CGAffineTransformMakeTranslation(nodeModel.mediaWidth*scale/2.0, 0);
+//                trans = CGAffineTransformRotate(trans, M_PI_2);
+//                trans = CGAffineTransformTranslate(trans, 0, nodeModel.mediaWidth*scale/2);
+//                trans = CGAffineTransformScale(trans, scale, scale);
+
+                
+                CGAffineTransform trans = CGAffineTransformMakeScale(scale, scale);
+                trans = CGAffineTransformRotate(trans, M_PI_2);
+                
+                trans = CGAffineTransformTranslate(trans, 0, -((float)_videoSize.width/scale/2.0+ nodeModel.mediaHeight/2.0));
+                
+
+                [avMutableVideoCompositionLayerInstruction setTransform:trans
+                                                                 atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+            }
+            else
+            {
+                scale = _videoSize.width/nodeModel.mediaWidth;
+                CGAffineTransform trans = CGAffineTransformMake(insertAssetTrack.preferredTransform.a*scale, insertAssetTrack.preferredTransform.b*scale, insertAssetTrack.preferredTransform.c*scale, insertAssetTrack.preferredTransform.d*scale, insertAssetTrack.preferredTransform.tx*scale, insertAssetTrack.preferredTransform.ty*scale);
+
+                [avMutableVideoCompositionLayerInstruction setTransform:trans
+                                                                 atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+            }
+//
+//            [avMutableVideoCompositionLayerInstruction setTransform:insertTransform
+//                                                             atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+            
+        }
+        else
+        {
+            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame),
+                                                                       CMTimeMakeWithSeconds(nodeModel.duration, videoFrame))
+                                                  ofTrack:oriVideoAssetTrack
+                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)
+                                                    error:&error];
+
+
+            [avMutableVideoCompositionLayerInstruction setTransform:oriVideoAssetTrack.preferredTransform
+                                                             atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+        }
+    }
+    [instructions addObject:avMutableVideoCompositionLayerInstruction];
+    
+    //插入音频
+    if ( [audioMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
+                                                                    CMTimeMakeWithSeconds(originAssetDuration, videoFrame))
+                                            ofTrack:oriAudioAssetTrack
+                                             atTime:kCMTimeZero
+                                              error:&error])
+    {
+        //            auMutableCompositionTrack.preferredTransform = auAssetTrack.preferredTransform;
+    }
+    
+    AVMutableVideoCompositionInstruction *avMutableVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+    
+    [avMutableVideoCompositionInstruction setTimeRange:CMTimeRangeMake(kCMTimeZero, [resultComposition duration])];
+    
+
+    avMutableVideoCompositionInstruction.layerInstructions = instructions;
+    
+    
+    //插入视频处理
+    AVMutableVideoComposition *avMutableVideoComposition = [AVMutableVideoComposition videoComposition];
+    avMutableVideoComposition.renderSize = _videoSize;
+    avMutableVideoComposition.frameDuration = CMTimeMake(1, 30);
+    //avMutableVideoComposition.instructions = instructions;
+    avMutableVideoComposition.instructions = [NSArray arrayWithObject:avMutableVideoCompositionInstruction];
+
+
+
+    NSString *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL* saveLocationURL = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/mixResult.mp4", documents]];
+    if ([fileManager fileExistsAtPath:saveLocationURL.relativePath])
+    {
+        [fileManager removeItemAtURL:saveLocationURL
+                               error:nil];
+    }
+    
+    AVAssetExportSession *avAssetExportSession = [[AVAssetExportSession alloc] initWithAsset:resultComposition
+                                                                                  presetName:AVAssetExportPresetHighestQuality];
+    [avAssetExportSession setVideoComposition:avMutableVideoComposition];
+    [avAssetExportSession setOutputURL:saveLocationURL];
+    [avAssetExportSession setOutputFileType:AVFileTypeMPEG4];
+    [avAssetExportSession setShouldOptimizeForNetworkUse:NO];
+    [avAssetExportSession exportAsynchronouslyWithCompletionHandler:^(void)
+     {
+         switch (avAssetExportSession.status)
+         {
+             case AVAssetExportSessionStatusExporting:
+             {
+                 if (self.progressBlock != nil)
+                 {
+                     self.progressBlock(avAssetExportSession.progress);
+                 }
+             }
+                 break;
+             case AVAssetExportSessionStatusFailed:
+             {
+                 NSLog(@"exporting failed %@",[avAssetExportSession error]);
+                 if (self.errorMsgBlock != nil)
+                 {
+                     self.errorMsgBlock([[avAssetExportSession error] localizedDescription]);
+                 }
+             }
+                 break;
+             case AVAssetExportSessionStatusCompleted:
+             {
+                 NSLog(@"exporting completed");
+                 // 想做什么事情在这个
+                 [fileManager removeItemAtURL:originVideoUrl
+                                        error:nil];
+                 if (self.finishBlock != nil)
+                 {
+                     self.finishBlock(saveLocationURL);
+                 }
+             }
+                 break;
+             case AVAssetExportSessionStatusCancelled:
+             {
+                 NSLog(@"export cancelled");
+                 if (self.errorMsgBlock != nil)
+                 {
+                     self.errorMsgBlock(@"export cancelled");
+                 }
+             }
+                 break;
+             default:
+                 break;
+         }
+     }];
+}
+
 
 - (UIImage*)createImageWithColor:(UIColor*)color
 {

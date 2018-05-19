@@ -35,6 +35,12 @@ typedef enum
 
 @property (nonatomic) double duration;
 
+@property (nonatomic) float  mediaWidth;
+
+@property (nonatomic) float  mediaHeight;
+
+@property (nonatomic) BOOL   isPortraitVideo;
+
 @property (strong, nonatomic) UIImage* thumImage;
 
 @property (strong, nonatomic) AVPlayer *player;

@@ -275,7 +275,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
             //animation.delegate = self;
             showAnimation.removedOnCompletion = NO;
             showAnimation.fillMode = kCAFillModeForwards;
-            showAnimation.values = @[[NSNumber numberWithFloat:0.0]];
+            showAnimation.values = @[[NSNumber numberWithFloat:1.0]];
             showAnimation.beginTime = nodeModel.startTime;
             [animations addObject:showAnimation];
             totalDuration += nodeModel.duration;
@@ -821,47 +821,98 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     {
         [self didPlayButtonTouch:_playButton];
     }
-    self.view.userInteractionEnabled = NO;
     [MBProgressHUD showHUDAddedTo:self.view
                          animated:YES];
     ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
-    CGSize videoSize = CGSizeMake(900, 450);
+    CGSize videoSize = CGSizeMake(800, 450);
+    
+
     [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
+                                         withNodes:_mediasArray
                                        withBgImage:_bgArray[_selectedBgIndex]
                                           andMusic:_musicArray[_selectedMusicIndex]
                                            forSize:videoSize
                                    withFinishBlock:^(NSURL *fileUrl)
-     {
-         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^
-          {
-              [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileUrl];
-          }
-                                           completionHandler:^(BOOL success, NSError * _Nullable error)
-          {
-              dispatch_async(dispatch_get_main_queue(), ^{
-                  [MBProgressHUD hideHUDForView:self.view
-                                       animated:YES];
-                  self.view.userInteractionEnabled = YES;
-                  if (success)
-                  {
-                      NSLog(@"保存成功");
-                  }
-                  else
-                  {
-                      NSLog(@"存储相册失败");
-                  }
-              });
-          }];
+    {
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^
+         {
+             [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileUrl];
+         }
+                                          completionHandler:^(BOOL success, NSError * _Nullable error)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [MBProgressHUD hideHUDForView:self.view
+                                      animated:YES];
+                 self.view.userInteractionEnabled = YES;
+                 if (success)
+                 {
+                     NSLog(@"保存成功");
+                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"合成完成，已存入相册" preferredStyle:UIAlertControllerStyleAlert];
+                     [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                         [self.navigationController popViewControllerAnimated:YES];
+                     }]];
+                     [self presentViewController:alertController animated:YES completion:^{
+                         
+                     }];
+                 }
+                 else
+                 {
+                     NSLog(@"合成失败");
+                 }
+             });
+         }];
+    }
+                                  andProgressBlock:^(float progress) {
+                                      NSLog(@"合成进度 %f",progress);
     }
                                   adnErrorMsgBlock:^(NSString *errorMsg)
-     {
-         dispatch_async(dispatch_get_main_queue(), ^{
-             self.view.userInteractionEnabled = YES;
-             [MBProgressHUD hideHUDForView:self.view
-                                  animated:YES];
-             NSLog(@"%@",errorMsg);
-         });
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.view.userInteractionEnabled = YES;
+            [MBProgressHUD hideHUDForView:self.view
+                                 animated:YES];
+            NSLog(@"%@",errorMsg);
+        });
     }];
+
+    
+    
+//    [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
+//                                       withBgImage:_bgArray[_selectedBgIndex]
+//                                          andMusic:_musicArray[_selectedMusicIndex]
+//                                           forSize:videoSize
+//                                   withFinishBlock:^(NSURL *fileUrl)
+//     {
+//         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^
+//          {
+//              [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileUrl];
+//          }
+//                                           completionHandler:^(BOOL success, NSError * _Nullable error)
+//          {
+//              dispatch_async(dispatch_get_main_queue(), ^{
+//                  [MBProgressHUD hideHUDForView:self.view
+//                                       animated:YES];
+//                  self.view.userInteractionEnabled = YES;
+//                  if (success)
+//                  {
+//                      NSLog(@"保存成功");
+//                  }
+//                  else
+//                  {
+//                      NSLog(@"存储相册失败");
+//                  }
+//              });
+//          }];
+//    }
+//                                  adnErrorMsgBlock:^(NSString *errorMsg)
+//     {
+//         dispatch_async(dispatch_get_main_queue(), ^{
+//             self.view.userInteractionEnabled = YES;
+//             [MBProgressHUD hideHUDForView:self.view
+//                                  animated:YES];
+//             NSLog(@"%@",errorMsg);
+//         });
+//    }];
 }
 
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,10 +31,23 @@
                         <action selector="didStartButtonTouch:" destination="-1" eventType="touchUpInside" id="mCO-VQ-q5o"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ODO-hb-hKx">
+                    <rect key="frame" x="157" y="393.5" width="60" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="GoD-pS-lNb"/>
+                        <constraint firstAttribute="width" constant="60" id="mtd-DZ-eJg"/>
+                    </constraints>
+                    <state key="normal" title="开始2"/>
+                    <connections>
+                        <action selector="didStartSecond:" destination="-1" eventType="touchUpInside" id="Dvx-t9-O8E"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="WUp-Jg-Xfj" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="D2a-la-zdX"/>
+                <constraint firstItem="ODO-hb-hKx" firstAttribute="centerX" secondItem="WUp-Jg-Xfj" secondAttribute="centerX" id="JyA-ws-1hx"/>
+                <constraint firstItem="ODO-hb-hKx" firstAttribute="top" secondItem="WUp-Jg-Xfj" secondAttribute="bottom" constant="30" id="WjT-CH-lBw"/>
                 <constraint firstItem="WUp-Jg-Xfj" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="lhq-4r-FCi"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

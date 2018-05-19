@@ -27,6 +27,8 @@
 		DE81013E2029EAA70030A3D6 /* img_meclass_unselect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101252029EAA70030A3D6 /* img_meclass_unselect@2x.png */; };
 		DE81013F2029EAA70030A3D6 /* img_meclass_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE8101262029EAA70030A3D6 /* img_meclass_select@2x.png */; };
 		DE8101492029EF7E0030A3D6 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE8101482029EF7E0030A3D6 /* ViewController.xib */; };
+		DE88D14220AFDFA6008DECAA /* ZWTransViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88D14020AFDFA6008DECAA /* ZWTransViewController.m */; };
+		DE88D14320AFDFA6008DECAA /* ZWTransViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE88D14120AFDFA6008DECAA /* ZWTransViewController.xib */; };
 		DE8B63CD20AD36BE00191696 /* ZWPhotosNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE8B63CC20AD36BE00191696 /* ZWPhotosNodeModel.m */; };
 		DEAFBCAB20AAE137007B9F56 /* img_videoMaker02@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEAFBCA620AAE137007B9F56 /* img_videoMaker02@3x.png */; };
 		DEAFBCAC20AAE137007B9F56 /* bg_videoMaker02@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEAFBCA720AAE137007B9F56 /* bg_videoMaker02@3x.png */; };
@@ -81,6 +83,9 @@
 		DE8101262029EAA70030A3D6 /* img_meclass_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_meclass_select@2x.png"; sourceTree = "<group>"; };
 		DE8101472029EBFF0030A3D6 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DE8101482029EF7E0030A3D6 /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		DE88D13F20AFDFA6008DECAA /* ZWTransViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZWTransViewController.h; sourceTree = "<group>"; };
+		DE88D14020AFDFA6008DECAA /* ZWTransViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZWTransViewController.m; sourceTree = "<group>"; };
+		DE88D14120AFDFA6008DECAA /* ZWTransViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZWTransViewController.xib; sourceTree = "<group>"; };
 		DE8B63CB20AD36BE00191696 /* ZWPhotosNodeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZWPhotosNodeModel.h; sourceTree = "<group>"; };
 		DE8B63CC20AD36BE00191696 /* ZWPhotosNodeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZWPhotosNodeModel.m; sourceTree = "<group>"; };
 		DEAFBCA620AAE137007B9F56 /* img_videoMaker02@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_videoMaker02@3x.png"; sourceTree = "<group>"; };
@@ -198,6 +203,9 @@
 				DE8101122029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib */,
 				DE8101182029EAA70030A3D6 /* ZWPhotosMakerHelper.h */,
 				DE8101132029EAA70030A3D6 /* ZWPhotosMakerHelper.m */,
+				DE88D13F20AFDFA6008DECAA /* ZWTransViewController.h */,
+				DE88D14020AFDFA6008DECAA /* ZWTransViewController.m */,
+				DE88D14120AFDFA6008DECAA /* ZWTransViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -314,6 +322,7 @@
 				DE8100FD2029EA830030A3D6 /* Assets.xcassets in Resources */,
 				DEAFBCAD20AAE137007B9F56 /* img_videoMaker03@3x.png in Resources */,
 				DEC096EB20ABC3500054A493 /* Sam Tsui,Alex G - Don't Wanna Know／We Don't Talk Anymore.mp3 in Resources */,
+				DE88D14320AFDFA6008DECAA /* ZWTransViewController.xib in Resources */,
 				DEC096E920ABC3500054A493 /* Matteo - Panama.mp3 in Resources */,
 				DE8101492029EF7E0030A3D6 /* ViewController.xib in Resources */,
 				DE8101322029EAA70030A3D6 /* ZWPhotosMakerEditerViewController.xib in Resources */,
@@ -396,6 +405,7 @@
 				DE8100F82029EA830030A3D6 /* ViewController.m in Sources */,
 				DE8B63CD20AD36BE00191696 /* ZWPhotosNodeModel.m in Sources */,
 				DE8101032029EA830030A3D6 /* main.m in Sources */,
+				DE88D14220AFDFA6008DECAA /* ZWTransViewController.m in Sources */,
 				DE81012E2029EAA70030A3D6 /* ZWPhotosMakerVideoModel.m in Sources */,
 				DE8101312029EAA70030A3D6 /* ZWPhotosMakerAssetViewController.m in Sources */,
 				DE8100F52029EA830030A3D6 /* AppDelegate.m in Sources */,

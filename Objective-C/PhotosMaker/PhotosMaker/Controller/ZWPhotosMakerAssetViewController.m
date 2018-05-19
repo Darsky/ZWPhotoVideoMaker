@@ -323,7 +323,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                     withFinsihBlock:(void(^)(ZWPhotosNodeModel *nodeModel))finishBlock
                   exceptionResponse:(void(^)(void))exceptionResponse
 {
-    CGSize targetSize = CGSizeMake(1800,
+    CGSize targetSize = CGSizeMake(1600,
                                    900);
     ZWPhotosMakerAssetModel *model = _selectedArray[index];
     if (model.asset.mediaType == PHAssetMediaTypeImage)
@@ -375,7 +375,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                  imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
                  imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeProductionAperture;
                  imageGenerator.appliesPreferredTrackTransform = YES;
-                 imageGenerator.maximumSize =  CGSizeMake(targetSize.width/2.0, targetSize.height/2.0);
+                 imageGenerator.maximumSize =  CGSizeMake(targetSize.width, targetSize.height);
                  NSMutableArray *times = [NSMutableArray array];
                  NSValue *timeValue = [NSValue valueWithCMTime:CMTimeMake(0, 30)];
                  [times addObject:timeValue];
@@ -398,6 +398,25 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                           nodeModel.animationType = ZWPhotosNodeAnimationTypeFade;
                           nodeModel.object = asset;
                           nodeModel.thumImage = tempImage;
+                          AVAssetTrack *videoTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+                          CGAffineTransform t = videoTrack.preferredTransform;
+                          CGFloat rotate = acosf(t.a);
+                          if (t.b < 0)
+                          {
+                              rotate = M_PI -rotate;
+                          }
+                          CGFloat degree = rotate/M_PI * 180;
+                          NSLog(@"=====hello  width:%f===height:%f degree %f",videoTrack.naturalSize.width,videoTrack.naturalSize.height,degree);
+                          if (videoTrack.naturalSize.height > videoTrack.naturalSize.width)
+                          {
+                              nodeModel.isPortraitVideo = degree > 0?NO:YES;
+                          }
+                          else
+                          {
+                              nodeModel.isPortraitVideo = degree > 0?YES:NO;
+                          }
+                          nodeModel.mediaWidth = videoTrack.naturalSize.width;
+                          nodeModel.mediaHeight = videoTrack.naturalSize.height;
                           _previewDuration += nodeModel.duration;
                           finishBlock(nodeModel);
                       }
@@ -462,7 +481,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                  withFinsihBlock:(void(^)(NSMutableArray *resultArray))finishBlock
                exceptionResponse:(void(^)(void))exceptionResponse
 {
-    CGSize targetSize = CGSizeMake(1800,
+    CGSize targetSize = CGSizeMake(1600,
                                    900);
     __block NSInteger count = 0;
     PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];

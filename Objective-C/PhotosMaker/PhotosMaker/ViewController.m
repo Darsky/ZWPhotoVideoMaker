@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "ZWPhotosMakerAssetViewController.h"
+#import "ZWTransViewController.h"
 
 @interface ViewController ()
 
@@ -22,14 +23,24 @@
 
 - (IBAction)didStartButtonTouch:(id)sender
 {
+
+
     ZWPhotosMakerAssetViewController *viewController = nil;
     viewController = [[ZWPhotosMakerAssetViewController alloc] initWithNibName:@"ZWPhotosMakerAssetViewController"
                                                                         bundle:nil];
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:viewController]
                        animated:YES
                      completion:^{
-                         
+
                      }];
+}
+- (IBAction)didStartSecond:(id)sender
+{
+    ZWTransViewController *viewController = nil;
+    viewController = [[ZWTransViewController alloc] initWithNibName:@"ZWTransViewController"
+                                                             bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
+
 }
 
 - (void)didReceiveMemoryWarning {
