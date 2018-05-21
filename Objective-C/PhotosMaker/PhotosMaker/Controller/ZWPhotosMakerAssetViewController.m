@@ -400,20 +400,25 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                           nodeModel.thumImage = tempImage;
                           AVAssetTrack *videoTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
                           CGAffineTransform t = videoTrack.preferredTransform;
-                          CGFloat rotate = acosf(t.a);
-                          if (t.b < 0)
-                          {
-                              rotate = M_PI -rotate;
-                          }
-                          CGFloat degree = rotate/M_PI * 180;
-                          NSLog(@"=====hello  width:%f===height:%f degree %f",videoTrack.naturalSize.width,videoTrack.naturalSize.height,degree);
-                          if (videoTrack.naturalSize.height > videoTrack.naturalSize.width)
-                          {
-                              nodeModel.isPortraitVideo = degree > 0?NO:YES;
-                          }
-                          else
-                          {
-                              nodeModel.isPortraitVideo = degree > 0?YES:NO;
+                          CGFloat degree = 0;
+                          if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0){
+                              // Portrait
+                              degree = 90;
+                              nodeModel.isPortraitVideo = YES;
+                          }else if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0){
+                              // PortraitUpsideDown
+                              degree = 270;
+                              nodeModel.isPortraitVideo = YES;
+                          }else if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0){
+                              // LandscapeRight
+                              degree = 0;
+                              if (videoTrack.naturalSize.height > videoTrack.naturalSize.width)
+                              {
+                                  nodeModel.isPortraitVideo = YES;
+                              }
+                          }else if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0){
+                              // LandscapeLeft
+                              degree = 180;
                           }
                           nodeModel.degree = degree;
                           nodeModel.mediaWidth = videoTrack.naturalSize.width;

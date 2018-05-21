@@ -378,12 +378,25 @@
 
             if (nodeModel.isPortraitVideo)
             {
-                if (nodeModel.degree == 0)//不含转角的竖视频
+                if (nodeModel.degree == 90)
                 {
-                    scale = _videoSize.height/nodeModel.mediaHeight;
+                    scale = _videoSize.height/nodeModel.mediaWidth;
                     CGAffineTransform trans = CGAffineTransformMakeScale(scale, scale);
+                    trans = CGAffineTransformRotate(trans, M_PI_2);
                     
-                    trans = CGAffineTransformTranslate(trans,((float)_videoSize.width/scale/2.0- nodeModel.mediaWidth/2.0),0);
+                    trans = CGAffineTransformTranslate(trans, 0, -((float)_videoSize.width/scale/2.0+ nodeModel.mediaHeight/2.0));
+                    
+                    
+                    [avMutableVideoCompositionLayerInstruction setTransform:trans
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                }
+                else if (nodeModel.degree == 270)
+                {
+                    scale = _videoSize.height/nodeModel.mediaWidth;
+                    CGAffineTransform trans = CGAffineTransformMakeScale(scale, scale);
+                    trans = CGAffineTransformRotate(trans, -M_PI_2);
+                    
+                    trans = CGAffineTransformTranslate(trans, -nodeModel.mediaWidth,((float)_videoSize.width/scale/2.0- nodeModel.mediaHeight/2.0));
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
@@ -391,11 +404,10 @@
                 }
                 else
                 {
-                    scale = _videoSize.height/nodeModel.mediaWidth;
+                    scale = _videoSize.height/nodeModel.mediaHeight;
                     CGAffineTransform trans = CGAffineTransformMakeScale(scale, scale);
-                    trans = CGAffineTransformRotate(trans, M_PI_2);
                     
-                    trans = CGAffineTransformTranslate(trans, 0, -((float)_videoSize.width/scale/2.0+ nodeModel.mediaHeight/2.0));
+                    trans = CGAffineTransformTranslate(trans,((float)_videoSize.width/scale/2.0- nodeModel.mediaWidth/2.0),0);
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
@@ -478,6 +490,7 @@
          {
              case AVAssetExportSessionStatusExporting:
              {
+                 NSLog(@"exporting progress %.2f",avAssetExportSession.progress);
                  if (self.progressBlock != nil)
                  {
                      self.progressBlock(avAssetExportSession.progress);
