@@ -26,6 +26,8 @@
     
     CGSize _itemSize;
     
+    __weak IBOutlet UILabel *_selectedLabel;
+    
     __weak IBOutlet UIButton *_confirmButton;
     
     NSInteger _selectedItemCount;
@@ -70,7 +72,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
     [super viewDidLoad];
     if (self.maxCount == 0)
     {
-        self.maxCount = 20;
+        self.maxCount = 99;
     }
     //设置是否半透明度
     self.navigationController.navigationBar.translucent = NO;
@@ -215,6 +217,7 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         [_selectedArray removeObject:_dataArray[indexPath.row]];
         _selectedItemCount--;
         [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        [self updateSelectLabelDisplay];
     }
     else if (_selectedItemCount < self.maxCount)
     {
@@ -223,7 +226,27 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
         _selectedItemCount++;
         [_selectedArray addObject:assetModel];
         [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        [self updateSelectLabelDisplay];
     }
+}
+
+- (void)updateSelectLabelDisplay
+{
+    int picture = 0;
+    int video = 0;
+    for (ZWPhotosMakerAssetModel *model in _selectedArray)
+    {
+        if (model.asset.mediaType == PHAssetMediaTypeVideo)
+        {
+            video++;
+        }
+        else
+        {
+            picture++;
+        }
+    }
+    
+    _selectedLabel.text = [NSString stringWithFormat:@"已选：视频(%d)个；照片(%d)张",video,picture];
 }
 
 #pragma mark - UITextFieldDelegate Method
@@ -323,8 +346,8 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                     withFinsihBlock:(void(^)(ZWPhotosNodeModel *nodeModel))finishBlock
                   exceptionResponse:(void(^)(void))exceptionResponse
 {
-    CGSize targetSize = CGSizeMake(1600,
-                                   900);
+    CGSize targetSize = CGSizeMake(1920,
+                                   1080);
     ZWPhotosMakerAssetModel *model = _selectedArray[index];
     if (model.asset.mediaType == PHAssetMediaTypeImage)
     {
@@ -487,8 +510,8 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
                  withFinsihBlock:(void(^)(NSMutableArray *resultArray))finishBlock
                exceptionResponse:(void(^)(void))exceptionResponse
 {
-    CGSize targetSize = CGSizeMake(1600,
-                                   900);
+    CGSize targetSize = CGSizeMake(1920,
+                                   1080);
     __block NSInteger count = 0;
     PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
     imageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;

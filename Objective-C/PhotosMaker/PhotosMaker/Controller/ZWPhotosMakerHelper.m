@@ -479,11 +479,11 @@
     }
     
     AVAssetExportSession *avAssetExportSession = [[AVAssetExportSession alloc] initWithAsset:resultComposition
-                                                                                  presetName:AVAssetExportPresetHighestQuality];
+                                                                                  presetName:AVAssetExportPresetMediumQuality];
     [avAssetExportSession setVideoComposition:avMutableVideoComposition];
     [avAssetExportSession setOutputURL:saveLocationURL];
     [avAssetExportSession setOutputFileType:AVFileTypeMPEG4];
-    [avAssetExportSession setShouldOptimizeForNetworkUse:NO];
+    [avAssetExportSession setShouldOptimizeForNetworkUse:YES];
     [avAssetExportSession exportAsynchronouslyWithCompletionHandler:^(void)
      {
          switch (avAssetExportSession.status)

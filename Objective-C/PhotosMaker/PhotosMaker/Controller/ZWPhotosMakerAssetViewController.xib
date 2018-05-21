@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,6 +17,7 @@
                 <outlet property="_endTimeField" destination="RO6-JT-MTs" id="vxK-j7-4aI"/>
                 <outlet property="_pickerDisView" destination="sEf-ve-Jzd" id="zUC-ss-NM2"/>
                 <outlet property="_searchButton" destination="Afz-fO-IuA" id="l51-x9-0y9"/>
+                <outlet property="_selectedLabel" destination="kv4-9i-Aky" id="dXu-NF-1Fr"/>
                 <outlet property="_startTimeField" destination="3MG-B8-1Bj" id="Oae-Zg-PKr"/>
                 <outlet property="collectionView" destination="Wy7-AI-aqi" id="6qK-z6-SQx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -28,7 +29,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Wy7-AI-aqi">
-                    <rect key="frame" x="0.0" y="89" width="375" height="518"/>
+                    <rect key="frame" x="0.0" y="89" width="375" height="508"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="70w-Ey-yKd">
                         <size key="itemSize" width="0.0" height="0.0"/>
@@ -42,8 +43,14 @@
                     </connections>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ycb-cD-hoY">
-                    <rect key="frame" x="0.0" y="607" width="375" height="60"/>
+                    <rect key="frame" x="0.0" y="597" width="375" height="70"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已选：视频 ；照片 " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kv4-9i-Aky">
+                            <rect key="frame" x="15" y="15.5" width="267" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cc7-5a-zAT">
                             <rect key="frame" x="302" y="8" width="60" height="30"/>
                             <color key="backgroundColor" red="0.97647058819999999" green="0.61960784310000006" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
@@ -60,8 +67,11 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="kv4-9i-Aky" firstAttribute="centerY" secondItem="Cc7-5a-zAT" secondAttribute="centerY" id="SOr-Es-RKr"/>
                         <constraint firstItem="Cc7-5a-zAT" firstAttribute="top" secondItem="Ycb-cD-hoY" secondAttribute="top" constant="8" id="a36-Z4-h5I"/>
-                        <constraint firstAttribute="height" constant="60" id="xVv-7a-IUy"/>
+                        <constraint firstItem="kv4-9i-Aky" firstAttribute="leading" secondItem="Ycb-cD-hoY" secondAttribute="leading" constant="15" id="ieb-Di-czX"/>
+                        <constraint firstItem="Cc7-5a-zAT" firstAttribute="leading" secondItem="kv4-9i-Aky" secondAttribute="trailing" constant="20" id="wqA-pZ-HDL"/>
+                        <constraint firstAttribute="height" constant="70" id="xVv-7a-IUy"/>
                         <constraint firstAttribute="trailing" secondItem="Cc7-5a-zAT" secondAttribute="trailing" constant="13" id="z3M-xo-LXa"/>
                     </constraints>
                 </view>

@@ -825,7 +825,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     [MBProgressHUD showHUDAddedTo:self.view
                          animated:YES];
     ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
-    CGSize videoSize = CGSizeMake(800, 450);
+    CGSize videoSize = CGSizeMake(640, 360);
     
 
     [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
