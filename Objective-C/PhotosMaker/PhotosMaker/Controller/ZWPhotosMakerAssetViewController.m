@@ -245,7 +245,6 @@ static NSString *ZWPhotosMakerAssetCellIdentifier          = @"ZWPhotosMakerAsse
             picture++;
         }
     }
-    
     _selectedLabel.text = [NSString stringWithFormat:@"已选：视频(%d)个；照片(%d)张",video,picture];
 }
 

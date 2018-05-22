@@ -172,8 +172,9 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
 
 - (CAAnimationGroup*)createAnimationGroupWithSize:(CGSize)targetSize
 {
-    NSTimeInterval totalDuration = AVCoreAnimationBeginTimeAtZero;
     CAAnimationGroup *group = [CAAnimationGroup animation];
+    
+    NSTimeInterval totalDuration = AVCoreAnimationBeginTimeAtZero;
     NSMutableArray *animations = [NSMutableArray array];
 
     for (int index = 0; index<self.mediasArray.count; index++)
@@ -269,15 +270,16 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
         else if (nodeModel.type == ZWPhotosNodeTypeVideo)
         {
             CAKeyframeAnimation * showAnimation;
-//            showAnimation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
+            //            showAnimation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
             showAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
             showAnimation.duration = nodeModel.duration;
             //animation.delegate = self;
             showAnimation.removedOnCompletion = NO;
             showAnimation.fillMode = kCAFillModeForwards;
-            showAnimation.values = @[[NSNumber numberWithFloat:1.0]];
+            showAnimation.values = @[[NSNumber numberWithFloat:0.0]];
             showAnimation.beginTime = nodeModel.startTime;
             [animations addObject:showAnimation];
+            
             totalDuration += nodeModel.duration;
             
             AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:nodeModel.object];
@@ -300,7 +302,6 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
         }
     }
     
-    
     group.animations = animations;
     group.duration = totalDuration;
     group.fillMode = kCAFillModeForwards;
@@ -308,6 +309,19 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     group.removedOnCompletion = NO;
     
     return group;
+}
+
+- (UIImage*)createImageWithColor:(UIColor*)color
+                         forSize:(CGSize)targetSize
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, targetSize.width, targetSize.height);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
 
 
@@ -825,10 +839,56 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
     [MBProgressHUD showHUDAddedTo:self.view
                          animated:YES];
     ZWPhotosMakerHelper *helper = [[ZWPhotosMakerHelper alloc] init];
-    CGSize videoSize = CGSizeMake(640, 360);
+    CGSize videoSize = CGSizeMake(480, 270);
     
+    [helper combinePicturesAndVideoByEmptyFileWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
+                                                   withVideoNode:_mediasArray
+                                                     withBgImage:_bgArray[_selectedBgIndex]
+                                                        andMusic:_musicArray[_selectedMusicIndex]
+                                                         forSize:videoSize
+                                                 withFinishBlock:^(NSURL *fileUrl)
+     {
+         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^
+          {
+              [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileUrl];
+          }
+                                           completionHandler:^(BOOL success, NSError * _Nullable error)
+          {
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  [MBProgressHUD hideHUDForView:self.view
+                                       animated:YES];
+                  self.view.userInteractionEnabled = YES;
+                  if (success)
+                  {
+                      NSLog(@"保存成功");
+                      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"合成完成，已存入相册" preferredStyle:UIAlertControllerStyleAlert];
+                      [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                          [self.navigationController popViewControllerAnimated:YES];
+                      }]];
+                      [self presentViewController:alertController animated:YES completion:^{
+                          
+                      }];
+                  }
+                  else
+                  {
+                      NSLog(@"合成失败");
+                  }
+              });
+          }];
+    }
+                                                andProgressBlock:^(float progress) {
+        
+    } adnErrorMsgBlock:^(NSString *errorMsg) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.view.userInteractionEnabled = YES;
+            [MBProgressHUD hideHUDForView:self.view
+                                 animated:YES];
+            NSLog(@"%@",errorMsg);
+        });
+    }];
+    return;
 
-    [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
+    [helper startMakePhotoVideosWithAnimationGroup:self.group
                                          withNodes:_mediasArray
                                        withBgImage:_bgArray[_selectedBgIndex]
                                           andMusic:_musicArray[_selectedMusicIndex]
@@ -875,45 +935,6 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
             NSLog(@"%@",errorMsg);
         });
     }];
-
-    
-    
-//    [helper startMakePhotoVideosWithAnimationGroup:[self createAnimationGroupWithSize:videoSize]
-//                                       withBgImage:_bgArray[_selectedBgIndex]
-//                                          andMusic:_musicArray[_selectedMusicIndex]
-//                                           forSize:videoSize
-//                                   withFinishBlock:^(NSURL *fileUrl)
-//     {
-//         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^
-//          {
-//              [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileUrl];
-//          }
-//                                           completionHandler:^(BOOL success, NSError * _Nullable error)
-//          {
-//              dispatch_async(dispatch_get_main_queue(), ^{
-//                  [MBProgressHUD hideHUDForView:self.view
-//                                       animated:YES];
-//                  self.view.userInteractionEnabled = YES;
-//                  if (success)
-//                  {
-//                      NSLog(@"保存成功");
-//                  }
-//                  else
-//                  {
-//                      NSLog(@"存储相册失败");
-//                  }
-//              });
-//          }];
-//    }
-//                                  adnErrorMsgBlock:^(NSString *errorMsg)
-//     {
-//         dispatch_async(dispatch_get_main_queue(), ^{
-//             self.view.userInteractionEnabled = YES;
-//             [MBProgressHUD hideHUDForView:self.view
-//                                  animated:YES];
-//             NSLog(@"%@",errorMsg);
-//         });
-//    }];
 }
 
 

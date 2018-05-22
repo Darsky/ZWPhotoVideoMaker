@@ -33,6 +33,15 @@ typedef void (^PhotosMakeProgressBlock)   (float progress);
                               andProgressBlock:(PhotosMakeProgressBlock)progressBlock
                               adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock;
 
+- (void)combinePicturesAndVideoByEmptyFileWithAnimationGroup:(CAAnimationGroup*)group
+                                               withVideoNode:(NSArray*)nodeArray
+                                                 withBgImage:(UIImage*)bgImage
+                                                    andMusic:(MusicFileModel*)musicModel
+                                                     forSize:(CGSize)videoSize
+                                             withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
+                                            andProgressBlock:(PhotosMakeProgressBlock)progressBlock
+                                            adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock;
+
 - (void)initializeMusicFolderWithSuccessBlock:(void(^)(NSArray* array))successBlock
                                 andErrorBlock:(void(^)(NSError *error))errorBlock;
 @end
