@@ -12,10 +12,6 @@
 #import "ZWPhotosNodeModel.h"
 
 
-#define videoFrame 1
-#define frameSize   3
-
-
 @interface ZWPhotosMakerHelper()
 {
     UIImage *_emptyImage;
@@ -33,6 +29,7 @@
 
 @implementation ZWPhotosMakerHelper
 
+static const NSInteger kVideoFrame = 1;
 
 - (BOOL)setupVideoWriter {
 
@@ -139,15 +136,7 @@
                                      withNodes:(NSArray*)nodeArray
                                    withBgImage:(UIImage*)bgImage
                                       andMusic:(MusicFileModel*)musicModel
-                                       forSize:(CGSize)videoSize
-                               withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
-                              andProgressBlock:(PhotosMakeProgressBlock)progressBlock
-                              adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock
 {
-    self.videoSize = videoSize;
-    self.finishBlock = photosMakeFinishBlock;
-    self.progressBlock = progressBlock;
-    self.errorMsgBlock = errorMsgBlock;
     if (self.videoWriter == nil && [self setupVideoWriter])
     {
         dispatch_queue_t dispatchQueue = dispatch_queue_create("mediaInputQueue", NULL);
@@ -209,6 +198,14 @@
     self.finishBlock = photosMakeFinishBlock;
     self.progressBlock = progressBlock;
     self.errorMsgBlock = errorMsgBlock;
+    if ([nodeArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.type == 1"]].count == 0)
+    {
+        [self startMakePhotoVideosWithAnimationGroup:group
+                                           withNodes:nodeArray
+                                         withBgImage:bgImage
+                                            andMusic:musicModel];
+        return;
+    }
     NSTimeInterval totalDuration = 0;
     AVMutableComposition *resultComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack * videoMutableCompositionTrack = nil;//视频合成轨道
@@ -260,10 +257,10 @@
             [videoLayerAnimations addObject:dissAnimation];
             AVAsset *insertAsset = nodeModel.object;
             AVAssetTrack *insertAssetTrack = [[insertAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
-                                                                          CMTimeMakeWithSeconds(nodeModel.duration, videoFrame))
+            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, kVideoFrame),
+                                                                          CMTimeMakeWithSeconds(nodeModel.duration, kVideoFrame))
                                                   ofTrack:insertAssetTrack
-                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)
+                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)
                                                     error:&error];
             
             
@@ -281,7 +278,7 @@
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
                 }
                 else if (nodeModel.degree == 270)
                 {
@@ -293,7 +290,7 @@
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
                 }
                 else
                 {
@@ -304,7 +301,7 @@
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
                 }
             }
             else
@@ -313,7 +310,7 @@
                 CGAffineTransform trans = CGAffineTransformMake(insertAssetTrack.preferredTransform.a*scale, insertAssetTrack.preferredTransform.b*scale, insertAssetTrack.preferredTransform.c*scale, insertAssetTrack.preferredTransform.d*scale, insertAssetTrack.preferredTransform.tx*scale, insertAssetTrack.preferredTransform.ty*scale);
                 
                 [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                 atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                 atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
             }
             //
             //            [avMutableVideoCompositionLayerInstruction setTransform:insertTransform
@@ -336,18 +333,18 @@
             dissAnimation.values = @[[NSNumber numberWithFloat:0.0]];
             dissAnimation.beginTime = nodeModel.startTime;
             [videoLayerAnimations addObject:dissAnimation];
-            [videoMutableCompositionTrack insertEmptyTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame),
-                                                                               CMTimeMakeWithSeconds(nodeModel.duration, videoFrame))];
+            [videoMutableCompositionTrack insertEmptyTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame),
+                                                                               CMTimeMakeWithSeconds(nodeModel.duration, kVideoFrame))];
             
             
             [avMutableVideoCompositionLayerInstruction setTransform:CGAffineTransformIdentity
-                                                             atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                             atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
         }
     }
     [instructions addObject:avMutableVideoCompositionLayerInstruction];
     //插入音频
-    if ( [audioMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
-                                                                       CMTimeMakeWithSeconds(totalDuration, videoFrame))
+    if ( [audioMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, kVideoFrame),
+                                                                       CMTimeMakeWithSeconds(totalDuration, kVideoFrame))
                                                ofTrack:oriAudioAssetTrack
                                                 atTime:kCMTimeZero
                                                  error:&error])
@@ -489,12 +486,11 @@
         AVAsset *auAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:audioPath]];
         
         CMTime auAssetTime = [auAsset duration];
-        Float64 audioDuration = CMTimeGetSeconds(auAssetTime);
         
         AVAssetTrack *auAssetTrack = nil;
         auAssetTrack = [[auAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-        if ( [auMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
-                                                                        CMTimeMakeWithSeconds(duration+3, videoFrame))
+        if ( [auMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, kVideoFrame),
+                                                                        CMTimeMakeWithSeconds(duration+3, kVideoFrame))
                                                 ofTrack:auAssetTrack
                                                  atTime:kCMTimeZero
                                                   error:&error])
@@ -621,10 +617,10 @@
         {
             AVAsset *insertAsset = nodeModel.object;
             AVAssetTrack *insertAssetTrack = [[insertAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
-                                                CMTimeMakeWithSeconds(nodeModel.duration, videoFrame))
+            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, kVideoFrame),
+                                                CMTimeMakeWithSeconds(nodeModel.duration, kVideoFrame))
                                                   ofTrack:insertAssetTrack
-                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)
+                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)
                                                     error:&error];
 
 
@@ -642,7 +638,7 @@
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
                 }
                 else if (nodeModel.degree == 270)
                 {
@@ -654,7 +650,7 @@
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
                 }
                 else
                 {
@@ -665,7 +661,7 @@
                     
                     
                     [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                     atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
                 }
             }
             else
@@ -674,7 +670,7 @@
                 CGAffineTransform trans = CGAffineTransformMake(insertAssetTrack.preferredTransform.a*scale, insertAssetTrack.preferredTransform.b*scale, insertAssetTrack.preferredTransform.c*scale, insertAssetTrack.preferredTransform.d*scale, insertAssetTrack.preferredTransform.tx*scale, insertAssetTrack.preferredTransform.ty*scale);
 
                 [avMutableVideoCompositionLayerInstruction setTransform:trans
-                                                                 atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                                 atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
             }
 //
 //            [avMutableVideoCompositionLayerInstruction setTransform:insertTransform
@@ -683,22 +679,22 @@
         }
         else
         {
-            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame),
-                                                                       CMTimeMakeWithSeconds(nodeModel.duration, videoFrame))
+            [videoMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame),
+                                                                       CMTimeMakeWithSeconds(nodeModel.duration, kVideoFrame))
                                                   ofTrack:oriVideoAssetTrack
-                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)
+                                                   atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)
                                                     error:&error];
 
 
             [avMutableVideoCompositionLayerInstruction setTransform:oriVideoAssetTrack.preferredTransform
-                                                             atTime:CMTimeMakeWithSeconds(nodeModel.startTime, videoFrame)];
+                                                             atTime:CMTimeMakeWithSeconds(nodeModel.startTime, kVideoFrame)];
         }
     }
     [instructions addObject:avMutableVideoCompositionLayerInstruction];
     
     //插入音频
-    if ( [audioMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, videoFrame),
-                                                                    CMTimeMakeWithSeconds(originAssetDuration, videoFrame))
+    if ( [audioMutableCompositionTrack insertTimeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(0, kVideoFrame),
+                                                                    CMTimeMakeWithSeconds(originAssetDuration, kVideoFrame))
                                             ofTrack:oriAudioAssetTrack
                                              atTime:kCMTimeZero
                                               error:&error])

@@ -23,16 +23,6 @@ typedef void (^PhotosMakeProgressBlock)   (float progress);
 @property (copy, nonatomic) ErrorMsgBlock errorMsgBlock;
 
 
-
-- (void)startMakePhotoVideosWithAnimationGroup:(CAAnimationGroup*)group
-                                     withNodes:(NSArray*)nodeArray
-                                   withBgImage:(UIImage*)bgImage
-                                      andMusic:(MusicFileModel*)musicModel
-                                       forSize:(CGSize)videoSize
-                               withFinishBlock:(PhotosMakeFinishBlock)photosMakeFinishBlock
-                              andProgressBlock:(PhotosMakeProgressBlock)progressBlock
-                              adnErrorMsgBlock:(ErrorMsgBlock)errorMsgBlock;
-
 - (void)combinePicturesAndVideoByEmptyFileWithAnimationGroup:(CAAnimationGroup*)group
                                                withVideoNode:(NSArray*)nodeArray
                                                  withBgImage:(UIImage*)bgImage

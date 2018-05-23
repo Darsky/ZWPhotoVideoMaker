@@ -205,17 +205,33 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                 [animations addObject:showAnimation];
             }
             
-            CGFloat imageWidth  = 0;
-            CGFloat imageHeight = 0;
-            if (tempImage.size.width > tempImage.size.height)
+            CGFloat imageWidth  = 0.0;
+            CGFloat imageHeight = 0.0;
+            float   scale       = 1.0;
+            
+            if (tempImage.size.width >= tempImage.size.height)
             {
                 imageWidth  = targetSize.width;
-                imageHeight = imageWidth/tempImage.size.width*tempImage.size.height;
+                scale       = targetSize.width/tempImage.size.width;
+                imageHeight = scale*tempImage.size.height;
+                if (imageHeight > targetSize.height)
+                {
+                    imageHeight = targetSize.height;
+                    scale       = targetSize.height/tempImage.size.height;
+                    imageWidth  = scale*tempImage.size.width;
+                }
             }
             else
             {
                 imageHeight = targetSize.height;
-                imageWidth  = imageHeight/tempImage.size.height*tempImage.size.width;
+                scale       = targetSize.height/tempImage.size.height;
+                imageWidth  = scale*tempImage.size.width;
+                if (imageWidth > targetSize.width)
+                {
+                    imageWidth  = targetSize.width;
+                    scale       = targetSize.width/tempImage.size.width;
+                    imageHeight = scale*tempImage.size.height;
+                }
             }
             CGFloat xPoint = targetSize.width/2.0 - imageWidth/2.0;
             CGFloat yPoint = targetSize.height/2.0 - imageHeight/2.0;
@@ -879,55 +895,6 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
                                                 andProgressBlock:^(float progress) {
         
     } adnErrorMsgBlock:^(NSString *errorMsg) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.view.userInteractionEnabled = YES;
-            [MBProgressHUD hideHUDForView:self.view
-                                 animated:YES];
-            NSLog(@"%@",errorMsg);
-        });
-    }];
-    return;
-
-    [helper startMakePhotoVideosWithAnimationGroup:self.group
-                                         withNodes:_mediasArray
-                                       withBgImage:_bgArray[_selectedBgIndex]
-                                          andMusic:_musicArray[_selectedMusicIndex]
-                                           forSize:videoSize
-                                   withFinishBlock:^(NSURL *fileUrl)
-    {
-        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^
-         {
-             [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileUrl];
-         }
-                                          completionHandler:^(BOOL success, NSError * _Nullable error)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [MBProgressHUD hideHUDForView:self.view
-                                      animated:YES];
-                 self.view.userInteractionEnabled = YES;
-                 if (success)
-                 {
-                     NSLog(@"保存成功");
-                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"合成完成，已存入相册" preferredStyle:UIAlertControllerStyleAlert];
-                     [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                         [self.navigationController popViewControllerAnimated:YES];
-                     }]];
-                     [self presentViewController:alertController animated:YES completion:^{
-                         
-                     }];
-                 }
-                 else
-                 {
-                     NSLog(@"合成失败");
-                 }
-             });
-         }];
-    }
-                                  andProgressBlock:^(float progress) {
-                                      NSLog(@"合成进度 %f",progress);
-    }
-                                  adnErrorMsgBlock:^(NSString *errorMsg)
-    {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.view.userInteractionEnabled = YES;
             [MBProgressHUD hideHUDForView:self.view
