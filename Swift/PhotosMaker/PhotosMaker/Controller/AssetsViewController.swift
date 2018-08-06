@@ -88,7 +88,6 @@ class AssetsViewController: UIViewController,UICollectionViewDataSource,UICollec
     {
         return dataArray.count
     }
-    
 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
@@ -107,6 +106,12 @@ class AssetsViewController: UIViewController,UICollectionViewDataSource,UICollec
         cell.imageView.image = dataArray![indexPath.row].image
         cell.selectButton.isSelected = dataArray![indexPath.row].isSeleted
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let model:AssetModel = dataArray[indexPath.row]
+        model.isSeleted = !model.isSeleted
+        collectionView.reloadItems(at: [indexPath]);
     }
     
     // MARK: - Other Method

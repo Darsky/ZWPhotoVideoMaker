@@ -613,14 +613,7 @@ static NSString *ZWPhotosMakerMusicCellIdentifier        = @"ZWPhotosMakerMusicC
         ZWVideoThumbnailCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ZWVideoThumbnailCellIdentifier
                                                                                forIndexPath:indexPath];
         ZWPhotosNodeModel *nodeModel = self.mediasArray[indexPath.row];
-        if (nodeModel.type == ZWPhotosNodeTypePicture)
-        {
-            [cell.thumbnailImageView setImage:nodeModel.object];
-        }
-        else if (nodeModel.type == ZWPhotosNodeTypeVideo)
-        {
-            [cell.thumbnailImageView setImage:nodeModel.thumImage];
-        }
+        [cell.thumbnailImageView setImage:nodeModel.thumImage];
         return cell;
     }
     else if (collectionView == _additionalCollectionView)
